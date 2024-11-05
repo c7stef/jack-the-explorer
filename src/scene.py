@@ -33,5 +33,5 @@ class Scene:
             collision_pair = (object.layer, other.layer)
             if collision_pair in collision.table and other.collides_with(object):
                 collisions.add(other)
-        
+
         return collisions
