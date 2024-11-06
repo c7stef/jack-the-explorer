@@ -53,31 +53,88 @@ class Player(GameObject):
         if self.gravityApply:
             self.velocity.y += self.gravity
 
-    def posMainDiag(self, x1, x2, y1, y2, offset):
-        xA, yA = self.rect.center
-        yA += self.rect.height / offset
-        v1 = (x2-x1, y2-y1)   # Vector 1
-        v2 = (x2-xA, y2-yA)   # Vector 2
-        xp = v1[0]*v2[1] - v1[1]*v2[0]  # Cross product (magnitude)
-        if xp > 0:
-            # Over main diag
-            return True
-        else:
-            # Under main diag
+    def posAboveHalf(self, other):
+        if other.rect.y + other.rect.height / 2 < self.rect.y + self.rect.height / 2:
             return False
+        return True
 
-    def posSecDiag(self, x1, x2, y1, y2, offset):
+    def posAboveFirst(self, other):
         xA, yA = self.rect.center
-        yA += self.rect.height / offset
-        v1 = (x2-x1, y2-y1)   # Vector 1
-        v2 = (x2-xA, y2-yA)   # Vector 2
-        xp = v1[0]*v2[1] - v1[1]*v2[0]  # Cross product (magnitude)
+        x1, y1 = other.rect.topleft
+        x2 = other.rect.x + other.rect.height / 2
+        y2 = other.rect.y + other.rect.height / 2
+        v1 = (x2-x1, y2-y1)
+        v2 = (x2-xA, y2-yA)
+        xp = v1[0]*v2[1] - v1[1]*v2[0]
         if xp > 0:
-            # Under sec diag
-            return False
-        else:
-            # Over main diag
             return True
+        return False
+
+    def posAboveSecond(self, other):
+        xA, yA = self.rect.center
+        x1, y1 = other.rect.topright
+        x2 = other.rect.right - other.rect.height / 2
+        y2 = other.rect.y + other.rect.height / 2
+        v1 = (x2-x1, y2-y1)
+        v2 = (x2-xA, y2-yA)
+        xp = v1[0]*v2[1] - v1[1]*v2[0]
+        if xp > 0:
+            return False
+        return True
+
+    # Freestyle
+    def posAboveThird(self, other):
+        xA, yA = self.rect.center
+        x1, y1 = other.rect.bottomright
+        x2 = other.rect.right - other.rect.height / 2
+        y2 = other.rect.bottom - other.rect.height / 2
+        v1 = (x2-x1, y2-y1)
+        v2 = (x2-xA, y2-yA)
+        xp = v1[0]*v2[1] - v1[1]*v2[0]
+        if xp > 0:
+            return False
+        return True
+
+    def posAboveFourth(self, other):
+        xA, yA = self.rect.center
+        x1, y1 = other.rect.bottomleft
+        x2 = other.rect.x + other.rect.height / 2
+        y2 = other.rect.bottom - other.rect.height / 2
+        v1 = (x2-x1, y2-y1)
+        v2 = (x2-xA, y2-yA)
+        xp = v1[0]*v2[1] - v1[1]*v2[0]
+        if xp > 0:
+            return True
+        return False
+
+    def handleUnderBlock(self, other):
+        self.set_position_y(other.rect.bottom)
+        self.velocity.y = 0
+        print("Under block")
+
+    def handleLeftBlock(self, other):
+        self.set_position_x(other.rect.left - self.rect.width)
+        self.velocity.x = 0
+        print("Left of block")
+
+    def handleRightBlock(self, other):
+        self.set_position_x(other.rect.right)
+        self.velocity.x = 0
+        print("Right of block")
+
+    def handleOnBlock(self, other):
+        self.gravityApply = False
+        self.set_position_y(other.rect.top - self.rect.height)
+        self.velocity.y = 0
+        self.is_jumping = False
+        print("player is on block")
+
+    def getPos(self, other):
+        self.isAboveHalf = self.posAboveHalf(other)
+        self.isAboveFirst = self.posAboveFirst(other)
+        self.isAboveSec = self.posAboveSecond(other)
+        self.isAboveThird = self.posAboveThird(other)
+        self.isAboveFourth = self.posAboveFourth(other)
 
     def update(self):
         self.handle_input()
@@ -89,48 +146,21 @@ class Player(GameObject):
         collisions = self.scene.get_collisions(self)
         for other in collisions:
             if isinstance(other, Block):
-                x1, y1 = other.rect.topleft
-                x2, y2 = other.rect.bottomright
-                isAboveMain = self.posMainDiag(x1, x2, y1, y2, 4)
-                x1, y1 = other.rect.topright
-                x2, y2 = other.rect.bottomleft
-                isAboveSec = self.posSecDiag(x1, x2, y1, y2, 4)
-                # Case 1: when a rectangle (rect) falls onto a block, the rectangle doesn't know
-                # that it needs to fall onto the block. If the bottom of the rectangle reaches or
-                # exceeds the top of the block, then I will raise it such that we know it is resting on the block
-                if isAboveMain and isAboveSec:
-                    self.gravityApply = False
-                    self.set_position_y(other.rect.top - self.rect.height)
-                    self.velocity.y = 0
-                    self.is_jumping = False
-                    print("player is on block")
-                    continue
-                # Case 2.1 Left of the block
-                elif not isAboveMain and isAboveSec:
-                    self.set_position_x(other.rect.left - self.rect.width)
-                    self.velocity.x = 0
-                    print("Left of block")
-                    continue
-                # Case 3.1 Right of the block
-                elif isAboveMain and not isAboveSec:
-                    self.set_position_x(other.rect.right)
-                    self.velocity.x = 0
-                    print("Right of block")
-                    continue
-                # Case 4 under the block
-                elif not isAboveMain and not isAboveSec:
-                    if abs(other.rect.bottom - self.rect.top) < 10:
-                        self.set_position_y(other.rect.bottom)
-                        self.velocity.y = 0
-                    else:
-                        self.velocity.x = 0
-                        # Case 2.2
-                        if abs(self.rect.right - other.rect.left) < \
-                        abs(self.rect.left - other.rect.right):
-                            self.set_position_x(other.rect.left - self.rect.width)
-                        # Case 3.2
-                        else:
-                            self.set_position_x(other.rect.right)
+                self.getPos(other)
+                if self.isAboveHalf:
+                    if self.isAboveFirst and self.isAboveSec:
+                        self.handleOnBlock(other)
+                    elif self.isAboveFirst and not self.isAboveSec:
+                        self.handleRightBlock(other)
+                    elif not self.isAboveFirst and self.isAboveSec:
+                        self.handleLeftBlock(other)
+                elif not self.isAboveHalf:
+                    if self.isAboveThird and not self.isAboveFourth:
+                        self.handleRightBlock(other)
+                    elif not self.isAboveThird and self.isAboveFourth:
+                        self.handleLeftBlock(other)
+                    elif not self.isAboveThird and not self.isAboveFourth:
+                        self.handleUnderBlock(other)
 
     def draw(self, screen):
         # self.rect = pygame.Rect(self.position.x, self.position.y, self.width, self.height)
