@@ -16,16 +16,16 @@ pygame.display.set_caption("Platformer")
 
 # Clock to manage frame rate
 clock = pygame.time.Clock()
-FPS = 5
+FPS = 60
 
 # Colors
 WHITE = (255, 255, 255)
 
 scene = Scene()
 scene.add_object(Player(100, 100))
-scene.add_object(Block(100, 500, 200, 50))
-scene.add_object(Block(300, 400, 200, 50))
-scene.add_object(Block(0, 400, 200, 50))
+scene.add_object(Block(300, 500, 200, 50))
+scene.add_object(Block(500, 400, 200, 50))
+scene.add_object(Block(200, 400, 200, 50))
 
 
 # Main game loop

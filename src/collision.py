@@ -1,8 +1,8 @@
 from enum import Enum
 
 class Layer(Enum):
-    PLAYER = 0
-    BLOCK = 1
+    PLAYER = 1
+    BLOCK = 2
 
 table = {
     (Layer.BLOCK, Layer.PLAYER),
