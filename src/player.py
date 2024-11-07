@@ -3,6 +3,7 @@ import collision
 from gameobject import GameObject
 import pymunk
 from rigidbody import RigidBody
+from bullet import Bullet, Direction
 
 # Player class
 class Player(GameObject, RigidBody):
@@ -19,11 +20,15 @@ class Player(GameObject, RigidBody):
         self.shape = pymunk.Poly.create_box(self.body, size=(50, 50))
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
+        self.shape.filter = pymunk.ShapeFilter(group=collision.COLLISION_DISABLED)
         
         self.width = 50
         self.height = 50
         
         self.is_on_ground = False
+        self.on_platform = None
+
+        self.color = (0, 0, 255)
     
     def body_data(self):
         return (self.body, self.shape)
@@ -31,46 +36,54 @@ class Player(GameObject, RigidBody):
     def handle_input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
-        elif keys[pygame.K_RIGHT]:
+        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             self.body.apply_impulse_at_local_point((self.MOVE_STRENGTH, 0))
 
-        if keys[pygame.K_SPACE] and self.is_on_ground:
+        if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.is_on_ground:
             self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH))
+        
+        if keys[pygame.K_SPACE]:
+            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, {Direction.RIGHT}))
 
     def update(self):
         self.body.velocity = 0, self.body.velocity.y
 
-        grounding = {
-            "normal": pygame.Vector2(),
-            "penetration": pygame.Vector2(),
-            "impulse": pygame.Vector2(),
-            "position": pygame.Vector2(),
-            "body": None,
-        }
-
-        # Check if player is standing on ground
-        def arbiter_check(arbiter):
-            n = -arbiter.contact_point_set.normal
-            if n.y < grounding["normal"].y:
-                grounding["normal"] = n
-                grounding["penetration"] = -arbiter.contact_point_set.points[0].distance
-                grounding["body"] = arbiter.shapes[1].body
-                grounding["impulse"] = arbiter.total_impulse
-                grounding["position"] = arbiter.contact_point_set.points[0].point_b
-
-        self.body.each_arbiter(arbiter_check)
+        collisions = self.get_collisions()
 
         self.is_on_ground = False
-        if grounding["body"] != None:
-            self.is_on_ground = True
+        self.on_platform = None
+        for collision_data in collisions:
+            if collision_data["normal"].y < 0:
+                self.is_on_ground = True
+                if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
+                    pass
+                if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
+                    self.on_platform = collision_data["shape"]
+                if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
+                    self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
+                    self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                    self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH))
+            if collision_data["normal"].x != 0:
+                if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
+                    self.color = (200, 0, 100)
+                    self.scene.remove_object(self)
+            
+            if collision_data["shape"].collision_type == collision.Layer.COIN.value:
+                self.color = (40, 250, 250)
+                self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
 
         self.handle_input()
 
         if self.body.velocity.y < -self.MAX_VELOCITY:
             self.body.velocity = self.body.velocity.x, -self.MAX_VELOCITY
+        
+        if self.on_platform:
+            relative_velocity = self.body.velocity - self.on_platform.body.velocity
+            friction_force = -relative_velocity
+            self.body.apply_impulse_at_local_point(friction_force * 5)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (0, 0, 255), pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height))
+        pygame.draw.rect(screen, self.color, pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height))
 

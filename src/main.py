@@ -4,6 +4,9 @@ from player import Player
 from gameobject import GameObject
 from scene import Scene
 from block import Block
+from movingplatform import MovingPlatform
+from enemy import Enemy
+from coin import Coin
 
 # Initialize pygame
 pygame.init()
@@ -26,7 +29,9 @@ scene.add_object(Player(100, 100))
 scene.add_object(Block(300, 500, 200, 50))
 scene.add_object(Block(500, 400, 200, 50))
 scene.add_object(Block(200, 400, 200, 50))
-
+scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200)))
+scene.add_object(Enemy(pygame.Vector2(250, 450), pygame.Vector2(350, 450)))
+scene.add_object(Coin(600, 350))
 
 # Main game loop
 running = True
