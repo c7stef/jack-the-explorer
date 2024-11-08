@@ -11,7 +11,8 @@ class Player(GameObject, RigidBody):
         self.JUMP_STRENGTH = -300
         self.MOVE_STRENGTH = 150
         self.MAX_VELOCITY = 30
-        
+        self.FIRE_RATE = 15
+        self.bulletHistory = 0
         self.layer = collision.Layer.PLAYER
 
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
@@ -21,15 +22,15 @@ class Player(GameObject, RigidBody):
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
         self.shape.filter = pymunk.ShapeFilter(group=collision.COLLISION_DISABLED)
-        
+
         self.width = 50
         self.height = 50
-        
+
         self.is_on_ground = False
         self.on_platform = None
 
         self.color = (0, 0, 255)
-    
+
     def body_data(self):
         return (self.body, self.shape)
 
@@ -43,15 +44,18 @@ class Player(GameObject, RigidBody):
 
         if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.is_on_ground:
             self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH))
-        
-        if keys[pygame.K_SPACE]:
+
+        if keys[pygame.K_SPACE] and self.bulletHistory >= self.FIRE_RATE:
             self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, {Direction.RIGHT}))
+            self.bulletHistory = 0
 
     def update(self):
+        self.bulletHistory += 1
+
         self.body.velocity = 0, self.body.velocity.y
 
         collisions = self.get_collisions()
-
+        # print(collisions)
         self.is_on_ground = False
         self.on_platform = None
         for collision_data in collisions:
@@ -69,7 +73,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.color = (200, 0, 100)
                     self.scene.remove_object(self)
-            
+
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.color = (40, 250, 250)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
@@ -78,7 +82,7 @@ class Player(GameObject, RigidBody):
 
         if self.body.velocity.y < -self.MAX_VELOCITY:
             self.body.velocity = self.body.velocity.x, -self.MAX_VELOCITY
-        
+
         if self.on_platform:
             relative_velocity = self.body.velocity - self.on_platform.body.velocity
             friction_force = -relative_velocity
