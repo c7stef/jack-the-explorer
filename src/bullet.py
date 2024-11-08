@@ -38,13 +38,12 @@ class Bullet(Solid):
         collisions = self.get_collisions()
 
         for collision_data in collisions:
-            if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
-                self.scene.remove_object(self)
-            if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
-                self.scene.remove_object(self)
+            # Add more things to ignore collision with
+            if collision_data["shape"].collision_type == collision.Layer.COIN.value:
+                continue
             if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                self.scene.remove_object(self)
+            self.scene.remove_object(self)
 
     def draw(self, screen):
         pygame.draw.circle(screen, (250, 100, 30), self.position, 5)

@@ -7,6 +7,7 @@ class Layer(Enum):
     ENEMY = 4
     COIN = 5
     BULLET = 6
+    DECBLOCK = 7
 
 COLLISION_DISABLED = 1
 
