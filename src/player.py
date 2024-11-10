@@ -4,6 +4,7 @@ from gameobject import GameObject
 import pymunk
 from rigidbody import RigidBody
 from bullet import Bullet, Direction
+from deathScreen import DeathScreen
 
 # Player class
 class Player(GameObject, RigidBody):
@@ -73,6 +74,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.color = (200, 0, 100)
                     self.scene.remove_object(self)
+                    self.scene.add_object(DeathScreen(self.scene))
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.color = (40, 250, 250)

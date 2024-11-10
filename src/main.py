@@ -25,7 +25,7 @@ FPS = 60
 # Colors
 WHITE = (255, 255, 255)
 
-scene = Scene()
+scene = Scene(screen)
 scene.add_object(Player(100, 100))
 scene.add_object(Block(300, 500, 200, 50))
 scene.add_object(Block(500, 400, 200, 50))

@@ -5,10 +5,11 @@ from rigidbody import RigidBody
 from pymunk import pygame_util
 
 class Scene:
-    def __init__(self):
+    def __init__(self, screen):
         self.game_objects = []
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
+        self.screen = screen
 
     def add_object(self, game_object):
         game_object.set_scene(self)
