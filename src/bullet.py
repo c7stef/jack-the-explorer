@@ -18,6 +18,7 @@ class Bullet(Solid):
         self.shape.sensor = True
         self.position = pygame.Vector2(x, y)
         self.body.position = self.position.x, self.position.y
+        self.ttl = 100
 
         direction_unit_vectors = {
             Direction.LEFT: pygame.Vector2(-1, 0),
@@ -32,6 +33,10 @@ class Bullet(Solid):
         self.direction_vector = self.direction_vector.normalize() * self.VELOCITY
 
     def update(self):
+        self.ttl -= 1
+        if self.ttl < 0:
+            self.scene.remove_object(self)
+
         self.position += self.direction_vector
         self.body.position = self.position.x, self.position.y
 
