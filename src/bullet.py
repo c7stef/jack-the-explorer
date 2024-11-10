@@ -12,10 +12,10 @@ class Direction(Enum):
 
 class Bullet(Solid):
     def __init__(self, x, y, directions):
-        super().__init__(x, y, 10, 10, pymunk.Body.DYNAMIC)
+        super().__init__(x, y, 10, 10, pymunk.Body.KINEMATIC)
         self.VELOCITY = 10
         self.shape.collision_type = collision.Layer.BULLET.value
-        self.shape.filter = pymunk.ShapeFilter(group=collision.COLLISION_DISABLED)
+        self.shape.sensor = True
         self.position = pygame.Vector2(x, y)
         self.body.position = self.position.x, self.position.y
 
@@ -46,4 +46,4 @@ class Bullet(Solid):
             self.scene.remove_object(self)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (250, 100, 30), self.position, 5)
+        pygame.draw.circle(screen, (250, 100, 30), self.body.position, 5)

@@ -56,15 +56,3 @@ class Scene:
         screen.fill((255, 255, 255))
         for obj in self.game_objects:
             obj.draw(screen)
-
-    # def get_collisions(self, object):
-    #     collisions = set()
-    #     for other in self.game_objects:
-    #         if other is object:
-    #             continue
-
-    #         collision_pair = (object.layer, other.layer)
-    #         if collision_pair in collision.table and other.collides_with(object):
-    #             collisions.add(other)
-
-    #     return collisions

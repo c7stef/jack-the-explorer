@@ -21,7 +21,6 @@ class Player(GameObject, RigidBody):
         self.shape = pymunk.Poly.create_box(self.body, size=(50, 50))
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
-        self.shape.filter = pymunk.ShapeFilter(group=collision.COLLISION_DISABLED)
 
         self.width = 50
         self.height = 50

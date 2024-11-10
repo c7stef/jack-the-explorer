@@ -14,5 +14,3 @@ class RigidBody(ABC):
             "normal": data["normal"],
             "shape": pair[0] if pair[1] == own_shape else pair[1]
         } for pair, data in collisions if own_shape in pair]
-
-        return collisions
