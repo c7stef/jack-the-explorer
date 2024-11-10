@@ -55,7 +55,6 @@ class Player(GameObject, RigidBody):
         self.body.velocity = 0, self.body.velocity.y
 
         collisions = self.get_collisions()
-        # print(collisions)
         self.is_on_ground = False
         self.on_platform = None
         for collision_data in collisions:
