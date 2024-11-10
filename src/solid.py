@@ -14,6 +14,9 @@ class Solid(GameObject, RigidBody):
         self.body.position = (x, y)
         self.shape = pymunk.Poly.create_box(self.body, size=(width, height))
 
+        self.x = x
+        self.y = y
+
     def body_data(self):
         return (self.body, self.shape)
 
