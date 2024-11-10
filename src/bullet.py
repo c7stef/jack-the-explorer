@@ -51,4 +51,4 @@ class Bullet(Solid):
             self.scene.remove_object(self)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (250, 100, 30), self.body.position, 5)
+        pygame.draw.circle(screen, (250, 100, 30), self.scene.relative_position(self.body.position), 5)

@@ -29,4 +29,4 @@ class Enemy(Solid):
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height))  # Drawing a brown block
+        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

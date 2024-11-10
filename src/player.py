@@ -88,5 +88,5 @@ class Player(GameObject, RigidBody):
             self.body.apply_impulse_at_local_point(platform_velocity * 10)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height))
+        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
 

@@ -12,7 +12,6 @@ class MovingPlatform(Solid):
         self.t = 0
         self.dt = 0.01
         self.shape.collision_type = collision.Layer.PLATFORM.value
-
         
     def update(self):
         self.t += self.dt
@@ -24,7 +23,7 @@ class MovingPlatform(Solid):
             self.t = 0
         # lerp is linear interpolation
         # self.body.position = tuple(self.p1.lerp(self.p2, self.t))
-        self.body.velocity = (3, 0)
+        self.body.velocity = (3, 2)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (60, 200, 200), pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height))  # Drawing a brown block
+        pygame.draw.rect(screen, (60, 200, 200), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))

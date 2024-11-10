@@ -10,4 +10,4 @@ class Coin(Solid):
         self.shape.sensor = True
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (220, 220, 30), pygame.Vector2(self.x, self.y), 25)
+        pygame.draw.circle(screen, (220, 220, 30), self.scene.relative_position(self.body.position), 25)

@@ -21,4 +21,4 @@ class DecayingBlock(Solid):
         self.ttl -= 1
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height))
+        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))
