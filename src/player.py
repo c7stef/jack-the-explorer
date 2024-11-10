@@ -84,9 +84,8 @@ class Player(GameObject, RigidBody):
             self.body.velocity = self.body.velocity.x, -self.MAX_VELOCITY
 
         if self.on_platform:
-            relative_velocity = self.body.velocity - self.on_platform.body.velocity
-            friction_force = -relative_velocity
-            self.body.apply_impulse_at_local_point(friction_force * 5)
+            platform_velocity = self.on_platform.body.velocity
+            self.body.apply_impulse_at_local_point(platform_velocity * 10)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height))
