@@ -12,6 +12,11 @@ class Layer(Enum):
 COLLISION_DISABLED = 1
 
 table = {
-    (Layer.BLOCK, Layer.PLAYER),
-    (Layer.PLAYER, Layer.BLOCK)
+    (Layer.PLAYER, Layer.BLOCK),
+    (Layer.PLAYER, Layer.PLATFORM),
+    (Layer.PLAYER, Layer.ENEMY),
+    (Layer.PLAYER, Layer.COIN),
+    (Layer.PLAYER, Layer.DECBLOCK),
+    (Layer.BULLET, Layer.BLOCK),
+    (Layer.BULLET, Layer.ENEMY)
 }
