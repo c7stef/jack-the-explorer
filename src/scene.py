@@ -9,6 +9,19 @@ class Scene:
         self.game_objects = []
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
+        self.collisions = []
+
+        for type_a, type_b in collision.table:
+            def pre_solve_collision(arbiter, space, data):
+                self.collisions.append((
+                    arbiter.shapes,
+                    {
+                        "normal": -arbiter.contact_point_set.normal
+                    }
+                ))
+                return True
+            handler = self.physics_space.add_collision_handler(type_a.value, type_b.value)
+            handler.pre_solve = pre_solve_collision
 
     def add_object(self, game_object):
         game_object.set_scene(self)
@@ -34,6 +47,7 @@ class Scene:
         return None
 
     def update(self):
+        self.collisions.clear()
         self.physics_space.step(1/4)
         for obj in self.game_objects:
             obj.update()
