@@ -13,18 +13,7 @@ class Bullet(Solid):
         self.position = pygame.Vector2(x, y)
         self.body.position = self.position.x, self.position.y
         self.ttl = 80
-
-        direction_unit_vectors = {
-            utils.Direction.LEFT: pygame.Vector2(-1, 0),
-            utils.Direction.RIGHT: pygame.Vector2(1, 0),
-            utils.Direction.UP: pygame.Vector2(0, -1),
-            utils.Direction.DOWN: pygame.Vector2(0, 1)
-        }
-
-        self.direction_vector = pygame.Vector2(0, 0)
-        for d in directions:
-            self.direction_vector += direction_unit_vectors[d]
-        self.direction_vector = self.direction_vector.normalize() * self.VELOCITY
+        self.direction_vector = directions.normalize() * self.VELOCITY
 
     def update(self):
         self.ttl -= 1

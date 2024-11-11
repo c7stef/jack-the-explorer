@@ -62,25 +62,20 @@ class Player(GameObject, RigidBody):
                 impulse_strength = self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR
             else:
                 impulse_strength = self.JUMP_STRENGTH
-            
+
             self.jump_impulses_left -= 1
             self.body.apply_impulse_at_local_point((0, impulse_strength))
-        
+
         if not up_pressed:
             self.jump_impulses_left = 0
 
-        if keys[pygame.K_SPACE] and self.bulletHistory >= self.FIRE_RATE:
-            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, self.bullet_direction))
+        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE:
+            mouse_pos = pygame.mouse.get_pos()
+            relativeBodyPos = self.scene.relative_position(self.body.position)
+            relativeBulletDirection = mouse_pos - relativeBodyPos
+
+            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
             self.bulletHistory = 0
-        
-        if up_pressed and left_pressed:
-            self.bullet_direction = {utils.Direction.LEFT, utils.Direction.UP}
-        elif up_pressed and right_pressed:
-            self.bullet_direction = {utils.Direction.RIGHT, utils.Direction.UP}
-        elif up_pressed:
-            self.bullet_direction = {utils.Direction.UP}
-        else:
-            self.bullet_direction = {self.facing}
 
     def update(self):
         self.bulletHistory += 1
