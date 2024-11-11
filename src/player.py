@@ -3,18 +3,26 @@ import collision
 from gameobject import GameObject
 import pymunk
 from rigidbody import RigidBody
-from bullet import Bullet, Direction
+from bullet import Bullet
 from deathScreen import DeathScreen
+import utils
 
 # Player class
 class Player(GameObject, RigidBody):
     def __init__(self, x, y):
-        self.JUMP_STRENGTH = -300
+        self.JUMP_STRENGTH = -15
+        self.FIRST_IMPULSE_FACTOR = 15
         self.MOVE_STRENGTH = 150
         self.MAX_VELOCITY = 30
         self.FIRE_RATE = 15
+        self.JUMP_IMPULSES_MAX = 12
         self.bulletHistory = 0
         self.layer = collision.Layer.PLAYER
+        self.keys_pressed = set()
+        self.facing = utils.Direction.RIGHT
+        self.bullet_direction = {self.facing}
+        self.jump_time = 0
+        self.jump_impulses_left = 0
 
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
         self.body = pymunk.Body(mass=10, moment=float("inf"))
@@ -37,17 +45,42 @@ class Player(GameObject, RigidBody):
     def handle_input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
-        elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.body.apply_impulse_at_local_point((self.MOVE_STRENGTH, 0))
+        left_pressed = keys[pygame.K_LEFT] or keys[pygame.K_a]
+        right_pressed = keys[pygame.K_RIGHT] or keys[pygame.K_d]
+        up_pressed = keys[pygame.K_w] or keys[pygame.K_UP]
+        down_pressed = keys[pygame.K_s] or keys[pygame.K_DOWN]
 
-        if (keys[pygame.K_w] or keys[pygame.K_UP]) and self.is_on_ground:
-            self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH))
+        if left_pressed:
+            self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
+            self.facing = utils.Direction.LEFT
+        elif right_pressed:
+            self.body.apply_impulse_at_local_point((self.MOVE_STRENGTH, 0))
+            self.facing = utils.Direction.RIGHT
+
+        if up_pressed and self.jump_impulses_left > 0:
+            if self.jump_impulses_left == self.JUMP_IMPULSES_MAX:
+                impulse_strength = self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR
+            else:
+                impulse_strength = self.JUMP_STRENGTH
+            
+            self.jump_impulses_left -= 1
+            self.body.apply_impulse_at_local_point((0, impulse_strength))
+        
+        if not up_pressed:
+            self.jump_impulses_left = 0
 
         if keys[pygame.K_SPACE] and self.bulletHistory >= self.FIRE_RATE:
-            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, {Direction.RIGHT}))
+            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, self.bullet_direction))
             self.bulletHistory = 0
+        
+        if up_pressed and left_pressed:
+            self.bullet_direction = {utils.Direction.LEFT, utils.Direction.UP}
+        elif up_pressed and right_pressed:
+            self.bullet_direction = {utils.Direction.RIGHT, utils.Direction.UP}
+        elif up_pressed:
+            self.bullet_direction = {utils.Direction.UP}
+        else:
+            self.bullet_direction = {self.facing}
 
     def update(self):
         self.bulletHistory += 1
@@ -60,6 +93,7 @@ class Player(GameObject, RigidBody):
         for collision_data in collisions:
             if collision_data["normal"].y < 0:
                 self.is_on_ground = True
+                self.jump_impulses_left = self.JUMP_IMPULSES_MAX
                 if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
                     pass
                 if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
@@ -67,7 +101,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                    self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH))
+                    self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
             if collision_data["normal"].x != 0:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.color = (200, 0, 100)
@@ -77,6 +111,10 @@ class Player(GameObject, RigidBody):
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.color = (40, 250, 250)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+
+            if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
+                self.color = (40, 250, 250)
+                self.scene.find_rigid_body(collision_data["shape"]).decay()
 
         self.handle_input()
 

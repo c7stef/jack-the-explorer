@@ -2,29 +2,23 @@ from solid import Solid
 import pygame
 import pymunk
 import collision
-from enum import Enum
-
-class Direction(Enum):
-    LEFT = 1
-    RIGHT = 2
-    UP = 3
-    DOWN = 4
+import utils
 
 class Bullet(Solid):
     def __init__(self, x, y, directions):
         super().__init__(x, y, 10, 10, pymunk.Body.KINEMATIC)
-        self.VELOCITY = 10
+        self.VELOCITY = 15
         self.shape.collision_type = collision.Layer.BULLET.value
         self.shape.sensor = True
         self.position = pygame.Vector2(x, y)
         self.body.position = self.position.x, self.position.y
-        self.ttl = 100
+        self.ttl = 80
 
         direction_unit_vectors = {
-            Direction.LEFT: pygame.Vector2(-1, 0),
-            Direction.RIGHT: pygame.Vector2(1, 0),
-            Direction.UP: pygame.Vector2(0, -1),
-            Direction.DOWN: pygame.Vector2(0, 1)
+            utils.Direction.LEFT: pygame.Vector2(-1, 0),
+            utils.Direction.RIGHT: pygame.Vector2(1, 0),
+            utils.Direction.UP: pygame.Vector2(0, -1),
+            utils.Direction.DOWN: pygame.Vector2(0, 1)
         }
 
         self.direction_vector = pygame.Vector2(0, 0)
@@ -47,7 +41,7 @@ class Bullet(Solid):
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 continue
             if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
-                self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                self.scene.find_rigid_body(collision_data["shape"]).deal_damage(1)
             self.scene.remove_object(self)
 
     def draw(self, screen):

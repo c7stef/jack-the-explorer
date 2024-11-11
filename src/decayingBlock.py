@@ -13,12 +13,14 @@ class DecayingBlock(Solid):
     def update(self):
         if self.ttl < 0:
             self.scene.remove_object(self)
+
+    def decay(self):
+        self.ttl -= 1
         self.color = (
             max(self.color[0] - 1, 0),
             max(self.color[1] - 1, 0),
             max(self.color[2] - 1, 0)
         )
-        self.ttl -= 1
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))

@@ -4,7 +4,7 @@ import pymunk
 import collision
 
 class Enemy(Solid):
-    def __init__(self, p1, p2):
+    def __init__(self, p1, p2, health):
         self.width = 50
         self.height = 50
         super().__init__(p1.x, p1.y, self.width, self.height, pymunk.Body.KINEMATIC)
@@ -14,6 +14,7 @@ class Enemy(Solid):
         self.t = 0
         self.dt = 0.01
         self.shape.collision_type = collision.Layer.ENEMY.value
+        self.hp = health
 
         self.color = (250, 40, 60)
 
@@ -27,6 +28,11 @@ class Enemy(Solid):
             self.t = 0
         # lerp is linear interpolation
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
+    
+    def deal_damage(self, damage):
+        self.hp -= damage
+        if self.hp == 0:
+            self.scene.remove_object(self)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
