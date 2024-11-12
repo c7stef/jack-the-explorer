@@ -8,6 +8,7 @@ from movingplatform import MovingPlatform
 from enemy import Enemy
 from coin import Coin
 from decayingBlock import DecayingBlock
+from ammoPickup import AmmoPickUp
 
 # Initialize pygame
 pygame.init()
@@ -33,6 +34,7 @@ scene.add_object(Block(200, 400, 200, 50))
 scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
 scene.add_object(Enemy(pygame.Vector2(250, 450), pygame.Vector2(350, 450), 2))
 scene.add_object(Coin(600, 350))
+scene.add_object(AmmoPickUp(500, 350))
 scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
 
 # Main game loop
