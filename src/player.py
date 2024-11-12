@@ -10,7 +10,7 @@ import utils
 
 # Player class
 class Player(GameObject, RigidBody):
-    def __init__(self, x, y, scene):
+    def __init__(self, x, y):
         self.JUMP_STRENGTH = -15
         self.FIRST_IMPULSE_FACTOR = 15
         self.MOVE_STRENGTH = 150
@@ -28,7 +28,7 @@ class Player(GameObject, RigidBody):
         self.jump_impulses_left = 0
         self.score = 0
         self.coinCnt = 0
-        self.scene = scene
+        self.scene = utils.scene
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 

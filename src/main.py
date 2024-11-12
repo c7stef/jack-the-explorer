@@ -9,7 +9,7 @@ from enemy import Enemy
 from coin import Coin
 from decayingBlock import DecayingBlock
 from ammoPickup import AmmoPickUp
-
+import utils
 # Initialize pygame
 pygame.init()
 
@@ -27,7 +27,8 @@ FPS = 60
 WHITE = (255, 255, 255)
 
 scene = Scene(screen)
-scene.add_object(Player(100, 100, scene))
+utils.scene = scene
+scene.add_object(Player(100, 100))
 scene.add_object(Block(300, 500, 200, 50))
 scene.add_object(Block(500, 400, 200, 50))
 scene.add_object(Block(200, 400, 200, 50))
