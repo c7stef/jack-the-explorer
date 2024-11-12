@@ -6,6 +6,7 @@ from scene import Scene
 from block import Block
 from movingplatform import MovingPlatform
 from enemy import Enemy
+from enemyFlower import EnemyFlower
 from coin import Coin
 from decayingBlock import DecayingBlock
 from ammoPickup import AmmoPickUp
@@ -28,12 +29,14 @@ WHITE = (255, 255, 255)
 
 scene = Scene(screen)
 utils.scene = scene
-scene.add_object(Player(100, 100))
+utils.player = Player(100, 100)
+scene.add_object(utils.player)
 scene.add_object(Block(300, 500, 200, 50))
 scene.add_object(Block(500, 400, 200, 50))
 scene.add_object(Block(200, 400, 200, 50))
 scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
 scene.add_object(Enemy(pygame.Vector2(250, 450), pygame.Vector2(350, 450), 2))
+scene.add_object(EnemyFlower(pygame.Vector2(250, 350), pygame.Vector2(250, 350), 2))
 scene.add_object(Coin(600, 350))
 scene.add_object(AmmoPickUp(500, 350))
 scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))

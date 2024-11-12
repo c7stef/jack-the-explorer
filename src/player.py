@@ -17,8 +17,8 @@ class Player(GameObject, RigidBody):
         self.MAX_VELOCITY = 30
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 12
-        self.currentAmmo = 10
-        self.maxAmmo = 100
+        utils.currentAmmo = 10
+        utils.maxAmmo = 100
         self.bulletHistory = 0
         self.layer = collision.Layer.PLAYER
         self.keys_pressed = set()
@@ -26,8 +26,8 @@ class Player(GameObject, RigidBody):
         self.bullet_direction = {self.facing}
         self.jump_time = 0
         self.jump_impulses_left = 0
-        self.score = 0
-        self.coinCnt = 0
+        utils.score = 0
+        utils.coinCnt = 0
         self.scene = utils.scene
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
@@ -77,11 +77,11 @@ class Player(GameObject, RigidBody):
         if not up_pressed:
             self.jump_impulses_left = 0
 
-        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.currentAmmo > 0:
+        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and utils.currentAmmo > 0:
             mouse_pos = pygame.mouse.get_pos()
             relativeBodyPos = self.scene.relative_position(self.body.position)
             relativeBulletDirection = mouse_pos - relativeBodyPos
-            self.currentAmmo -= 1
+            utils.currentAmmo -= 1
 
             self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
             self.bulletHistory = 0
@@ -105,7 +105,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
-                    self.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
+                    utils.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
@@ -117,15 +117,15 @@ class Player(GameObject, RigidBody):
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                self.coinCnt += 1
-                self.score += 10
+                utils.coinCnt += 1
+                utils.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
-                self.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
+                utils.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.currentAmmo > self.maxAmmo:
-                    self.currentAmmo = self.maxAmmo
-                self.score += 10
+                if utils.currentAmmo > utils.maxAmmo:
+                    utils.currentAmmo = utils.maxAmmo
+                utils.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()

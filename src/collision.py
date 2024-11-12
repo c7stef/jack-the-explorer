@@ -9,6 +9,7 @@ class Layer(Enum):
     BULLET = 6
     DECBLOCK = 7
     AMMOBOX = 8
+    ENEMYBULLET = 9
 
 COLLISION_DISABLED = 1
 
@@ -20,5 +21,7 @@ table = {
     (Layer.PLAYER, Layer.DECBLOCK),
     (Layer.PLAYER, Layer.AMMOBOX),
     (Layer.BULLET, Layer.BLOCK),
-    (Layer.BULLET, Layer.ENEMY)
+    (Layer.BULLET, Layer.ENEMY),
+    (Layer.ENEMYBULLET, Layer.PLAYER),
+    (Layer.ENEMYBULLET, Layer.BLOCK)
 }

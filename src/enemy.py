@@ -14,6 +14,7 @@ class Enemy(Solid):
         self.t = 0
         self.dt = 0.01
         self.shape.collision_type = collision.Layer.ENEMY.value
+        self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
         self.hp = health
         self.maxHealth = health
         self.color = (250, 40, 60)
