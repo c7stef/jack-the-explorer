@@ -43,8 +43,16 @@ class Scene:
             self.camera.following = game_object
 
     def remove_object(self, game_object):
+        # Remove children first
+        for other in self.game_objects:
+            if other.parent == game_object:
+                self.remove_object(other)
+
+        # Remove from physics space
         if isinstance(game_object, RigidBody):
             self.physics_space.remove(*game_object.body_data())
+        
+        # Remove from scene
         self.game_objects.remove(game_object)
 
     def handle_events(self):
