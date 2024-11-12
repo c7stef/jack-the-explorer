@@ -15,7 +15,7 @@ class Enemy(Solid):
         self.dt = 0.01
         self.shape.collision_type = collision.Layer.ENEMY.value
         self.hp = health
-
+        self.maxHealth = health
         self.color = (250, 40, 60)
 
     def update(self):
@@ -28,7 +28,7 @@ class Enemy(Solid):
             self.t = 0
         # lerp is linear interpolation
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
-    
+
     def deal_damage(self, damage):
         self.hp -= damage
         if self.hp == 0:

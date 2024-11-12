@@ -5,11 +5,12 @@ import pymunk
 from rigidbody import RigidBody
 from bullet import Bullet
 from deathScreen import DeathScreen
+from displayData import DisplayData
 import utils
 
 # Player class
 class Player(GameObject, RigidBody):
-    def __init__(self, x, y):
+    def __init__(self, x, y, scene):
         self.JUMP_STRENGTH = -15
         self.FIRST_IMPULSE_FACTOR = 15
         self.MOVE_STRENGTH = 150
@@ -25,6 +26,11 @@ class Player(GameObject, RigidBody):
         self.bullet_direction = {self.facing}
         self.jump_time = 0
         self.jump_impulses_left = 0
+        self.score = 0
+        self.coinCnt = 0
+        self.scene = scene
+        self.display = DisplayData(self)
+        self.scene.add_object(self.display)
 
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
         self.body = pymunk.Body(mass=10, moment=float("inf"))
@@ -98,22 +104,28 @@ class Player(GameObject, RigidBody):
                     self.on_platform = collision_data["shape"]
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
-                    self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
+                    self.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
+                    self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+
             if collision_data["normal"].x != 0:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.color = (200, 0, 100)
+                    self.scene.remove_object(self.display)
                     self.scene.remove_object(self)
                     self.scene.add_object(DeathScreen(self.scene))
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                self.coinCnt += 1
+                self.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
                 self.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 if self.currentAmmo > self.maxAmmo:
                     self.currentAmmo = self.maxAmmo
+                self.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
