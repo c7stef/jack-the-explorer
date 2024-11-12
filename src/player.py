@@ -107,7 +107,6 @@ class Player(GameObject, RigidBody):
                     self.scene.add_object(DeathScreen(self.scene))
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
-                self.color = (40, 250, 250)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
@@ -117,7 +116,6 @@ class Player(GameObject, RigidBody):
                     self.currentAmmo = self.maxAmmo
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
-                self.color = (40, 250, 250)
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
 
 
