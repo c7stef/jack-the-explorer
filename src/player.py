@@ -21,9 +21,6 @@ class Player(GameObject, RigidBody):
         self.maxAmmo = 100
         self.bulletHistory = 0
         self.layer = collision.Layer.PLAYER
-        self.keys_pressed = set()
-        self.facing = utils.Direction.RIGHT
-        self.bullet_direction = {self.facing}
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.score = 0
@@ -60,10 +57,8 @@ class Player(GameObject, RigidBody):
 
         if left_pressed:
             self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
-            self.facing = utils.Direction.LEFT
         elif right_pressed:
             self.body.apply_impulse_at_local_point((self.MOVE_STRENGTH, 0))
-            self.facing = utils.Direction.RIGHT
 
         if up_pressed and self.jump_impulses_left > 0:
             if self.jump_impulses_left == self.JUMP_IMPULSES_MAX:

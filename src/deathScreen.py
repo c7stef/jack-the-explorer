@@ -14,7 +14,7 @@ class DeathScreen(GameObject):
         self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
         self.scene.add_object(self)
         self.playerCnt = 0
-        self.sound = pygame.mixer.Sound("../sounds/uAreDead.mp3")
+        self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
         self.sound.play()
 
 
@@ -24,7 +24,7 @@ class DeathScreen(GameObject):
         from player import Player
         if self.playerCnt == 0:
             self.playerCnt += 1
-            self.scene.add_object(Player(100, 100))
+            self.scene.add_object(Player(100, 100, self.scene))
 
     def delete(self):
         self.scene.remove_object(self)
