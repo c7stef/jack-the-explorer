@@ -22,9 +22,11 @@ class DeathScreen(GameObject):
         self.sound.stop()
         self.delete()
         from player import Player
+        import utils
         if self.playerCnt == 0:
             self.playerCnt += 1
-            self.scene.add_object(Player(100, 100, self.scene))
+            utils.player = Player(100, 100)
+            self.scene.add_object(utils.player)
 
     def delete(self):
         self.scene.remove_object(self)

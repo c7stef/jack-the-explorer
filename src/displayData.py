@@ -1,6 +1,7 @@
 from gameobject import GameObject
 
 import pygame
+import utils
 
 class DisplayData(GameObject):
     def __init__(self, player):
@@ -14,10 +15,10 @@ class DisplayData(GameObject):
         self.player = player
 
     def update(self):
-        self.score = self.player.score
-        self.coinCnt = self.player.coinCnt
-        self.ammo = self.player.currentAmmo
-        self.maxAmmo = self.player.maxAmmo
+        self.score = utils.score
+        self.coinCnt = utils.coinCnt
+        self.ammo = utils.currentAmmo
+        self.maxAmmo = utils.maxAmmo
 
     def draw(self, screen):
         text = self.font.render(f"Score: {self.score} Coins: {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo}", True, self.color)
