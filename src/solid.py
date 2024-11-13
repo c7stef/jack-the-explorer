@@ -16,6 +16,8 @@ class Solid(GameObject, RigidBody):
 
         self.x = x
         self.y = y
+        self.width = width
+        self.height = height
 
     def body_data(self):
         return (self.body, self.shape)

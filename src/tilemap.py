@@ -12,7 +12,6 @@ class TileMap(GameObject):
         }
 
         platform_layer = self.tmx.get_layer_by_name("Platform")
-        print(platform_layer)
 
         for column, row, gid in platform_layer.iter_data():
             if gid == 0:
@@ -32,10 +31,11 @@ class TileMap(GameObject):
             tile_size = self.tmx.tilewidth
             tile_position = pygame.Vector2(column, row) * tile_size
             tile_colliders = tile_colliders_by_gid.get(gid, [])
-            print(tile_colliders)
             
             tile = tile_objects_by_type[tile_type](tile_position, tile_image, tile_colliders)
             tile.parent = self
+
+            self.scene.add_object(tile)
         
     def update(self):
         pass
