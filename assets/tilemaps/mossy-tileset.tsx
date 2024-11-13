@@ -1,261 +1,414 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.0" name="mossy" tilewidth="512" tileheight="512" tilecount="49" columns="7">
- <image source="../Mossy Assets/Mossy Tileset/Mossy - TileSet.png" width="3584" height="3584"/>
- <tile id="0">
+<tileset version="1.8" tiledversion="1.8.0" name="mossy" tilewidth="512" tileheight="512" tilecount="49" columns="7">
+ <image source="mossy-tileset.png" width="3584" height="3584"/>
+ <tile id="0" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="100" width="412" height="412"/>
   </objectgroup>
  </tile>
- <tile id="1">
+ <tile id="1" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="412"/>
   </objectgroup>
  </tile>
- <tile id="2">
+ <tile id="2" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="412" height="412"/>
   </objectgroup>
  </tile>
- <tile id="3">
+ <tile id="3" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="100" width="312" height="412"/>
   </objectgroup>
  </tile>
- <tile id="4">
+ <tile id="4" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="5">
+ <tile id="5" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="6">
+ <tile id="6" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="7">
+ <tile id="7" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="412" height="512"/>
   </objectgroup>
  </tile>
- <tile id="8">
+ <tile id="8" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="512" height="512"/>
   </objectgroup>
  </tile>
- <tile id="9">
+ <tile id="9" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="412" height="512"/>
   </objectgroup>
  </tile>
- <tile id="10">
+ <tile id="10" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="11">
+ <tile id="11" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="13">
+ <tile id="12" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
+ </tile>
+ <tile id="13" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="14">
+ <tile id="14" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="3">
    <object id="2" x="100" y="0" width="412" height="380"/>
   </objectgroup>
  </tile>
- <tile id="15">
+ <tile id="15" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="512" height="380"/>
   </objectgroup>
  </tile>
- <tile id="16">
+ <tile id="16" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="412" height="380"/>
   </objectgroup>
  </tile>
- <tile id="17">
+ <tile id="17" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="340"/>
   </objectgroup>
  </tile>
- <tile id="18">
+ <tile id="18" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="19">
+ <tile id="19" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="20">
+ <tile id="20" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="21">
+ <tile id="21" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="300" y="100" width="212" height="280"/>
   </objectgroup>
  </tile>
- <tile id="22">
+ <tile id="22" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
   </objectgroup>
  </tile>
- <tile id="23">
+ <tile id="23" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="212" height="280"/>
   </objectgroup>
  </tile>
- <tile id="24">
+ <tile id="24" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="3">
    <object id="2" x="80" y="100" width="352" height="280"/>
   </objectgroup>
  </tile>
- <tile id="25">
+ <tile id="25" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="26">
+ <tile id="26" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="27">
+ <tile id="27" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="28">
+ <tile id="28" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
    <object id="2" x="256" y="0" width="256" height="412"/>
   </objectgroup>
  </tile>
- <tile id="29">
+ <tile id="29" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
    <object id="2" x="0" y="0" width="256" height="412"/>
   </objectgroup>
  </tile>
- <tile id="30">
+ <tile id="30" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="3" x="0" y="256" width="412" height="256"/>
    <object id="4" x="0" y="100" width="512" height="280"/>
   </objectgroup>
  </tile>
- <tile id="31">
+ <tile id="31" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="256" width="412" height="256"/>
    <object id="2" x="0" y="100" width="512" height="280"/>
   </objectgroup>
  </tile>
- <tile id="32">
+ <tile id="32" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="100" width="312" height="412"/>
    <object id="2" x="100" y="100" width="412" height="280"/>
   </objectgroup>
  </tile>
- <tile id="33">
+ <tile id="33" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="256" width="312" height="256"/>
   </objectgroup>
  </tile>
- <tile id="34">
+ <tile id="34" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="100" width="312" height="412"/>
    <object id="2" x="0" y="100" width="412" height="280"/>
   </objectgroup>
  </tile>
- <tile id="35">
+ <tile id="35" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
    <object id="2" x="256" y="100" width="256" height="412"/>
   </objectgroup>
  </tile>
- <tile id="36">
+ <tile id="36" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
    <object id="2" x="0" y="100" width="256" height="412"/>
   </objectgroup>
  </tile>
- <tile id="37">
+ <tile id="37" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="3">
    <object id="3" x="0" y="0" width="412" height="256"/>
    <object id="4" x="0" y="100" width="512" height="280"/>
   </objectgroup>
  </tile>
- <tile id="38">
+ <tile id="38" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="412" height="256"/>
    <object id="2" x="0" y="100" width="512" height="280"/>
   </objectgroup>
  </tile>
- <tile id="39">
+ <tile id="39" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="512"/>
    <object id="2" x="256" y="100" width="256" height="280"/>
   </objectgroup>
  </tile>
- <tile id="40">
+ <tile id="40" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="41">
+ <tile id="41" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="256" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="44">
+ <tile id="42" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
+ </tile>
+ <tile id="43" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
+ </tile>
+ <tile id="44" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="45">
+ <tile id="45" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="512"/>
   </objectgroup>
  </tile>
- <tile id="46">
+ <tile id="46" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="380"/>
    <object id="2" x="100" y="100" width="412" height="280"/>
   </objectgroup>
  </tile>
- <tile id="47">
+ <tile id="47" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="100" width="512" height="280"/>
    <object id="2" x="100" y="0" width="312" height="256"/>
   </objectgroup>
  </tile>
- <tile id="48">
+ <tile id="48" type="mossy">
+  <properties>
+   <property name="type" value="mossy"/>
+  </properties>
   <objectgroup draworder="index" id="2">
    <object id="1" x="100" y="0" width="312" height="380"/>
    <object id="2" x="0" y="100" width="412" height="280"/>

@@ -10,6 +10,8 @@ from enemyFlower import EnemyFlower
 from coin import Coin
 from decayingBlock import DecayingBlock
 from ammoPickup import AmmoPickUp
+from tilemap import TileMap
+from mossytile import MossyTile
 import utils
 # Initialize pygame
 pygame.init()
@@ -40,6 +42,9 @@ scene.add_object(EnemyFlower(pygame.Vector2(250, 350), pygame.Vector2(250, 350),
 scene.add_object(Coin(600, 350))
 scene.add_object(AmmoPickUp(500, 350))
 scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
+tilemap = TileMap("assets/tilemaps/level1-map.tmx")
+scene.add_object(tilemap)
+tilemap.create_tiles({'mossy': MossyTile})
 
 # Main game loop
 running = True
