@@ -2,15 +2,15 @@ from enemy import Enemy
 import collision
 import pygame
 from enemyBullet import EnemyBullet
-import utils
 import pymunk
 
 class EnemyFlower(Enemy):
-    def __init__(self, p1, p2, health):
+    def __init__(self, p1, p2, health, level):
         super().__init__(p1, p2, health)
         self.color = (250, 40, 60)
         self.fireRate = 10
         self.bulletTimer = 10
+        self.level = level
 
     def update(self):
         self.t += self.dt
@@ -22,9 +22,9 @@ class EnemyFlower(Enemy):
             self.t = 0
         self.bulletTimer += 1
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
-        if self.directSight(utils.player) and self.bulletTimer > self.fireRate:
+        if self.directSight(self.level.player) and self.bulletTimer > self.fireRate:
             self.bulletTimer = 0
-            self.shoot(utils.player)
+            self.shoot(self.level.player)
 
     def directSight(self, player):
         playerPos = player.body.position
