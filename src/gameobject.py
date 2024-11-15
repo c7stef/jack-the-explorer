@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import pymunk
 import pygame
+import collision
 
 class GameObject(ABC):
     def set_scene(self, scene):
@@ -56,22 +57,31 @@ class RigidBody(ABC):
 
 
 class Solid(GameObject, RigidBody):
-    def __init__(self, x, y, width, height, body_type):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.position = pygame.Vector2(x, y)
-
-        self.moment = pymunk.moment_for_box(mass=10, size=(width, height))
-        self.body = pymunk.Body(mass=10, moment=self.moment, body_type=body_type)
+    def __init__(self, x, y, width, height, body_type=pymunk.Body.STATIC, shapes=None, layer=collision.Layer.BLOCK.value):
+        moment = pymunk.moment_for_box(mass=10, size=(width, height))
+        self.body = pymunk.Body(mass=10, moment=moment, body_type=body_type)
         self.body.position = (x, y)
-        self.shape = pymunk.Poly.create_box(self.body, size=(width, height))
 
-        self.x = x
-        self.y = y
+        self.shapes = shapes if shapes else [
+            pymunk.Poly.create_box(self.body, size=(width, height))
+        ]
+
+        for shape in self.shapes:
+            shape.collision_type = layer
+
         self.width = width
         self.height = height
 
     def body_data(self):
-        return (self.body, self.shape)
+        return (self.body, *self.shapes)
+
+    @property
+    def shape(self):
+        if not self.shapes:
+            raise AttributeError("No shapes in solid")
+        if len(self.shapes) > 1:
+            raise AttributeError("Solid has multiple shapes")
+        return self.shapes[0]
 
     def update(self):
         pass

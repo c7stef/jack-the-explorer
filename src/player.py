@@ -21,7 +21,6 @@ class Player(GameObject, RigidBody):
         self.daddy.currentAmmo = 10
         self.daddy.maxAmmo = 100
         self.bulletHistory = 0
-        self.layer = collision.Layer.PLAYER
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.daddy.score = 0
@@ -30,11 +29,10 @@ class Player(GameObject, RigidBody):
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 
-
-
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
         self.body = pymunk.Body(mass=10, moment=float("inf"))
         self.body.position = (x, y)
+        
         self.shape = pymunk.Poly.create_box(self.body, size=(50, 50))
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value

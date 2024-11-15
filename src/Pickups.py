@@ -6,8 +6,9 @@ import collision
 
 class AmmoPickUp(Solid):
     def __init__(self, x, y):
-        super().__init__(x, y, 50, 50, pymunk.Body.STATIC)
-        self.shape.collision_type = collision.Layer.AMMOBOX.value
+        super().__init__(x, y, 50, 50,
+                         body_type=pymunk.Body.STATIC,
+                         layer=collision.Layer.AMMOBOX.value)
         self.shape.sensor = True
         self.ammoAmount = 10
 
@@ -17,8 +18,9 @@ class AmmoPickUp(Solid):
 
 class Coin(Solid):
     def __init__(self, x, y):
-        super().__init__(x, y, 50, 50, pymunk.Body.STATIC)
-        self.shape.collision_type = collision.Layer.COIN.value
+        super().__init__(x, y, 50, 50,
+                         body_type=pymunk.Body.STATIC,
+                         layer=collision.Layer.COIN.value)
         self.shape.sensor = True
 
     def draw(self, screen):

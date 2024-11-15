@@ -8,17 +8,19 @@ import utils
 
 class Block(Solid):
     def __init__(self, x, y, width, height):
-        super().__init__(x, y, width, height, pymunk.Body.STATIC)
-        self.shape.collision_type = collision.Layer.BLOCK.value
+        super().__init__(x, y, width, height,
+                         body_type=pymunk.Body.STATIC)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (139, 69, 19), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))
+        pygame.draw.rect(screen, (139, 69, 19), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
 
 
 class DecayingBlock(Solid):
     def __init__(self, x, y, width, height, ttl):
-        super().__init__(x, y, width, height, pymunk.Body.STATIC)
-        self.shape.collision_type = collision.Layer.DECBLOCK.value
+        super().__init__(x, y, width, height,
+                         body_type=pymunk.Body.STATIC,
+                         layer=collision.Layer.DECBLOCK.value)
+
         self.color = (139, 69, 19)
         self.ttl = ttl
 
@@ -35,18 +37,18 @@ class DecayingBlock(Solid):
         )
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))
+        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
 
 
 class MovingPlatform(Solid):
     def __init__(self, width, height, p1, p2, speed):
-        super().__init__(p1.x, p1.y, width, height, pymunk.Body.KINEMATIC)
-        self.shape.friction = 0.5
+        super().__init__(p1.x, p1.y, width, height,
+                         body_type=pymunk.Body.KINEMATIC,
+                         layer=collision.Layer.PLATFORM.value)
         self.p1 = p1
         self.p2 = p2
         self.forward = True
         self.speed_vector = pygame.Vector2.normalize(p2 - p1) * speed
-        self.shape.collision_type = collision.Layer.PLATFORM.value
 
     def update(self):
         if math.fabs(self.p1.x - self.p2.x) < utils.EPSILON:
@@ -63,4 +65,4 @@ class MovingPlatform(Solid):
         self.body.velocity = (final_velocity.x, final_velocity.y)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (60, 200, 200), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.rect.w / 2, self.body.position.y - self.rect.h / 2, self.rect.width, self.rect.height)))
+        pygame.draw.rect(screen, (60, 200, 200), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

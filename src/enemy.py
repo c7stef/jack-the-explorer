@@ -7,15 +7,13 @@ import collision
 
 class Enemy(Solid):
     def __init__(self, p1, p2, health):
-        self.width = 50
-        self.height = 50
-        super().__init__(p1.x, p1.y, self.width, self.height, pymunk.Body.KINEMATIC)
-        self.shape.friction = 0.5
+        super().__init__(p1.x, p1.y, 50, 50,
+                         body_type=pymunk.Body.KINEMATIC,
+                         layer=collision.Layer.ENEMY.value)
         self.p1 = p1
         self.p2 = p2
         self.t = 0
         self.dt = 0.01
-        self.shape.collision_type = collision.Layer.ENEMY.value
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
         self.hp = health
         self.maxHealth = health
@@ -74,8 +72,6 @@ class EnemyFlower(Enemy):
                 if query.shape.collision_type == collision.Layer.PLAYER.value:
                     return True
         return False
-
-
 
     def shoot(self, player):
         start = self.body.position

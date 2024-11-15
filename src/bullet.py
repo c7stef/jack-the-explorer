@@ -7,9 +7,10 @@ import utils
 
 class Bullet(Solid):
     def __init__(self, x, y, directions):
-        super().__init__(x, y, 10, 10, pymunk.Body.KINEMATIC)
+        super().__init__(x, y, 10, 10,
+                         body_type=pymunk.Body.KINEMATIC,
+                         layer=collision.Layer.BULLET.value)
         self.VELOCITY = 15
-        self.shape.collision_type = collision.Layer.BULLET.value
         self.shape.sensor = True
         self.position = pygame.Vector2(x, y)
         self.body.position = self.position.x, self.position.y

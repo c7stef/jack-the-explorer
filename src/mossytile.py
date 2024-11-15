@@ -9,9 +9,9 @@ class MossyTile(Solid):
         super().__init__(
             position.x, position.y,
             image.get_width(), image.get_height(),
-            pymunk.Body.STATIC
+            body_type=pymunk.Body.STATIC,
+            layer=collision.Layer.BLOCK.value
         )
-        self.shape.collision_type = collision.Layer.BLOCK.value
         self.image = image
 
     def body_data(self):
