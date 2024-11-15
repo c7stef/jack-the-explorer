@@ -13,11 +13,11 @@ class Player(GameObject, RigidBody):
         self.daddy = daddy
 
         self.JUMP_STRENGTH = -15
-        self.FIRST_IMPULSE_FACTOR = 15
-        self.MOVE_STRENGTH = 150
+        self.FIRST_IMPULSE_FACTOR = 20
+        self.MOVE_STRENGTH = 50
         self.MAX_VELOCITY = 30
         self.FIRE_RATE = 15
-        self.JUMP_IMPULSES_MAX = 12
+        self.JUMP_IMPULSES_MAX = 20
         self.daddy.currentAmmo = 10
         self.daddy.maxAmmo = 100
         self.bulletHistory = 0
@@ -33,7 +33,7 @@ class Player(GameObject, RigidBody):
         self.body = pymunk.Body(mass=10, moment=float("inf"))
         self.body.position = (x, y)
         
-        self.shape = pymunk.Poly.create_box(self.body, size=(50, 50))
+        self.shape = pymunk.Poly.create_box(self.body, size=(30, 30), radius=10)
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
 
@@ -71,7 +71,7 @@ class Player(GameObject, RigidBody):
             if self.jump_impulses_left == self.JUMP_IMPULSES_MAX:
                 impulse_strength = self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR
             else:
-                impulse_strength = self.JUMP_STRENGTH
+                impulse_strength = self.JUMP_STRENGTH * self.jump_impulses_left
 
             self.jump_impulses_left -= 1
             self.body.apply_impulse_at_local_point((0, impulse_strength))
@@ -91,13 +91,13 @@ class Player(GameObject, RigidBody):
     def update(self):
         self.bulletHistory += 1
 
-        self.body.velocity = 0, self.body.velocity.y
+        self.body.velocity = self.body.velocity.x*17/20, self.body.velocity.y
 
         collisions = self.get_collisions()
         self.is_on_ground = False
         self.on_platform = None
         for collision_data in collisions:
-            if collision_data["normal"].y < 0:
+            if collision_data["normal"].y < -0.4:
                 self.is_on_ground = True
                 self.jump_impulses_left = self.JUMP_IMPULSES_MAX
                 if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
