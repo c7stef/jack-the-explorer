@@ -1,5 +1,8 @@
 import pygame
+
 from gameobject import GameObject
+
+mousePressed = False
 
 class Button(GameObject):
     def __init__(self, x, y, width, height, text, font_size, color, on_click):
@@ -10,10 +13,14 @@ class Button(GameObject):
         self.on_click = on_click
 
     def handle_input(self):
+        global mousePressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0]:
+            if pygame.mouse.get_pressed()[0] and not mousePressed:
                 self.on_click()
+                mousePressed = True
+        if not pygame.mouse.get_pressed()[0]:
+            mousePressed = False
 
     def update(self):
         self.handle_input()

@@ -1,6 +1,7 @@
 import pygame
 import pymunk
-from solid import Solid
+
+from gameobject import Solid
 import collision
 
 class MossyTile(Solid):
@@ -12,7 +13,7 @@ class MossyTile(Solid):
         )
         self.shape.collision_type = collision.Layer.BLOCK.value
         self.image = image
-        
+
     def body_data(self):
         return (self.body, self.shape)
 

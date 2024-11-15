@@ -1,33 +1,36 @@
 import pygame
-import collision
-from gameobject import GameObject
 import pymunk
-from rigidbody import RigidBody
+
+from displayData import DeathScreen, DisplayData, PauseScreen
+from gameobject import GameObject, RigidBody
 from bullet import Bullet
-from deathScreen import DeathScreen
-from displayData import DisplayData
+import collision
 import utils
 
 # Player class
 class Player(GameObject, RigidBody):
-    def __init__(self, x, y):
+    def __init__(self, x, y, daddy):
+        self.daddy = daddy
+
         self.JUMP_STRENGTH = -15
         self.FIRST_IMPULSE_FACTOR = 15
         self.MOVE_STRENGTH = 150
         self.MAX_VELOCITY = 30
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 12
-        utils.currentAmmo = 10
-        utils.maxAmmo = 100
+        self.daddy.currentAmmo = 10
+        self.daddy.maxAmmo = 100
         self.bulletHistory = 0
         self.layer = collision.Layer.PLAYER
         self.jump_time = 0
         self.jump_impulses_left = 0
-        utils.score = 0
-        utils.coinCnt = 0
-        self.scene = utils.scene
+        self.daddy.score = 0
+        self.daddy.coinCnt = 0
+        self.scene = daddy.scene
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
+
+
 
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
         self.body = pymunk.Body(mass=10, moment=float("inf"))
@@ -55,6 +58,12 @@ class Player(GameObject, RigidBody):
         up_pressed = keys[pygame.K_w] or keys[pygame.K_UP]
         down_pressed = keys[pygame.K_s] or keys[pygame.K_DOWN]
 
+        if keys[pygame.K_ESCAPE] and not utils.escapePressed:
+            utils.currentScreen = PauseScreen(self.daddy)
+            utils.escapePressed = True
+        if not keys[pygame.K_ESCAPE]:
+            utils.escapePressed = False
+
         if left_pressed:
             self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
         elif right_pressed:
@@ -72,11 +81,11 @@ class Player(GameObject, RigidBody):
         if not up_pressed:
             self.jump_impulses_left = 0
 
-        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and utils.currentAmmo > 0:
+        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.daddy.currentAmmo > 0:
             mouse_pos = pygame.mouse.get_pos()
             relativeBodyPos = self.scene.relative_position(self.body.position)
             relativeBulletDirection = mouse_pos - relativeBodyPos
-            utils.currentAmmo -= 1
+            self.daddy.currentAmmo -= 1
 
             self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
             self.bulletHistory = 0
@@ -100,7 +109,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
-                    utils.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
+                    self.daddy.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
@@ -108,23 +117,29 @@ class Player(GameObject, RigidBody):
                     self.color = (200, 0, 100)
                     self.scene.remove_object(self.display)
                     self.scene.remove_object(self)
-                    self.scene.add_object(DeathScreen(self.scene))
+                    utils.currentScreen = DeathScreen(self.daddy)
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                utils.coinCnt += 1
-                utils.score += 10
+                self.daddy.coinCnt += 1
+                self.daddy.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
-                utils.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
+                self.daddy.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if utils.currentAmmo > utils.maxAmmo:
-                    utils.currentAmmo = utils.maxAmmo
-                utils.score += 10
+                if self.daddy.currentAmmo > self.daddy.maxAmmo:
+                    self.daddy.currentAmmo = self.daddy.maxAmmo
+                self.daddy.score += 10
+
+            if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
+                self.daddy.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
+                self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                if self.daddy.hp > self.daddy.maxHp:
+                    self.daddy.hp = self.daddy.maxHp
+                self.daddy.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
-
 
         self.handle_input()
 
@@ -134,6 +149,13 @@ class Player(GameObject, RigidBody):
         if self.on_platform:
             platform_velocity = self.on_platform.body.velocity
             self.body.apply_impulse_at_local_point(platform_velocity * 10)
+
+    def deal_damage(self, damage):
+        self.daddy.hp -= damage
+        if self.daddy.hp <= 0:
+            self.scene.remove_object(self.display)
+            self.scene.remove_object(self)
+            utils.currentScreen = DeathScreen(self.daddy)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

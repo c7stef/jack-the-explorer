@@ -1,10 +1,11 @@
 import pygame
-import collision
 import pymunk
-from rigidbody import RigidBody
+
+from gameobject import RigidBody
 from pymunk import pygame_util
 from camera import Camera
 from player import Player
+import collision
 
 class Scene:
     def __init__(self, screen):
@@ -12,7 +13,7 @@ class Scene:
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
         self.screen = screen
-        
+
         def follow_smooth(player, camera_position):
             if not player:
                 return camera_position
@@ -51,7 +52,7 @@ class Scene:
         # Remove from physics space
         if isinstance(game_object, RigidBody):
             self.physics_space.remove(*game_object.body_data())
-        
+
         # Remove from scene
         self.game_objects.remove(game_object)
 
@@ -78,7 +79,7 @@ class Scene:
         screen.fill((255, 255, 255))
         for obj in self.game_objects:
             obj.draw(screen)
-    
+
     def relative_position(self, position):
         return self.camera.relative_position(position)
 
