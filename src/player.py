@@ -1,12 +1,10 @@
 import pygame
-import collision
-from gameobject import GameObject
 import pymunk
-from gameobject import RigidBody
+
+from displayData import DeathScreen, DisplayData, PauseScreen
+from gameobject import GameObject, RigidBody
 from bullet import Bullet
-from displayData import DeathScreen
-from displayData import DisplayData
-from displayData import PauseScreen
+import collision
 import utils
 
 # Player class

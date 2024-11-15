@@ -1,7 +1,8 @@
-from block import Solid
-from bullet import EnemyBullet
 import pygame
 import pymunk
+
+from block import Solid
+from bullet import EnemyBullet
 import collision
 
 class Enemy(Solid):

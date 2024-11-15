@@ -1,8 +1,9 @@
-from gameobject import Solid
 import pygame
 import pymunk
-import collision
 import math
+
+from gameobject import Solid
+import collision
 import utils
 
 class Block(Solid):

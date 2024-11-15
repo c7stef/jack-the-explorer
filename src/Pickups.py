@@ -1,6 +1,7 @@
-from block import Solid
-import pygame
 import pymunk
+import pygame
+
+from block import Solid
 import collision
 
 class AmmoPickUp(Solid):

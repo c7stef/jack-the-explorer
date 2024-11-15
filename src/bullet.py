@@ -1,6 +1,7 @@
-from gameobject import Solid
 import pygame
 import pymunk
+
+from gameobject import Solid
 import collision
 import utils
 

@@ -1,19 +1,15 @@
 import pygame
-from scene import Scene
-import utils
 
 from button import Button
 from player import Player
-from block import Block
-from block import MovingPlatform
-from enemy import Enemy
-from enemy import EnemyFlower
-from block import DecayingBlock
+from gameobject import OnScreen
+from block import Block, MovingPlatform, DecayingBlock
+from enemy import Enemy, EnemyFlower
 from Pickups import Coin, AmmoPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
-
-from gameobject import OnScreen
+from scene import Scene
+import utils
 
 class Level(OnScreen):
     def __init__(self, screen, level, color):

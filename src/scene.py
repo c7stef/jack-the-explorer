@@ -1,10 +1,11 @@
 import pygame
-import collision
 import pymunk
+
 from gameobject import RigidBody
 from pymunk import pygame_util
 from camera import Camera
 from player import Player
+import collision
 
 class Scene:
     def __init__(self, screen):

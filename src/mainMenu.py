@@ -4,7 +4,6 @@ import sys
 from button import Button
 from gameobject import OnScreen
 from level import Level
-
 import utils
 
 class MainMenu(OnScreen):

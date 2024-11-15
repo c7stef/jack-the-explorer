@@ -1,9 +1,8 @@
-from gameobject import GameObject
-from gameobject import OnScreen
+from gameobject import OnScreen, GameObject
 from button import Button
+import utils
 
 import pygame
-import utils
 
 class DisplayData(GameObject):
     def __init__(self, player):

@@ -1,4 +1,5 @@
 import pygame
+
 from gameobject import GameObject
 
 mousePressed = False

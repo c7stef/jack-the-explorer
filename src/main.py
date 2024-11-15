@@ -2,7 +2,6 @@ import pygame
 import sys
 
 from mainMenu import MainMenu
-
 import utils
 # Initialize pygame
 pygame.init()
