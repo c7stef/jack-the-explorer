@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.0" name="mossy" tilewidth="512" tileheight="512" tilecount="49" columns="7">
- <image source="mossy-tileset.png" width="3584" height="3584"/>
+<tileset version="1.8" tiledversion="1.8.0" name="mossy" tilewidth="128" tileheight="128" tilecount="49" columns="7">
+ <image source="mossy-tileset.png" width="896" height="896"/>
  <tile id="0" type="mossy">
   <properties>
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="100" width="412" height="412"/>
+   <object id="1" x="25" y="25" width="103" height="103"/>
   </objectgroup>
  </tile>
  <tile id="1" type="mossy">
@@ -14,7 +14,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="412"/>
+   <object id="1" x="0" y="25" width="128" height="103"/>
   </objectgroup>
  </tile>
  <tile id="2" type="mossy">
@@ -22,7 +22,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="412" height="412"/>
+   <object id="1" x="0" y="25" width="103" height="103"/>
   </objectgroup>
  </tile>
  <tile id="3" type="mossy">
@@ -30,7 +30,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="100" width="312" height="412"/>
+   <object id="1" x="25" y="25" width="78" height="103"/>
   </objectgroup>
  </tile>
  <tile id="4" type="mossy">
@@ -38,8 +38,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="5" type="mossy">
@@ -47,8 +47,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="6" type="mossy">
@@ -56,8 +56,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="7" type="mossy">
@@ -65,7 +65,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="412" height="512"/>
+   <object id="1" x="25" y="0" width="103" height="128"/>
   </objectgroup>
  </tile>
  <tile id="8" type="mossy">
@@ -73,7 +73,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="512" height="512"/>
+   <object id="1" x="0" y="0" width="128" height="128"/>
   </objectgroup>
  </tile>
  <tile id="9" type="mossy">
@@ -81,7 +81,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="412" height="512"/>
+   <object id="1" x="0" y="0" width="103" height="128"/>
   </objectgroup>
  </tile>
  <tile id="10" type="mossy">
@@ -89,7 +89,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="11" type="mossy">
@@ -97,8 +97,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="12" type="mossy">
@@ -111,8 +111,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="14" type="mossy">
@@ -120,7 +120,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="3">
-   <object id="2" x="100" y="0" width="412" height="380"/>
+   <object id="2" x="25" y="0" width="103" height="95"/>
   </objectgroup>
  </tile>
  <tile id="15" type="mossy">
@@ -128,7 +128,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="512" height="380"/>
+   <object id="1" x="0" y="0" width="128" height="95"/>
   </objectgroup>
  </tile>
  <tile id="16" type="mossy">
@@ -136,7 +136,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="0" width="412" height="380"/>
+   <object id="1" x="0" y="0" width="103" height="95"/>
   </objectgroup>
  </tile>
  <tile id="17" type="mossy">
@@ -144,7 +144,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="340"/>
+   <object id="1" x="25" y="0" width="78" height="85"/>
   </objectgroup>
  </tile>
  <tile id="18" type="mossy">
@@ -152,8 +152,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="19" type="mossy">
@@ -161,8 +161,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="20" type="mossy">
@@ -170,8 +170,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="21" type="mossy">
@@ -179,7 +179,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="300" y="100" width="212" height="280"/>
+   <object id="1" x="75" y="25" width="53" height="70"/>
   </objectgroup>
  </tile>
  <tile id="22" type="mossy">
@@ -187,7 +187,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
   </objectgroup>
  </tile>
  <tile id="23" type="mossy">
@@ -195,7 +195,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="212" height="280"/>
+   <object id="1" x="0" y="25" width="53" height="70"/>
   </objectgroup>
  </tile>
  <tile id="24" type="mossy">
@@ -203,7 +203,7 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="3">
-   <object id="2" x="80" y="100" width="352" height="280"/>
+   <object id="2" x="20" y="25" width="88" height="70"/>
   </objectgroup>
  </tile>
  <tile id="25" type="mossy">
@@ -211,8 +211,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="26" type="mossy">
@@ -220,8 +220,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="27" type="mossy">
@@ -229,8 +229,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="28" type="mossy">
@@ -238,8 +238,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
-   <object id="2" x="256" y="0" width="256" height="412"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
+   <object id="2" x="64" y="0" width="64" height="103"/>
   </objectgroup>
  </tile>
  <tile id="29" type="mossy">
@@ -247,8 +247,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
-   <object id="2" x="0" y="0" width="256" height="412"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
+   <object id="2" x="0" y="0" width="64" height="103"/>
   </objectgroup>
  </tile>
  <tile id="30" type="mossy">
@@ -256,8 +256,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="3" x="0" y="256" width="412" height="256"/>
-   <object id="4" x="0" y="100" width="512" height="280"/>
+   <object id="3" x="0" y="64" width="103" height="64"/>
+   <object id="4" x="0" y="25" width="128" height="70"/>
   </objectgroup>
  </tile>
  <tile id="31" type="mossy">
@@ -265,8 +265,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="256" width="412" height="256"/>
-   <object id="2" x="0" y="100" width="512" height="280"/>
+   <object id="1" x="25" y="64" width="103" height="64"/>
+   <object id="2" x="0" y="25" width="128" height="70"/>
   </objectgroup>
  </tile>
  <tile id="32" type="mossy">
@@ -274,8 +274,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="100" width="312" height="412"/>
-   <object id="2" x="100" y="100" width="412" height="280"/>
+   <object id="1" x="25" y="25" width="78" height="103"/>
+   <object id="2" x="25" y="25" width="103" height="70"/>
   </objectgroup>
  </tile>
  <tile id="33" type="mossy">
@@ -283,8 +283,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="256" width="312" height="256"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="64" width="78" height="64"/>
   </objectgroup>
  </tile>
  <tile id="34" type="mossy">
@@ -292,8 +292,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="100" width="312" height="412"/>
-   <object id="2" x="0" y="100" width="412" height="280"/>
+   <object id="1" x="25" y="25" width="78" height="103"/>
+   <object id="2" x="0" y="25" width="103" height="70"/>
   </objectgroup>
  </tile>
  <tile id="35" type="mossy">
@@ -301,8 +301,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
-   <object id="2" x="256" y="100" width="256" height="412"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
+   <object id="2" x="64" y="25" width="64" height="103"/>
   </objectgroup>
  </tile>
  <tile id="36" type="mossy">
@@ -310,8 +310,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
-   <object id="2" x="0" y="100" width="256" height="412"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
+   <object id="2" x="0" y="25" width="64" height="103"/>
   </objectgroup>
  </tile>
  <tile id="37" type="mossy">
@@ -319,8 +319,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="3">
-   <object id="3" x="0" y="0" width="412" height="256"/>
-   <object id="4" x="0" y="100" width="512" height="280"/>
+   <object id="3" x="0" y="0" width="103" height="64"/>
+   <object id="4" x="0" y="25" width="128" height="70"/>
   </objectgroup>
  </tile>
  <tile id="38" type="mossy">
@@ -328,8 +328,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="412" height="256"/>
-   <object id="2" x="0" y="100" width="512" height="280"/>
+   <object id="1" x="25" y="0" width="103" height="64"/>
+   <object id="2" x="0" y="25" width="128" height="70"/>
   </objectgroup>
  </tile>
  <tile id="39" type="mossy">
@@ -337,8 +337,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="512"/>
-   <object id="2" x="256" y="100" width="256" height="280"/>
+   <object id="1" x="25" y="0" width="78" height="128"/>
+   <object id="2" x="64" y="25" width="64" height="70"/>
   </objectgroup>
  </tile>
  <tile id="40" type="mossy">
@@ -346,8 +346,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="41" type="mossy">
@@ -355,8 +355,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="256" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="64" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="42" type="mossy">
@@ -374,8 +374,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="45" type="mossy">
@@ -383,8 +383,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="512"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="128"/>
   </objectgroup>
  </tile>
  <tile id="46" type="mossy">
@@ -392,8 +392,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="380"/>
-   <object id="2" x="100" y="100" width="412" height="280"/>
+   <object id="1" x="25" y="0" width="78" height="95"/>
+   <object id="2" x="25" y="25" width="103" height="70"/>
   </objectgroup>
  </tile>
  <tile id="47" type="mossy">
@@ -401,8 +401,8 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="0" y="100" width="512" height="280"/>
-   <object id="2" x="100" y="0" width="312" height="256"/>
+   <object id="1" x="0" y="25" width="128" height="70"/>
+   <object id="2" x="25" y="0" width="78" height="64"/>
   </objectgroup>
  </tile>
  <tile id="48" type="mossy">
@@ -410,13 +410,13 @@
    <property name="type" value="mossy"/>
   </properties>
   <objectgroup draworder="index" id="2">
-   <object id="1" x="100" y="0" width="312" height="380"/>
-   <object id="2" x="0" y="100" width="412" height="280"/>
+   <object id="1" x="25" y="0" width="78" height="95"/>
+   <object id="2" x="0" y="25" width="103" height="70"/>
   </objectgroup>
  </tile>
  <wangsets>
   <wangset name="mossy-mixed" type="mixed" tile="-1">
-   <wangcolor name="Grass" color="#00ff00" tile="-1" probability="1"/>
+   <wangcolor name="Grass" color="#00ff00" tile="-1" probability="0"/>
    <wangtile tileid="0" wangid="0,0,1,1,1,0,0,0"/>
    <wangtile tileid="1" wangid="0,0,1,1,1,1,1,0"/>
    <wangtile tileid="2" wangid="0,0,0,0,1,1,1,0"/>
