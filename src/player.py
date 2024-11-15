@@ -2,9 +2,9 @@ import pygame
 import collision
 from gameobject import GameObject
 import pymunk
-from rigidbody import RigidBody
+from gameobject import RigidBody
 from bullet import Bullet
-from deathScreen import DeathScreen
+from displayData import DeathScreen
 from displayData import DisplayData
 from displayData import PauseScreen
 import utils

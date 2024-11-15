@@ -5,12 +5,11 @@ import utils
 from button import Button
 from player import Player
 from block import Block
-from movingplatform import MovingPlatform
+from block import MovingPlatform
 from enemy import Enemy
-from enemyFlower import EnemyFlower
-from coin import Coin
-from decayingBlock import DecayingBlock
-from ammoPickup import AmmoPickUp
+from enemy import EnemyFlower
+from block import DecayingBlock
+from Pickups import Coin, AmmoPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
 
@@ -26,7 +25,7 @@ class Level(OnScreen):
         self.coinCnt = 0
         self.currentAmmo = 0
         self.maxAmmo = 0
-        
+
 
         scene = Scene(screen)
         self.scene = scene
