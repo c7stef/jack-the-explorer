@@ -5,7 +5,7 @@ from player import Player
 from gameobject import OnScreen
 from block import Block, MovingPlatform, DecayingBlock
 from enemy import Enemy, EnemyFlower
-from Pickups import Coin, AmmoPickUp
+from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
 from scene import Scene
@@ -22,6 +22,9 @@ class Level(OnScreen):
         self.currentAmmo = 0
         self.maxAmmo = 0
 
+        self.hp = 10
+        self.maxHp = 10
+
 
         scene = Scene(screen)
         self.scene = scene
@@ -34,6 +37,7 @@ class Level(OnScreen):
         scene.add_object(Enemy(pygame.Vector2(250, 450), pygame.Vector2(350, 450), 2))
         scene.add_object(EnemyFlower(pygame.Vector2(250, 350), pygame.Vector2(250, 350), 2, self))
         scene.add_object(Coin(600, 350))
+        scene.add_object(HealthPickUp(400, 350))
         scene.add_object(AmmoPickUp(500, 350))
         scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
         tilemap = TileMap("assets/tilemaps/level1-map.tmx")

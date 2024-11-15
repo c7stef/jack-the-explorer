@@ -57,6 +57,6 @@ class EnemyBullet(Bullet):
             # Add more things to ignore collision with
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 continue
-            if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
+            if collision_data["shape"].collision_type == collision.Layer.PLAYER.value:
                 self.scene.find_rigid_body(collision_data["shape"]).deal_damage(1)
             self.scene.remove_object(self)

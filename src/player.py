@@ -30,6 +30,8 @@ class Player(GameObject, RigidBody):
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 
+
+
         self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
         self.body = pymunk.Body(mass=10, moment=float("inf"))
         self.body.position = (x, y)
@@ -129,6 +131,13 @@ class Player(GameObject, RigidBody):
                     self.daddy.currentAmmo = self.daddy.maxAmmo
                 self.daddy.score += 10
 
+            if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
+                self.daddy.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
+                self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                if self.daddy.hp > self.daddy.maxHp:
+                    self.daddy.hp = self.daddy.maxHp
+                self.daddy.score += 10
+
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
 
@@ -140,6 +149,13 @@ class Player(GameObject, RigidBody):
         if self.on_platform:
             platform_velocity = self.on_platform.body.velocity
             self.body.apply_impulse_at_local_point(platform_velocity * 10)
+
+    def deal_damage(self, damage):
+        self.daddy.hp -= damage
+        if self.daddy.hp <= 0:
+            self.scene.remove_object(self.display)
+            self.scene.remove_object(self)
+            utils.currentScreen = DeathScreen(self.daddy)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

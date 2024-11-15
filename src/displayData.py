@@ -15,6 +15,8 @@ class DisplayData(GameObject):
         self.coinCnt = 0
         self.ammo = 0
         self.maxAmmo = 0
+        self.health = 0
+        self.maxHealth = 0
         self.player = player
 
     def update(self):
@@ -22,9 +24,11 @@ class DisplayData(GameObject):
         self.coinCnt = self.level.coinCnt
         self.ammo = self.level.currentAmmo
         self.maxAmmo = self.level.maxAmmo
+        self.health = self.level.hp
+        self.maxHealth = self.level.maxHp
 
     def draw(self, screen):
-        text = self.font.render(f"Score: {self.score} Coins: {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo}", True, self.color)
+        text = self.font.render(f"Score: {self.score} Coins: {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo} HP: {self.health} / {self.maxHealth}", True, self.color)
         screen.blit(text, (0, 0))
 
 class PauseScreen(OnScreen):
@@ -86,6 +90,7 @@ class DeathScreen(OnScreen):
         from player import Player
 
         self.level.player = Player(100, 100, self.level)
+        self.level.hp = self.level.maxHp
         self.scene.add_object(self.level.player)
 
         utils.currentScreen = self.level

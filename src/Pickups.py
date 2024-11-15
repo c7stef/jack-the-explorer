@@ -23,3 +23,13 @@ class Coin(Solid):
 
     def draw(self, screen):
         pygame.draw.circle(screen, (220, 220, 30), self.scene.relative_position(self.body.position), 25)
+
+class HealthPickUp(Solid):
+    def __init__(self, x, y):
+        super().__init__(x, y, 50, 50, pymunk.Body.STATIC)
+        self.shape.collision_type = collision.Layer.HEALTHBOX.value
+        self.shape.sensor = True
+        self.healthAmount = 5
+
+    def draw(self, screen):
+        pygame.draw.circle(screen, (255, 20, 20), self.scene.relative_position(self.body.position), 25)
