@@ -51,16 +51,19 @@ class EnemyBullet(Bullet):
         self.ttl -= 1
         if self.ttl < 0:
             self.scene.remove_object(self)
+            return
 
         self.position += self.direction_vector
         self.body.position = self.position.x, self.position.y
 
         collisions = self.get_collisions()
 
+        set_to_die = False
         for collision_data in collisions:
-            # Add more things to ignore collision with
-            if collision_data["shape"].collision_type == collision.Layer.COIN.value:
-                continue
             if collision_data["shape"].collision_type == collision.Layer.PLAYER.value:
                 self.scene.find_rigid_body(collision_data["shape"]).deal_damage(1)
+            
+            set_to_die = True
+
+        if set_to_die:
             self.scene.remove_object(self)
