@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="32" height="12" tilewidth="128" tileheight="128" infinite="0" nextlayerid="5" nextobjectid="7">
  <editorsettings>
   <export target="level1-map.tmj" format="json"/>
  </editorsettings>
@@ -20,4 +20,12 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="4" name="Objects">
+  <object id="3" type="coin" x="1192" y="168" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="6" type="coin" x="1192" y="80" width="48" height="48">
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>
