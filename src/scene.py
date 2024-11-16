@@ -13,6 +13,7 @@ class Scene:
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
         self.screen = screen
+        self.to_remove = []
 
         def follow_smooth(player, camera_position):
             if not player:
@@ -48,13 +49,21 @@ class Scene:
         for other in self.game_objects:
             if other.parent == game_object:
                 self.remove_object(other)
+        
+        # Add to delete list
+        self.to_remove.append(game_object)
 
-        # Remove from physics space
-        if isinstance(game_object, RigidBody):
-            self.physics_space.remove(*game_object.body_data())
+    def collect_garbage(self):
+        for game_object in self.to_remove:
+            # Remove from physics space
+            if isinstance(game_object, RigidBody):
+                self.physics_space.remove(*game_object.body_data())
 
-        # Remove from scene
-        self.game_objects.remove(game_object)
+            # Remove from scene
+            self.game_objects.remove(game_object)
+
+        # Clear delete list
+        self.to_remove.clear()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -74,6 +83,7 @@ class Scene:
         for obj in self.game_objects:
             obj.update()
         self.camera.update()
+        self.collect_garbage()
 
     def draw(self, screen):
         screen.fill((255, 255, 255))
