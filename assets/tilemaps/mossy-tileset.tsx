@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.8" tiledversion="1.8.0" name="mossy" tilewidth="128" tileheight="128" tilecount="49" columns="7">
+<tileset version="1.10" tiledversion="1.11.0" name="mossy" tilewidth="128" tileheight="128" tilecount="49" columns="7">
  <image source="mossy-tileset.png" width="896" height="896"/>
  <tile id="0" type="mossy">
   <properties>
@@ -415,8 +415,8 @@
   </objectgroup>
  </tile>
  <wangsets>
-  <wangset name="mossy-mixed" type="mixed" tile="-1">
-   <wangcolor name="Grass" color="#00ff00" tile="-1" probability="0"/>
+  <wangset name="mossy-mixed" type="mixed" tile="24">
+   <wangcolor name="Grass" color="#00ff00" tile="-1" probability="1"/>
    <wangtile tileid="0" wangid="0,0,1,1,1,0,0,0"/>
    <wangtile tileid="1" wangid="0,0,1,1,1,1,1,0"/>
    <wangtile tileid="2" wangid="0,0,0,0,1,1,1,0"/>
