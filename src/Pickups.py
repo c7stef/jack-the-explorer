@@ -17,14 +17,14 @@ class AmmoPickUp(Solid):
 
 
 class Coin(Solid):
-    def __init__(self, x, y):
-        super().__init__(x, y, 50, 50,
+    def __init__(self, position):
+        super().__init__(position.x, position.y, 48, 48,
                          body_type=pymunk.Body.STATIC,
                          layer=collision.Layer.COIN.value)
         self.shape.sensor = True
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (220, 220, 30), self.scene.relative_position(self.body.position), 25)
+        pygame.draw.circle(screen, (220, 220, 30), self.scene.relative_position(self.body.position), 24)
 
 class HealthPickUp(Solid):
     def __init__(self, x, y):
