@@ -19,6 +19,12 @@ class DisplayData(GameObject):
         self.maxHealth = 0
         self.player = player
 
+        self.coinFrames = utils.load_gif("coin.gif", (23, 23))
+        self.animationFrames = self.coinFrames.__len__()
+        self.coinSpeed = 5
+        self.frameCnt = 0
+        self.currentFrame = 0
+
     def update(self):
         self.score = self.level.score
         self.coinCnt = self.level.coinCnt
@@ -27,9 +33,19 @@ class DisplayData(GameObject):
         self.health = self.level.hp
         self.maxHealth = self.level.maxHp
 
+        self.frameCnt += 1
+        if self.frameCnt >= self.coinSpeed:
+            self.frameCnt = 0
+            self.currentFrame = (self.currentFrame + 1) % self.animationFrames
+
     def draw(self, screen):
-        text = self.font.render(f"Score: {self.score} Coins: {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo} HP: {self.health} / {self.maxHealth}", True, self.color)
+        text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo} HP: {self.health} / {self.maxHealth}", True, self.color)
         screen.blit(text, (0, 0))
+        coinImg = self.coinFrames[self.currentFrame]
+        screen.blit(coinImg, (25, 25))
+        coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
+        screen.blit(coinCnt, (50, 25))
+
 
 class PauseScreen(OnScreen):
     def __init__(self, level):
@@ -65,9 +81,6 @@ class PauseScreen(OnScreen):
         self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
         self.screen.blit(self.text_surface, self.text_rec)
         self.goBackButton.draw(self.screen)
-        # self.level.display.draw(self.screen)
-        # self.level.display.player.draw(self.screen)
-        # self.level.display.player.scene.draw_objects(self.screen)
 
 class DeathScreen(OnScreen):
     def __init__(self, level):
