@@ -12,12 +12,12 @@ class Player(GameObject, RigidBody):
     def __init__(self, x, y, daddy):
         self.daddy = daddy
 
-        self.JUMP_STRENGTH = -15
-        self.FIRST_IMPULSE_FACTOR = 20
-        self.MOVE_STRENGTH = 50
-        self.MAX_VELOCITY = 30
+        self.JUMP_STRENGTH = -2.85
+        self.FIRST_IMPULSE_FACTOR = 10
+        self.MOVE_STRENGTH = 4.5
+        self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
-        self.JUMP_IMPULSES_MAX = 20
+        self.JUMP_IMPULSES_MAX = 15
         self.daddy.currentAmmo = 10
         self.daddy.maxAmmo = 100
         self.bulletHistory = 0
@@ -29,11 +29,11 @@ class Player(GameObject, RigidBody):
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 
-        self.moment = pymunk.moment_for_box(mass=10, size=(50, 50))
-        self.body = pymunk.Body(mass=10, moment=float("inf"))
+        self.moment = pymunk.moment_for_box(mass=1, size=(50, 50))
+        self.body = pymunk.Body(mass=1, moment=float("inf"))
         self.body.position = (x, y)
         
-        self.shape = pymunk.Poly.create_box(self.body, size=(30, 30), radius=10)
+        self.shape = pymunk.Poly.create_box(self.body, size=(10, 10), radius=20)
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
 
@@ -42,6 +42,7 @@ class Player(GameObject, RigidBody):
 
         self.is_on_ground = False
         self.on_platform = None
+        self.jump_held = False
 
         self.color = (0, 0, 255)
 
@@ -71,13 +72,15 @@ class Player(GameObject, RigidBody):
             if self.jump_impulses_left == self.JUMP_IMPULSES_MAX:
                 impulse_strength = self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR
             else:
-                impulse_strength = self.JUMP_STRENGTH * self.jump_impulses_left
+                impulse_strength = self.JUMP_STRENGTH * self.jump_impulses_left / self.JUMP_IMPULSES_MAX
 
             self.jump_impulses_left -= 1
             self.body.apply_impulse_at_local_point((0, impulse_strength))
-
+            self.jump_held = True
+        
         if not up_pressed:
             self.jump_impulses_left = 0
+            self.jump_held = False
 
         if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.daddy.currentAmmo > 0:
             mouse_pos = pygame.mouse.get_pos()
@@ -99,7 +102,8 @@ class Player(GameObject, RigidBody):
         for collision_data in collisions:
             if collision_data["normal"].y < -0.4:
                 self.is_on_ground = True
-                self.jump_impulses_left = self.JUMP_IMPULSES_MAX
+                if not self.jump_held:
+                    self.jump_impulses_left = self.JUMP_IMPULSES_MAX
                 if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
                     pass
                 if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
@@ -146,7 +150,7 @@ class Player(GameObject, RigidBody):
 
         if self.on_platform:
             platform_velocity = self.on_platform.body.velocity
-            self.body.apply_impulse_at_local_point(platform_velocity * 10)
+            self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
     def deal_damage(self, damage):
         self.daddy.hp -= damage

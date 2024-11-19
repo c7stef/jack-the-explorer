@@ -79,7 +79,7 @@ class Scene:
 
     def update(self):
         self.collisions.clear()
-        self.physics_space.step(1/4)
+        self.physics_space.step(6/20)
         for obj in self.game_objects:
             obj.update()
         self.camera.update()
