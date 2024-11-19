@@ -13,18 +13,3 @@ class Direction(Enum):
     RIGHT = 2
     UP = 3
     DOWN = 4
-
-def load_gif(path, scale=None):
-    image = Image.open(path)
-    frames = []
-    while True:
-        try:
-            frame = image.copy().convert("RGBA")
-            pygameFormatImage = pygame.image.fromstring(frame.tobytes(), frame.size, frame.mode)
-            if scale:
-                pygameFormatImage = pygame.transform.scale(pygameFormatImage, scale)
-            frames.append(pygameFormatImage)
-            image.seek(image.tell() + 1)
-        except EOFError:
-            break
-    return frames

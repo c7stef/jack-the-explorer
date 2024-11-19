@@ -4,6 +4,7 @@ import utils
 
 import pygame
 
+from animatedSprite import AnimatedSprite
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.daddy
@@ -19,11 +20,7 @@ class DisplayData(GameObject):
         self.maxHealth = 0
         self.player = player
 
-        self.coinFrames = utils.load_gif("coin.gif", (23, 23))
-        self.animationFrames = self.coinFrames.__len__()
-        self.coinSpeed = 5
-        self.frameCnt = 0
-        self.currentFrame = 0
+        self.coinAnimation = AnimatedSprite("assets/coin", (23, 23))
 
     def update(self):
         self.score = self.level.score
@@ -33,18 +30,14 @@ class DisplayData(GameObject):
         self.health = self.level.hp
         self.maxHealth = self.level.maxHp
 
-        self.frameCnt += 1
-        if self.frameCnt >= self.coinSpeed:
-            self.frameCnt = 0
-            self.currentFrame = (self.currentFrame + 1) % self.animationFrames
+        self.coinAnimation.update()
 
     def draw(self, screen):
         text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo} HP: {self.health} / {self.maxHealth}", True, self.color)
         screen.blit(text, (0, 0))
-        coinImg = self.coinFrames[self.currentFrame]
-        screen.blit(coinImg, (25, 25))
         coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
         screen.blit(coinCnt, (50, 25))
+        self.coinAnimation.draw(screen, (23, 23))
 
 
 class PauseScreen(OnScreen):
