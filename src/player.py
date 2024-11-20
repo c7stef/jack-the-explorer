@@ -9,8 +9,8 @@ import utils
 
 # Player class
 class Player(GameObject, RigidBody):
-    def __init__(self, x, y, daddy):
-        self.daddy = daddy
+    def __init__(self, x, y, level):
+        self.level = level
 
         self.JUMP_STRENGTH = -2.85
         self.FIRST_IMPULSE_FACTOR = 10
@@ -18,21 +18,21 @@ class Player(GameObject, RigidBody):
         self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
-        self.daddy.currentAmmo = 10
-        self.daddy.maxAmmo = 100
+        self.level.currentAmmo = 10
+        self.level.maxAmmo = 100
         self.bulletHistory = 0
         self.jump_time = 0
         self.jump_impulses_left = 0
-        self.daddy.score = 0
-        self.daddy.coinCnt = 0
-        self.scene = daddy.scene
+        self.level.score = 0
+        self.level.coinCnt = 0
+        self.scene = level.scene
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 
         self.moment = pymunk.moment_for_box(mass=1, size=(50, 50))
         self.body = pymunk.Body(mass=1, moment=float("inf"))
         self.body.position = (x, y)
-        
+
         self.shape = pymunk.Poly.create_box(self.body, size=(10, 10), radius=20)
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
@@ -58,7 +58,7 @@ class Player(GameObject, RigidBody):
         down_pressed = keys[pygame.K_s] or keys[pygame.K_DOWN]
 
         if keys[pygame.K_ESCAPE] and not utils.escapePressed:
-            utils.currentScreen = PauseScreen(self.daddy)
+            utils.currentScreen = PauseScreen(self.level)
             utils.escapePressed = True
         if not keys[pygame.K_ESCAPE]:
             utils.escapePressed = False
@@ -77,16 +77,16 @@ class Player(GameObject, RigidBody):
             self.jump_impulses_left -= 1
             self.body.apply_impulse_at_local_point((0, impulse_strength))
             self.jump_held = True
-        
+
         if not up_pressed:
             self.jump_impulses_left = 0
             self.jump_held = False
 
-        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.daddy.currentAmmo > 0:
+        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.level.currentAmmo > 0:
             mouse_pos = pygame.mouse.get_pos()
             relativeBodyPos = self.scene.relative_position(self.body.position)
             relativeBulletDirection = mouse_pos - relativeBodyPos
-            self.daddy.currentAmmo -= 1
+            self.level.currentAmmo -= 1
 
             self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
             self.bulletHistory = 0
@@ -111,7 +111,7 @@ class Player(GameObject, RigidBody):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
-                    self.daddy.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
+                    self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
@@ -119,26 +119,26 @@ class Player(GameObject, RigidBody):
                     self.color = (200, 0, 100)
                     self.scene.remove_object(self.display)
                     self.scene.remove_object(self)
-                    utils.currentScreen = DeathScreen(self.daddy)
+                    utils.currentScreen = DeathScreen(self.level)
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                self.daddy.coinCnt += 1
-                self.daddy.score += 10
+                self.level.coinCnt += 1
+                self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
-                self.daddy.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
+                self.level.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.daddy.currentAmmo > self.daddy.maxAmmo:
-                    self.daddy.currentAmmo = self.daddy.maxAmmo
-                self.daddy.score += 10
+                if self.level.currentAmmo > self.level.maxAmmo:
+                    self.level.currentAmmo = self.level.maxAmmo
+                self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
-                self.daddy.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
+                self.level.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.daddy.hp > self.daddy.maxHp:
-                    self.daddy.hp = self.daddy.maxHp
-                self.daddy.score += 10
+                if self.level.hp > self.level.maxHp:
+                    self.level.hp = self.level.maxHp
+                self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
@@ -153,11 +153,11 @@ class Player(GameObject, RigidBody):
             self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
     def deal_damage(self, damage):
-        self.daddy.hp -= damage
-        if self.daddy.hp <= 0:
+        self.level.hp -= damage
+        if self.level.hp <= 0:
             self.scene.remove_object(self.display)
             self.scene.remove_object(self)
-            utils.currentScreen = DeathScreen(self.daddy)
+            utils.currentScreen = DeathScreen(self.level)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

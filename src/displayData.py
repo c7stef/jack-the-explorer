@@ -7,7 +7,7 @@ import pygame
 from animatedSprite import AnimatedSprite, HeartsBar
 class DisplayData(GameObject):
     def __init__(self, player):
-        self.level = player.daddy
+        self.level = player.level
         self.scene = player.scene
         self.screen = self.scene.screen
         self.font = pygame.font.SysFont("Arial", 25)
