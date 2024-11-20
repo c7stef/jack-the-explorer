@@ -19,6 +19,8 @@ class Player(GameObject, RigidBody):
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
         self.level.currentAmmo = 10
+        self.level.magSize = 3
+        self.level.magAmmo = 3
         self.level.maxAmmo = 100
         self.bulletHistory = 0
         self.jump_time = 0
@@ -82,11 +84,28 @@ class Player(GameObject, RigidBody):
             self.jump_impulses_left = 0
             self.jump_held = False
 
-        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.level.currentAmmo > 0:
+        if keys[pygame.K_r]:
+            # Empty mag, enough ammo
+            if self.level.magAmmo == 0 and self.level.currentAmmo >= self.level.magSize:
+                self.level.magAmmo = self.level.magSize
+                self.level.currentAmmo -= self.level.magSize
+            # Not empty mag, enough ammo
+            elif self.level.magAmmo < self.level.magSize and self.level.currentAmmo >= self.level.magSize - self.level.magAmmo:
+                self.level.currentAmmo -= self.level.magSize - self.level.magAmmo
+                self.level.magAmmo = self.level.magSize
+            # Not enough ammo, empty mag
+            elif self.level.currentAmmo < self.level.magSize and self.level.magAmmo == 0:
+                self.level.magAmmo = self.level.currentAmmo
+                self.level.currentAmmo = 0
+            elif self.level.currentAmmo < self.level.magSize - self.level.magAmmo:
+                self.level.magAmmo += self.level.currentAmmo
+                self.level.currentAmmo = 0
+
+        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.level.magAmmo > 0:
             mouse_pos = pygame.mouse.get_pos()
             relativeBodyPos = self.scene.relative_position(self.body.position)
             relativeBulletDirection = mouse_pos - relativeBodyPos
-            self.level.currentAmmo -= 1
+            self.level.magAmmo -= 1
 
             self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
             self.bulletHistory = 0

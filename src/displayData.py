@@ -14,6 +14,7 @@ class DisplayData(GameObject):
         self.color = (0, 0, 255)
         self.score = 0
         self.coinCnt = 0
+        self.magAmmo = 0
         self.ammo = 0
         self.maxAmmo = 0
         self.health = 0
@@ -31,12 +32,13 @@ class DisplayData(GameObject):
         self.maxAmmo = self.level.maxAmmo
         self.health = self.level.hp
         self.maxHealth = self.level.maxHp
+        self.magAmmo = self.level.magAmmo
 
         self.coinAnimation.update()
         self.heartsBar.update(self.health, self.maxHealth)
 
     def draw(self, screen):
-        text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.ammo} / {self.maxAmmo} HP: {self.health} / {self.maxHealth}", True, self.color)
+        text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.magAmmo} / {self.ammo} (max: {self.maxAmmo}) HP: {self.health} / {self.maxHealth}", True, self.color)
         screen.blit(text, (0, 0))
         coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
         screen.blit(coinCnt, (50, 25))

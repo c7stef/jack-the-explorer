@@ -22,6 +22,9 @@ class Level(OnScreen):
         self.currentAmmo = 0
         self.maxAmmo = 0
 
+        self.magSize = 0
+        self.magAmmo = 0
+
         self.hp = 10
         self.maxHp = 10
 
