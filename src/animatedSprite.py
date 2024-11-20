@@ -15,6 +15,10 @@ for c in coinStates:
     for i in range(1, 7):
         coinSprite.append(pygame.image.load("assets/coin" + c + "/" + str(i) + ".png"))
 
+fullHeart = pygame.image.load("assets/heart/full.png")
+halfHeart = pygame.image.load("assets/heart/half.png")
+emptyHeart = pygame.image.load("assets/heart/empty.png")
+
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, path, scale=None):
         super().__init__()
@@ -40,3 +44,42 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def draw(self, screen, position):
         screen.blit(self.frames[self.currentFrame], position)
+
+
+class HeartsBar(pygame.sprite.Sprite):
+    def __init__(self, nrHearts, scale=None):
+        super().__init__()
+
+        self.spacing = 30
+
+        self.nrHearts = nrHearts
+        self.hp = 0
+        self.maxHp = 10
+        self.hpPerHeart = self.maxHp / nrHearts
+
+        self.fullHeart = fullHeart
+        self.halfHeart = halfHeart
+        self.emptyHeart = emptyHeart
+
+        if scale:
+            self.fullHeart = pygame.transform.scale(self.fullHeart, scale)
+            self.halfHeart = pygame.transform.scale(self.halfHeart, scale)
+            self.emptyHeart = pygame.transform.scale(self.emptyHeart, scale)
+
+            self.spacing = scale[0] + 5
+
+    def update(self, hp, maxHp):
+        self.hp = hp
+        self.maxHp = maxHp
+        self.hpPerHeart = maxHp / self.nrHearts
+
+    def draw(self, screen, position):
+        for i in range(self.nrHearts):
+            if self.hp >= self.hpPerHeart * i + self.hpPerHeart:
+                screen.blit(self.fullHeart, (position[0] + 30 * i, position[1]))
+            elif self.hp == self.hpPerHeart * i + self.hpPerHeart / 2:
+                screen.blit(self.halfHeart, (position[0] + 30 * i, position[1]))
+            else:
+                screen.blit(self.emptyHeart, (position[0] + 30 * i, position[1]))
+
+
