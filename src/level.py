@@ -33,6 +33,7 @@ class Level(OnScreen):
         self.scene = scene
         self.player = Player(100, 100, self)
         scene.add_object(self.player)
+        scene.following = self.player
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
         scene.add_object(Block(200, 400, 200, 50))
