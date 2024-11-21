@@ -5,18 +5,24 @@ import pygame
 class TileMap(GameObject):
     def __init__(self, tmx_path):
         self.tmx = util_pygame.load_pygame(tmx_path)
-    
+
     def create_objects(self, layer, objects_by_type):
         objects_layer = self.tmx.get_layer_by_name(layer)
-        
+
         for obj in objects_layer:
             if obj.type not in objects_by_type:
-                raise KeyError(f'No game object is bound to the object name {obj.type}')
-            
+                raise KeyError(f'No game object is bound to the object name {obj.name}, type {obj.type}')
+
             obj_class = objects_by_type[obj.type]
+
             obj_position = pygame.Vector2(obj.x, obj.y)
-            
-            game_object = obj_class(obj_position)
+
+            # if obj.type == 'enemy':
+            #     game_object = obj_class(obj_position, obj.xoffset, obj.yoffset)
+            # elif obj.type == 'tunnel':
+            #     game_object = obj_class(obj_position, obj.linked_tunnel)
+            # else:
+            game_object = obj_class(obj_position, obj.properties)
             game_object.parent = self
 
             self.scene.add_object(game_object)
@@ -46,12 +52,12 @@ class TileMap(GameObject):
             tile_size = self.tmx.tilewidth
             tile_position = pygame.Vector2(column, row) * tile_size
             tile_colliders = tile_colliders_by_gid.get(gid, [])
-            
+
             tile = tile_objects_by_type[tile_type](tile_position, tile_image, tile_colliders)
             tile.parent = self
 
             self.scene.add_object(tile)
-        
+
     def update(self):
         pass
 
