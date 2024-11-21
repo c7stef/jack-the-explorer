@@ -11,6 +11,9 @@ class AmmoPickUp(Solid):
                          layer=collision.Layer.AMMOBOX.value)
         self.shape.sensor = True
         self.ammoAmount = 10
+        if properties:
+            if 'ammo' in properties:
+                self.ammoAmount = properties['bullet_capacity']
 
     def draw(self, screen):
         pygame.draw.circle(screen, (20, 20, 255), self.scene.relative_position(self.body.position), 25)
@@ -32,6 +35,9 @@ class HealthPickUp(Solid):
         self.shape.collision_type = collision.Layer.HEALTHBOX.value
         self.shape.sensor = True
         self.healthAmount = 5
+        if properties:
+            if 'health' in properties:
+                self.healthAmount = properties['health']
 
     def draw(self, screen):
         pygame.draw.circle(screen, (255, 20, 20), self.scene.relative_position(self.body.position), 25)
