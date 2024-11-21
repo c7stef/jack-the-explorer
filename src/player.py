@@ -93,6 +93,11 @@ class Player(GameObject, RigidBody, Followable):
         if pygame.mouse.get_pressed()[0]:
             self.weapon.fire()
 
+    def transport_player(self, tunnel_in):
+        if tunnel_in.linked_tunnel:
+            self.body.position = tunnel_in.linked_tunnel.body.position.x, tunnel_in.linked_tunnel.body.position.y - tunnel_in.linked_tunnel.height
+            self.body.velocity = (0, 0)
+
     def update(self):
 
         self.body.velocity = self.body.velocity.x*17/20, self.body.velocity.y
@@ -114,6 +119,8 @@ class Player(GameObject, RigidBody, Followable):
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
                     self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:
+                    self.transport_player(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
@@ -138,6 +145,9 @@ class Player(GameObject, RigidBody, Followable):
                 if self.level.hp > self.level.maxHp:
                     self.level.hp = self.level.maxHp
                 self.level.score += 10
+
+            
+               
 
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
