@@ -1,8 +1,6 @@
 from enum import Enum
 import pygame
 
-import pygame
-
 import Pickups
 import enemy
 from tunnel import Tunnel
