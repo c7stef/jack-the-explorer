@@ -1,4 +1,5 @@
 import pygame
+import utils
 
 coinSprite = []
 
@@ -34,7 +35,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
         if scale is not None:
             for i in range(len(self.frames)):
-                self.frames[i] = pygame.transform.scale(self.frames[i], scale)
+                self.frames[i] = utils.scale_surface(self.frames[i], scale)
 
     def update(self):
         self.frameCnt += 1
@@ -43,7 +44,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
             self.currentFrame = (self.currentFrame + 1) % len(self.frames)
 
     def draw(self, screen, position):
-        screen.blit(self.frames[self.currentFrame], position)
+        frame = self.frames[self.currentFrame]
+        screen.blit(frame, position - pygame.Vector2(frame.get_size()) / 2)
 
 
 class HeartsBar(pygame.sprite.Sprite):

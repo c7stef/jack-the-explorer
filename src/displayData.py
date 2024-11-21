@@ -45,7 +45,7 @@ class DisplayData(GameObject):
         screen.blit(text, (0, 0))
         coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
         screen.blit(coinCnt, (50, 25))
-        self.coinAnimation.draw(screen, (23, 23))
+        self.coinAnimation.draw(screen, (34, 36))
         self.heartsBar.draw(screen, (25, 50))
         self.ammoIcons.draw(screen, (25, 100))
 
