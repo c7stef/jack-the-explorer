@@ -21,11 +21,7 @@ class Player(GameObject, RigidBody, Followable):
         self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
-        # self.level.currentAmmo = 10
-        # self.level.magSize = 3
-        # self.level.magAmmo = 3
-        # self.level.maxAmmo = 100
-        # self.bulletHistory = 0
+        
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.level.score = 0

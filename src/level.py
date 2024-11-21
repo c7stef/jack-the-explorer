@@ -22,12 +22,9 @@ class Level(OnScreen):
         scene = Scene(screen)
         self.scene = scene
 
-
         self.weapons = []
 
         self.initPlayerWithPistol()
-
-
 
         scene.following = self.player
 
