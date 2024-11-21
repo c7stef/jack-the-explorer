@@ -2,7 +2,7 @@ import pygame
 import pymunk
 
 from displayData import DeathScreen, DisplayData, PauseScreen
-from gameobject import GameObject, RigidBody
+from gameobject import GameObject, RigidBody, Followable
 from bullet import Bullet
 
 from gun import Weapon
@@ -11,7 +11,7 @@ import collision
 import utils
 
 # Player class
-class Player(GameObject, RigidBody):
+class Player(GameObject, RigidBody, Followable):
     def __init__(self, x, y, level):
         self.level = level
 
@@ -50,6 +50,10 @@ class Player(GameObject, RigidBody):
         self.jump_held = False
 
         self.color = (0, 0, 255)
+
+    @property
+    def position(self):
+        return pygame.Vector2(self.body.position.x, self.body.position.y)
 
     def body_data(self):
         return (self.body, self.shape)

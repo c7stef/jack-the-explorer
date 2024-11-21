@@ -12,15 +12,17 @@ class Scene:
         self.game_objects = []
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
+        self.following = None
         self.screen = screen
         self.to_remove = []
 
-        def follow_smooth(player, camera_position):
-            if not player:
-                return camera_position
-            return camera_position.lerp(player.body.position, 0.08)
+        def follow_player():
+            if not self.following:
+                return None
+            return self.following.position
+
         camera_rect = screen.get_rect()
-        self.camera = Camera(follow_smooth, camera_rect.center, camera_rect.w, camera_rect.h)
+        self.camera = Camera(follow_player, camera_rect.center, camera_rect.w, camera_rect.h)
 
         self.collisions = []
 

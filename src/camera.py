@@ -5,10 +5,10 @@ class Camera:
         size = pygame.Vector2(width, height)
         self.rect = pygame.Rect(initial_position - size/2, size)
         self.update_func = camera_func
-        self.following = None
     
     def update(self):
-        self.rect.center = self.update_func(self.following, pygame.Vector2(self.rect.center))
+        current_center = pygame.Vector2(self.rect.center)
+        self.rect.center = pygame.Vector2.lerp(current_center, self.update_func(), 0.08)
 
     def relative_position(self, position):
         return pygame.Vector2(position) - pygame.Vector2(self.rect.topleft)
