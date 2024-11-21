@@ -23,14 +23,14 @@ class Level(OnScreen):
         scene = Scene(screen)
         self.scene = scene
 
-        tunnel_out = Tunnel(pygame.Vector2(700, 200), None, upwards=False)
-        tunnel_in = Tunnel(pygame.Vector2(350, 400), tunnel_out, upwards=True)
+        tunnel_out = Tunnel(pygame.Vector2(700, 200), {}, upwards=False)
+        tunnel_in = Tunnel(pygame.Vector2(350, 400), {'tunnel_out':tunnel_out}, upwards=True)
 
         scene.add_object(tunnel_in)
         scene.add_object(tunnel_out)
 
-        tunnel_out_up = Tunnel(pygame.Vector2(800, 200), None, upwards=True)
-        tunnel_in_up = Tunnel(pygame.Vector2(500, 400), tunnel_out_up, upwards=True)
+        tunnel_out_up = Tunnel(pygame.Vector2(800, 200), {}, upwards=True)
+        tunnel_in_up = Tunnel(pygame.Vector2(500, 400), {'tunnel_out':tunnel_out_up}, upwards=True)
 
         scene.add_object(tunnel_in_up)
         scene.add_object(tunnel_out_up)
