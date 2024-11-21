@@ -53,7 +53,7 @@ class Level(OnScreen):
         tilemap = TileMap("assets/tilemaps/level1-map.tmx")
         scene.add_object(tilemap)
         tilemap.create_tiles({'mossy': MossyTile})
-        tilemap.create_objects('Objects', {'coin': Coin, 'ammo': AmmoPickUp, 'health': HealthPickUp, 'enemy': Enemy, 'tunnel': Tunnel})
+        tilemap.create_objects('Objects', utils.importDict)
 
     def update(self):
         self.scene.update()
