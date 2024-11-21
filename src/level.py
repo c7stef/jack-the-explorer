@@ -23,11 +23,17 @@ class Level(OnScreen):
         scene = Scene(screen)
         self.scene = scene
 
-        tunnel_out = Tunnel(700, 200, 50, 100, None)
-        tunnel_in = Tunnel(350, 400, 50, 100, tunnel_out)
-
+        tunnel_out = Tunnel(700, 200, 50, 100, None, upwards=False)
+        tunnel_in = Tunnel(350, 400, 50, 100, tunnel_out, upwards=True)
+    
         scene.add_object(tunnel_in)
         scene.add_object(tunnel_out)
+
+        tunnel_out_up = Tunnel(800, 200, 50, 100, None, upwards=True)
+        tunnel_in_up = Tunnel(500, 400, 50, 100, tunnel_out_up, upwards=True)
+    
+        scene.add_object(tunnel_in_up)
+        scene.add_object(tunnel_out_up)
 
         self.weapons = []
 

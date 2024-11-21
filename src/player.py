@@ -98,9 +98,13 @@ class Player(GameObject, RigidBody, Followable):
             self.weapon.fire()
 
     def transport_player(self, tunnel_in):
-        if tunnel_in.linked_tunnel:
+        if tunnel_in.linked_tunnel and not tunnel_in.linked_tunnel.upwards:
             self.body.position = tunnel_in.linked_tunnel.body.position.x, tunnel_in.linked_tunnel.body.position.y + tunnel_in.linked_tunnel.height
             self.body.velocity = (0, 0)
+
+        if tunnel_in.linked_tunnel and tunnel_in.linked_tunnel.upwards:
+                self.body.position = tunnel_in.linked_tunnel.body.position.x, tunnel_in.linked_tunnel.body.position.y - tunnel_in.linked_tunnel.height
+                self.body.velocity = (0, 0)
 
     def update(self):
 

@@ -7,9 +7,10 @@ import collision
 
 
 class Tunnel(Solid):
-    def __init__(self, x, y, width, height, linked_tunnel):
+    def __init__(self, x, y, width, height, linked_tunnel, upwards):
         super().__init__(x, y, width, height, pymunk.Body.STATIC, layer=collision.Layer.TUNNEL.value)
         self.linked_tunnel = linked_tunnel
+        self.upwards = upwards
         self.color = (0, 255, 0)
 
     def draw(self, screen):
