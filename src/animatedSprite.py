@@ -1,7 +1,5 @@
 import pygame
 
-from PIL import Image
-
 coinSprite = []
 
 coinBlinkYes = pygame.image.load("assets/coin/blink/white.png")

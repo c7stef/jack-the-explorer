@@ -13,5 +13,16 @@ class Tunnel(Solid):
         self.color = (0, 255, 0)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (200, 200, 100), self.scene.relative_rect(pygame.Rect(self.body.position, (self.width, self.height))))
+        pygame.draw.rect(
+            screen, 
+            self.color, 
+            self.scene.relative_rect(
+                pygame.Rect(
+                    self.body.position.x - self.width / 2,
+                    self.body.position.y - self.height / 2,
+                    self.width,
+                    self.height
+                )
+            )
+        )
 

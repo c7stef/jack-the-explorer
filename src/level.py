@@ -24,7 +24,7 @@ class Level(OnScreen):
         self.scene = scene
 
         tunnel_out = Tunnel(700, 200, 50, 100, None)
-        tunnel_in = Tunnel(300, 400, 50, 100, tunnel_out)
+        tunnel_in = Tunnel(350, 400, 50, 100, tunnel_out)
 
         scene.add_object(tunnel_in)
         scene.add_object(tunnel_out)
