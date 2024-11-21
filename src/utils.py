@@ -1,8 +1,5 @@
 from enum import Enum
 
-from PIL import Image
-import pygame
-
 EPSILON = 0.001
 
 escapePressed = False

@@ -4,7 +4,7 @@ import utils
 
 import pygame
 
-from animatedSprite import AnimatedSprite, HeartsBar
+from animatedSprite import AnimatedSprite, HeartsBar, BulletIcons
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
@@ -25,6 +25,8 @@ class DisplayData(GameObject):
 
         self.heartsBar = HeartsBar(10, (30, 30))
 
+        self.ammoIcons = BulletIcons(10, (23, 23))
+
     def update(self):
         self.score = self.level.score
         self.coinCnt = self.level.coinCnt
@@ -36,6 +38,7 @@ class DisplayData(GameObject):
 
         self.coinAnimation.update()
         self.heartsBar.update(self.health, self.maxHealth)
+        self.ammoIcons.update(self.level)
 
     def draw(self, screen):
         text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.magAmmo} / {self.ammo} (max: {self.maxAmmo}) HP: {self.health} / {self.maxHealth}", True, self.color)
@@ -44,6 +47,7 @@ class DisplayData(GameObject):
         screen.blit(coinCnt, (50, 25))
         self.coinAnimation.draw(screen, (34, 36))
         self.heartsBar.draw(screen, (25, 50))
+        self.ammoIcons.draw(screen, (25, 100))
 
 
 class PauseScreen(OnScreen):
@@ -98,7 +102,7 @@ class DeathScreen(OnScreen):
 
     def restart(self):
         self.sound.stop()
-        
+
         self.level.initPlayerWithPistol()
 
         utils.currentScreen = self.level

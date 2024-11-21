@@ -5,8 +5,8 @@ from block import Solid
 import collision
 
 class AmmoPickUp(Solid):
-    def __init__(self, x, y):
-        super().__init__(x, y, 50, 50,
+    def __init__(self, position, properties=None):
+        super().__init__(position[0], position[1], 50, 50,
                          body_type=pymunk.Body.STATIC,
                          layer=collision.Layer.AMMOBOX.value)
         self.shape.sensor = True
@@ -17,7 +17,7 @@ class AmmoPickUp(Solid):
 
 
 class Coin(Solid):
-    def __init__(self, position):
+    def __init__(self, position, properties=None):
         super().__init__(position.x, position.y, 48, 48,
                          body_type=pymunk.Body.STATIC,
                          layer=collision.Layer.COIN.value)

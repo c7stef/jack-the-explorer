@@ -6,12 +6,12 @@ from bullet import EnemyBullet
 import collision
 
 class Enemy(Solid):
-    def __init__(self, p1, p2, health):
-        super().__init__(p1.x, p1.y, 50, 50,
+    def __init__(self, position, offset, health=6):
+        super().__init__(position[0], position[0], 50, 50,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.ENEMY.value)
-        self.p1 = p1
-        self.p2 = p2
+        self.p1 = position
+        self.p2 = pygame.Vector2(int(position[0] + offset['xoffset']), int(position[1] + offset['yoffset']))
         self.t = 0
         self.dt = 0.01
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
