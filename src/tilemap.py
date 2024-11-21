@@ -11,7 +11,7 @@ class TileMap(GameObject):
         
         for obj in objects_layer:
             if obj.type not in objects_by_type:
-                raise KeyError(f'No game object is bound to the object name {obj.name}')
+                raise KeyError(f'No game object is bound to the object name {obj.type}')
             
             obj_class = objects_by_type[obj.type]
             obj_position = pygame.Vector2(obj.x, obj.y)
