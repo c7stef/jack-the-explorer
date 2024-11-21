@@ -44,7 +44,7 @@ class Player(GameObject, RigidBody, Followable):
         self.is_on_ground = False
         self.on_platform = None
         self.jump_held = False
-
+        self.transportable = False
         self.color = (0, 0, 255)
 
     @property
@@ -61,6 +61,9 @@ class Player(GameObject, RigidBody, Followable):
         right_pressed = keys[pygame.K_RIGHT] or keys[pygame.K_d]
         up_pressed = keys[pygame.K_w] or keys[pygame.K_UP]
         down_pressed = keys[pygame.K_s] or keys[pygame.K_DOWN]
+
+        if down_pressed and self.transportable:
+            self.transport_player(self.tunnel)
 
         if keys[pygame.K_ESCAPE] and not utils.escapePressed:
             utils.currentScreen = PauseScreen(self.level)
@@ -83,6 +86,7 @@ class Player(GameObject, RigidBody, Followable):
             self.body.apply_impulse_at_local_point((0, impulse_strength))
             self.jump_held = True
 
+
         if not up_pressed:
             self.jump_impulses_left = 0
             self.jump_held = False
@@ -101,7 +105,7 @@ class Player(GameObject, RigidBody, Followable):
     def update(self):
 
         self.body.velocity = self.body.velocity.x*17/20, self.body.velocity.y
-
+        self.transportable = False
         collisions = self.get_collisions()
         self.is_on_ground = False
         self.on_platform = None
@@ -120,7 +124,9 @@ class Player(GameObject, RigidBody, Followable):
                     self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:
-                    self.transport_player(self.scene.find_rigid_body(collision_data["shape"]))
+                    self.transportable = True
+                    self.tunnel = self.scene.find_rigid_body(collision_data["shape"])
+                    #self.transport_player(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
