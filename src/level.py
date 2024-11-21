@@ -9,6 +9,7 @@ from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
 from scene import Scene
+from tunnel import Tunnel
 
 from gun import Pistol
 
@@ -21,6 +22,12 @@ class Level(OnScreen):
         self.color = color
         scene = Scene(screen)
         self.scene = scene
+
+        tunnel_out = Tunnel(700, 200, 50, 100, None)
+        tunnel_in = Tunnel(300, 400, 50, 100, tunnel_out)
+
+        scene.add_object(tunnel_in)
+        scene.add_object(tunnel_out)
 
         self.weapons = []
 
