@@ -28,11 +28,11 @@ class DisplayData(GameObject):
     def update(self):
         self.score = self.level.score
         self.coinCnt = self.level.coinCnt
-        self.ammo = self.level.currentAmmo
-        self.maxAmmo = self.level.maxAmmo
+        self.ammo = self.level.equippedWeapon.currentAmmo
+        self.maxAmmo = self.level.equippedWeapon.maxAmmo
         self.health = self.level.hp
         self.maxHealth = self.level.maxHp
-        self.magAmmo = self.level.magAmmo
+        self.magAmmo = self.level.equippedWeapon.magAmmo
 
         self.coinAnimation.update()
         self.heartsBar.update(self.health, self.maxHealth)
@@ -98,12 +98,8 @@ class DeathScreen(OnScreen):
 
     def restart(self):
         self.sound.stop()
-
-        from player import Player
-
-        self.level.player = Player(100, 100, self.level)
-        self.level.hp = self.level.maxHp
-        self.scene.add_object(self.level.player)
+        
+        self.level.initPlayerWithPistol()
 
         utils.currentScreen = self.level
 

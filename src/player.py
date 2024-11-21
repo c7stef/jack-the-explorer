@@ -4,6 +4,9 @@ import pymunk
 from displayData import DeathScreen, DisplayData, PauseScreen
 from gameobject import GameObject, RigidBody
 from bullet import Bullet
+
+from gun import Weapon
+
 import collision
 import utils
 
@@ -18,11 +21,11 @@ class Player(GameObject, RigidBody):
         self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
-        self.level.currentAmmo = 10
-        self.level.magSize = 3
-        self.level.magAmmo = 3
-        self.level.maxAmmo = 100
-        self.bulletHistory = 0
+        # self.level.currentAmmo = 10
+        # self.level.magSize = 3
+        # self.level.magAmmo = 3
+        # self.level.maxAmmo = 100
+        # self.bulletHistory = 0
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.level.score = 0
@@ -85,33 +88,12 @@ class Player(GameObject, RigidBody):
             self.jump_held = False
 
         if keys[pygame.K_r]:
-            # Empty mag, enough ammo
-            if self.level.magAmmo == 0 and self.level.currentAmmo >= self.level.magSize:
-                self.level.magAmmo = self.level.magSize
-                self.level.currentAmmo -= self.level.magSize
-            # Not empty mag, enough ammo
-            elif self.level.magAmmo < self.level.magSize and self.level.currentAmmo >= self.level.magSize - self.level.magAmmo:
-                self.level.currentAmmo -= self.level.magSize - self.level.magAmmo
-                self.level.magAmmo = self.level.magSize
-            # Not enough ammo, empty mag
-            elif self.level.currentAmmo < self.level.magSize and self.level.magAmmo == 0:
-                self.level.magAmmo = self.level.currentAmmo
-                self.level.currentAmmo = 0
-            elif self.level.currentAmmo < self.level.magSize - self.level.magAmmo:
-                self.level.magAmmo += self.level.currentAmmo
-                self.level.currentAmmo = 0
+            self.weapon.reload()
 
-        if pygame.mouse.get_pressed()[0] and self.bulletHistory >= self.FIRE_RATE and self.level.magAmmo > 0:
-            mouse_pos = pygame.mouse.get_pos()
-            relativeBodyPos = self.scene.relative_position(self.body.position)
-            relativeBulletDirection = mouse_pos - relativeBodyPos
-            self.level.magAmmo -= 1
-
-            self.scene.add_object(Bullet(self.body.position.x, self.body.position.y, relativeBulletDirection))
-            self.bulletHistory = 0
+        if pygame.mouse.get_pressed()[0]:
+            self.weapon.fire()
 
     def update(self):
-        self.bulletHistory += 1
 
         self.body.velocity = self.body.velocity.x*17/20, self.body.velocity.y
 
@@ -146,10 +128,8 @@ class Player(GameObject, RigidBody):
                 self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
-                self.level.currentAmmo += self.scene.find_rigid_body(collision_data["shape"]).ammoAmount
+                self.weapon.pickUpAmmo(self.scene.find_rigid_body(collision_data["shape"]).ammoAmount)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.level.currentAmmo > self.level.maxAmmo:
-                    self.level.currentAmmo = self.level.maxAmmo
                 self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
@@ -177,6 +157,9 @@ class Player(GameObject, RigidBody):
             self.scene.remove_object(self.display)
             self.scene.remove_object(self)
             utils.currentScreen = DeathScreen(self.level)
+
+    def equipWeapon(self, weapon):
+        self.weapon = weapon
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

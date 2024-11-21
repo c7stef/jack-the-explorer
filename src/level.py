@@ -9,6 +9,9 @@ from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
 from scene import Scene
+
+from gun import Pistol
+
 import utils
 
 class Level(OnScreen):
@@ -16,23 +19,13 @@ class Level(OnScreen):
         self.screen = screen
         self.level = level
         self.color = color
-
-        self.score = 0
-        self.coinCnt = 0
-        self.currentAmmo = 0
-        self.maxAmmo = 0
-
-        self.magSize = 0
-        self.magAmmo = 0
-
-        self.hp = 10
-        self.maxHp = 10
-
-
         scene = Scene(screen)
         self.scene = scene
-        self.player = Player(100, 100, self)
-        scene.add_object(self.player)
+
+        self.weapons = []
+
+        self.initPlayerWithPistol()
+
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
         scene.add_object(Block(200, 400, 200, 50))
@@ -49,6 +42,27 @@ class Level(OnScreen):
 
     def update(self):
         self.scene.update()
+
+    def initPlayerWithPistol(self):
+        self.weapons = []
+
+        self.player = Player(100, 100, self)
+        gun = Pistol(self)
+        self.weapons.append(gun)
+        self.player.equipWeapon(gun)
+        self.scene.add_object(self.player)
+        self.scene.add_object(gun)
+
+        self.score = 0
+        self.coinCnt = 0
+        self.currentAmmo = 0
+
+        self.hp = 10
+        self.maxHp = 10
+
+        self.equippedWeapon = self.weapons[0]
+        self.equippedWeapon.equip()
+
 
     def draw(self):
         self.scene.draw(self.screen)
