@@ -11,14 +11,23 @@ class Weapon(GameObject):
         self.player = level.player
 
         self.FIRE_RATE = 0
+        self.RELOAD_TIME = 0
 
         self.bulletHistory = 0
+        self.reloadHistory = 0
         self.magAmmo = 0
         self.currentAmmo = 0
 
         self.isEquipped = False
+        self.isReloading = False
 
     def reload(self):
+        if self.isReloading:
+            return
+        self.isReloading = True
+        self.reloadHistory = 0
+
+    def updateAmmo(self):
         # Empty mag, enough ammo
         if self.magAmmo == 0 and self.currentAmmo >= self.magSize:
             self.magAmmo = self.magSize
@@ -36,7 +45,7 @@ class Weapon(GameObject):
             self.currentAmmo = 0
 
     def fire(self):
-        if self.bulletHistory >= self.FIRE_RATE and self.magAmmo > 0:
+        if self.bulletHistory >= self.FIRE_RATE and self.magAmmo > 0 and not self.isReloading:
             mouse_pos = pygame.mouse.get_pos()
             relativeBodyPos = self.scene.relative_position(self.player.body.position)
             relativeBulletDirection = mouse_pos - relativeBodyPos
@@ -47,6 +56,11 @@ class Weapon(GameObject):
 
     def update(self):
         self.bulletHistory += 1
+        if self.isReloading:
+            self.reloadHistory += 1
+            if self.reloadHistory >= self.RELOAD_TIME:
+                self.updateAmmo()
+                self.isReloading = False
 
     def equip(self):
         self.isEquipped = True
@@ -60,6 +74,7 @@ class Pistol(Weapon):
     def __init__(self, level):
         super().__init__(level)
         self.FIRE_RATE = 15
+        self.RELOAD_TIME = 60
         self.damage = 1
         self.magSize = 5
         self.maxAmmo = 69

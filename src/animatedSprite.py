@@ -19,6 +19,8 @@ fullHeart = pygame.image.load("assets/heart/full.png")
 halfHeart = pygame.image.load("assets/heart/half.png")
 emptyHeart = pygame.image.load("assets/heart/empty.png")
 
+bullet = pygame.image.load("assets/bullet/bullet.png")
+
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(self, path, scale=None):
         super().__init__()
@@ -83,3 +85,26 @@ class HeartsBar(pygame.sprite.Sprite):
                 screen.blit(self.emptyHeart, (position[0] + 30 * i, position[1]))
 
 
+class BulletIcons():
+    def __init__(self, nrBullets, scale=None):
+        self.spacing = 10
+        self.maxNrBullets = nrBullets
+        self.nrBullets = 0
+        self.bullet = bullet
+
+        if scale:
+            self.bullet = pygame.transform.scale(self.bullet, scale)
+            self.spacing = scale[0] + 5
+
+    def update(self, level):
+        self.magAmmo = level.equippedWeapon.magAmmo
+        if self.nrBullets > self.magAmmo:
+            self.nrBullets = self.magAmmo
+        if self.nrBullets < self.magAmmo:
+            self.nrBullets = self.magAmmo
+            if self.nrBullets > self.maxNrBullets:
+                self.nrBullets = self.maxNrBullets
+
+    def draw(self, screen, position):
+        for i in range(self.nrBullets):
+            screen.blit(self.bullet, (position[0] + 10 * i, position[1]))

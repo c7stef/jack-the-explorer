@@ -26,7 +26,7 @@ class Level(OnScreen):
 
         self.initPlayerWithPistol()
 
-        scene.following = self.player
+
 
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
@@ -47,8 +47,8 @@ class Level(OnScreen):
 
     def initPlayerWithPistol(self):
         self.weapons = []
-
         self.player = Player(100, 100, self)
+        self.scene.following = self.player
         gun = Pistol(self)
         self.weapons.append(gun)
         self.player.equipWeapon(gun)
