@@ -6,12 +6,14 @@ from bullet import EnemyBullet
 import collision
 
 class Enemy(Solid):
-    def __init__(self, position, offset, health=6):
-        super().__init__(position[0], position[0], 50, 50,
+    def __init__(self, position, properties, health=6):
+        super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.ENEMY.value)
+        if 'health' in properties:
+            health = properties['health']
         self.p1 = position
-        self.p2 = pygame.Vector2(int(position[0] + offset['xoffset']), int(position[1] + offset['yoffset']))
+        self.p2 = pygame.Vector2(int(position[0] + properties['xoffset']), int(position[1] + properties['yoffset']))
         self.t = 0
         self.dt = 0.01
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
@@ -40,12 +42,15 @@ class Enemy(Solid):
 
 
 class EnemyFlower(Enemy):
-    def __init__(self, p1, p2, health, level):
-        super().__init__(p1, p2, health)
+    def __init__(self, position, properties, health=6):
+        if properties:
+            if 'health' in properties:
+                health = properties['health']
+        super().__init__(position, properties, health)
         self.color = (250, 40, 60)
         self.fireRate = 10
         self.bulletTimer = 10
-        self.level = level
+
 
     def update(self):
         self.t += self.dt
@@ -56,10 +61,11 @@ class EnemyFlower(Enemy):
             self.dt = -self.dt
             self.t = 0
         self.bulletTimer += 1
+        self.player = self.scene.find_player()
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
-        if self.directSight(self.level.player) and self.bulletTimer > self.fireRate:
+        if self.directSight(self.player) and self.bulletTimer > self.fireRate:
             self.bulletTimer = 0
-            self.shoot(self.level.player)
+            self.shoot(self.player)
 
     def directSight(self, player):
         playerPos = player.body.position

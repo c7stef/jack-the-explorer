@@ -17,11 +17,6 @@ class TileMap(GameObject):
 
             obj_position = pygame.Vector2(obj.x, obj.y)
 
-            # if obj.type == 'enemy':
-            #     game_object = obj_class(obj_position, obj.xoffset, obj.yoffset)
-            # elif obj.type == 'tunnel':
-            #     game_object = obj_class(obj_position, obj.linked_tunnel)
-            # else:
             game_object = obj_class(obj_position, obj.properties)
             game_object.parent = self
 

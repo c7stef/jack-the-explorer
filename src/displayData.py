@@ -96,7 +96,6 @@ class DeathScreen(OnScreen):
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
         self.screen.blit(self.text_surface, self.text_rec)
         self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
-        self.playerCnt = 0
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
         self.sound.play()
 

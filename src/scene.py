@@ -51,7 +51,7 @@ class Scene:
         for other in self.game_objects:
             if other.parent == game_object:
                 self.remove_object(other)
-        
+
         # Add to delete list
         self.to_remove.append(game_object)
 
@@ -76,6 +76,12 @@ class Scene:
     def find_rigid_body(self, shape):
         for obj in self.game_objects:
             if isinstance(obj, RigidBody) and shape in obj.body_data():
+                return obj
+        return None
+
+    def find_player(self):
+        for obj in self.game_objects:
+            if isinstance(obj, Player):
                 return obj
         return None
 

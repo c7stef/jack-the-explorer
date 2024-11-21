@@ -1,6 +1,8 @@
 from enum import Enum
 import pygame
 
+import pygame
+
 EPSILON = 0.001
 
 escapePressed = False
@@ -24,6 +26,6 @@ def scale_surface(surface, scale):
     else:
         scale_x = scale[0]
         scale_y = scale_x / original_ratio
-    
+
     return pygame.transform.scale(surface, (scale_x, scale_y))
 
