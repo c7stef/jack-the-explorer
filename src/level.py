@@ -25,13 +25,13 @@ class Level(OnScreen):
 
         tunnel_out = Tunnel(pygame.Vector2(700, 200), None, upwards=False)
         tunnel_in = Tunnel(pygame.Vector2(350, 400), tunnel_out, upwards=True)
-    
+
         scene.add_object(tunnel_in)
         scene.add_object(tunnel_out)
 
         tunnel_out_up = Tunnel(pygame.Vector2(800, 200), None, upwards=True)
         tunnel_in_up = Tunnel(pygame.Vector2(500, 400), tunnel_out_up, upwards=True)
-    
+
         scene.add_object(tunnel_in_up)
         scene.add_object(tunnel_out_up)
 
@@ -47,8 +47,8 @@ class Level(OnScreen):
         scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
         # scene.add_object(Enemy(pygame.Vector2(250, 450), pygame.Vector2(350, 450), 2))
         # scene.add_object(EnemyFlower(pygame.Vector2(250, 350), pygame.Vector2(250, 350), 2, self))
-        scene.add_object(HealthPickUp(400, 350))
-        scene.add_object(AmmoPickUp((500, 350)))
+        scene.add_object(HealthPickUp(pygame.Vector2(400, 350)))
+        scene.add_object(AmmoPickUp(pygame.Vector2(500, 350)))
         scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
         tilemap = TileMap("assets/tilemaps/level1-map.tmx")
         scene.add_object(tilemap)

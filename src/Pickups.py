@@ -6,7 +6,7 @@ import collision
 
 class AmmoPickUp(Solid):
     def __init__(self, position, properties=None):
-        super().__init__(position[0], position[1], 50, 50,
+        super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.STATIC,
                          layer=collision.Layer.AMMOBOX.value)
         self.shape.sensor = True
@@ -27,8 +27,8 @@ class Coin(Solid):
         pygame.draw.circle(screen, (220, 220, 30), self.scene.relative_position(self.body.position), 24)
 
 class HealthPickUp(Solid):
-    def __init__(self, x, y):
-        super().__init__(x, y, 50, 50, pymunk.Body.STATIC)
+    def __init__(self, position, properties=None):
+        super().__init__(position.x, position.y, 50, 50, pymunk.Body.STATIC)
         self.shape.collision_type = collision.Layer.HEALTHBOX.value
         self.shape.sensor = True
         self.healthAmount = 5
