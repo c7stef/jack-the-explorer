@@ -95,7 +95,7 @@ class Player(GameObject, RigidBody, Followable):
 
     def transport_player(self, tunnel_in):
         if tunnel_in.linked_tunnel:
-            self.body.position = tunnel_in.linked_tunnel.body.position.x, tunnel_in.linked_tunnel.body.position.y - tunnel_in.linked_tunnel.height
+            self.body.position = tunnel_in.linked_tunnel.body.position.x, tunnel_in.linked_tunnel.body.position.y + tunnel_in.linked_tunnel.height
             self.body.velocity = (0, 0)
 
     def update(self):
