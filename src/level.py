@@ -3,7 +3,7 @@ import pygame
 from button import Button
 from player import Player
 from gameobject import OnScreen
-from block import Block, MovingPlatform, DecayingBlock
+from block import Block, MovingPlatform, DecayingBlock, Spike
 from enemy import Enemy, EnemyFlower
 from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
@@ -39,8 +39,7 @@ class Level(OnScreen):
 
         self.initPlayerWithPistol()
 
-
-
+        scene.add_object(Spike(300, 300, 50, 50))
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
         scene.add_object(Block(200, 400, 200, 50))
