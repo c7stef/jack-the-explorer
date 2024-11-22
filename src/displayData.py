@@ -23,7 +23,7 @@ class DisplayData(GameObject):
 
         self.coinAnimation = AnimatedSprite("assets/coin", (23, 23))
 
-        self.heartsBar = HeartsBar(10, (30, 30))
+        self.heartsBar = HeartsBar(3, (30, 30))
 
         self.ammoIcons = BulletIcons(10, (23, 23))
 
@@ -37,11 +37,11 @@ class DisplayData(GameObject):
         self.magAmmo = self.level.equippedWeapon.magAmmo
 
         self.coinAnimation.update()
-        self.heartsBar.update(self.health, self.maxHealth)
+        self.heartsBar.update(self.player.lives, self.player.current_hp)
         self.ammoIcons.update(self.level)
 
     def draw(self, screen):
-        text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.magAmmo} / {self.ammo} (max: {self.maxAmmo}) HP: {self.health} / {self.maxHealth}", True, self.color)
+        text = self.font.render(f"Score: {self.score} {self.coinCnt} Ammo: {self.magAmmo} / {self.ammo} (max: {self.maxAmmo}) HP: {self.player.current_hp} / {self.player.hp_per_life}", True, self.color)
         screen.blit(text, (0, 0))
         coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
         screen.blit(coinCnt, (50, 25))
@@ -116,4 +116,3 @@ class DeathScreen(OnScreen):
         self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
         self.restart_button.draw(self.screen)
         self.screen.blit(self.text_surface, self.text_rec)
-

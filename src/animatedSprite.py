@@ -55,9 +55,8 @@ class HeartsBar():
         self.spacing = 30
 
         self.nrHearts = nrHearts
-        self.hp = 0
-        self.maxHp = 10
-        self.hpPerHeart = self.maxHp / nrHearts
+        self.hp_per_heart = 3 
+        self.current_hp = nrHearts * self.hp_per_heart
 
         self.fullHeart = fullHeart
         self.halfHeart = halfHeart
@@ -70,19 +69,21 @@ class HeartsBar():
 
             self.spacing = scale[0] + 5
 
-    def update(self, hp, maxHp):
-        self.hp = hp
-        self.maxHp = maxHp
-        self.hpPerHeart = maxHp / self.nrHearts
+    def update(self, lives, current_hp):
+        self.nrHearts = lives
+        self.current_hp = current_hp
+
 
     def draw(self, screen, position):
         for i in range(self.nrHearts):
-            if self.hp >= self.hpPerHeart * i + self.hpPerHeart:
-                screen.blit(self.fullHeart, (position[0] + 30 * i, position[1]))
-            elif self.hp == self.hpPerHeart * i + self.hpPerHeart / 2:
-                screen.blit(self.halfHeart, (position[0] + 30 * i, position[1]))
+            current_heart_hp = self.current_hp - i * self.hp_per_heart
+            if current_heart_hp >= self.hp_per_heart:
+                screen.blit(self.fullHeart, (position[0] + self.spacing * i, position[1]))
+            elif current_heart_hp > 0:
+                screen.blit(self.halfHeart, (position[0] + self.spacing * i, position[1]))
             else:
-                screen.blit(self.emptyHeart, (position[0] + 30 * i, position[1]))
+                screen.blit(self.fullHeart, (position[0] + self.spacing * i, position[1]))
+
 
 
 class BulletIcons():

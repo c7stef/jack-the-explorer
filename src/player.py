@@ -14,7 +14,10 @@ import utils
 class Player(GameObject, RigidBody, Followable):
     def __init__(self, x, y, level):
         self.level = level
-
+        self.lives = 3
+        self.hp_per_life = 3
+        self.current_hp = self.hp_per_life
+        self.respawn_position = pygame.Vector2(x, y)
         self.JUMP_STRENGTH = -2.85
         self.FIRST_IMPULSE_FACTOR = 10
         self.MOVE_STRENGTH = 4.5
@@ -157,10 +160,7 @@ class Player(GameObject, RigidBody, Followable):
                 if self.level.hp > self.level.maxHp:
                     self.level.hp = self.level.maxHp
                 self.level.score += 10
-
-            
                
-
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
 
@@ -174,11 +174,21 @@ class Player(GameObject, RigidBody, Followable):
             self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
     def deal_damage(self, damage):
-        self.level.hp -= damage
-        if self.level.hp <= 0:
-            self.scene.remove_object(self.display)
-            self.scene.remove_object(self)
-            utils.currentScreen = DeathScreen(self.level)
+        self.current_hp -= damage
+
+        if self.current_hp <= 0:
+            self.lives -= 1 
+            if self.lives > 0:
+                self.respawn() 
+                self.current_hp = self.hp_per_life 
+            else:
+                self.scene.remove_object(self.display)
+                self.scene.remove_object(self)
+                utils.currentScreen = DeathScreen(self.level)
+
+    def respawn(self):
+        self.body.position = self.respawn_position.x, self.respawn_position.y
+        self.body.velocity = (0, 0)
 
     def equipWeapon(self, weapon):
         self.weapon = weapon
