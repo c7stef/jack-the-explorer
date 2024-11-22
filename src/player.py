@@ -110,6 +110,12 @@ class Player(GameObject, RigidBody, Followable):
         self.is_on_ground = False
         self.on_platform = None
         for collision_data in collisions:
+            if collision_data["shape"].collision_type == collision.Layer.SPIKE.value:
+                    self.color = (200, 0, 100)
+                    self.scene.remove_object(self.display)
+                    self.scene.remove_object(self)
+                    utils.currentScreen = DeathScreen(self.level)
+            
             if collision_data["normal"].y < -0.4:
                 self.is_on_ground = True
                 if not self.jump_held:
