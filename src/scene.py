@@ -16,13 +16,15 @@ class Scene:
         self.screen = screen
         self.to_remove = []
 
+        self.map_bounds = pygame.Rect(0, 0, 2000, 2000)
+
         def follow_player():
             if not self.following:
                 return None
             return self.following.position
 
         camera_rect = screen.get_rect()
-        self.camera = Camera(follow_player, camera_rect.center, camera_rect.w, camera_rect.h)
+        self.camera = Camera(self.update_camera, camera_rect.center, camera_rect.w, camera_rect.h)
 
         self.collisions = []
 
@@ -92,6 +94,52 @@ class Scene:
             obj.update()
         self.camera.update()
         self.collect_garbage()
+
+    def update_camera(self):
+        self.camera.update()
+
+        camera_rect = self.camera.rect
+
+        player_pos = self.following.position
+
+        left_limit = self.map_bounds.left
+        right_limit = self.map_bounds.right
+        top_limit = self.map_bounds.top
+        bottom_limit = self.map_bounds.bottom
+
+        fixed_camera_position = camera_rect.center
+
+        if camera_rect.left <= left_limit:
+            self.camera.rect.left = left_limit
+            fixed_camera_position = (self.camera.rect.centerx, self.camera.rect.centery)
+            if player_pos.x > camera_rect.centerx:
+                self.camera.rect.centerx = min(player_pos.x, right_limit - camera_rect.width / 2)
+        
+        if camera_rect.right >= right_limit:
+            self.camera.rect.right = right_limit
+            fixed_camera_position = (self.camera.rect.centerx, self.camera.rect.centery)
+            if player_pos.x < camera_rect.centerx:
+                self.camera.rect.centerx = max(player_pos.x, left_limit + camera_rect.width / 2)
+
+        if camera_rect.top <= top_limit:
+            self.camera.rect.top = top_limit
+            fixed_camera_position = (self.camera.rect.centerx, self.camera.rect.centery)
+            if player_pos.y > camera_rect.centery:
+                self.camera.rect.centery = min(player_pos.y, bottom_limit - camera_rect.height / 2)
+
+        if camera_rect.bottom >= bottom_limit:
+            self.camera.rect.bottom = bottom_limit
+            fixed_camera_position = (self.camera.rect.centerx, self.camera.rect.centery)
+            if player_pos.y < camera_rect.centery:
+                self.camera.rect.centery = max(player_pos.y, top_limit + camera_rect.height / 2)
+
+        if (left_limit <= camera_rect.left and
+            camera_rect.right <= right_limit and
+            top_limit <= camera_rect.top and
+            camera_rect.bottom <= bottom_limit):
+            return player_pos
+        else:
+            return fixed_camera_position
 
     def draw(self, screen):
         screen.fill((255, 255, 255))
