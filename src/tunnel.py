@@ -7,13 +7,18 @@ import collision
 
 
 class Tunnel(Solid):
-    def __init__(self, position, linked_tunnel, upwards=False):
+    def __init__(self, position, properties, upwards=False):
         width = 50
         height = 100
         super().__init__(position[0], position[1], width, height, pymunk.Body.STATIC, layer=collision.Layer.TUNNEL.value)
 
-        self.linked_tunnel = linked_tunnel
         self.upwards = upwards
+        if 'tunnel_out' in properties:
+            self.linked_tunnel = properties['tunnel_out']
+        else:
+            self.linked_tunnel = None
+        if 'upwards' in properties:
+            upwards = properties['upwards']
         self.color = (0, 255, 0)
 
     def draw(self, screen):

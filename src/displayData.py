@@ -45,7 +45,7 @@ class DisplayData(GameObject):
         screen.blit(text, (0, 0))
         coinCnt = self.font.render(f"x{self.coinCnt}", True, self.color)
         screen.blit(coinCnt, (50, 25))
-        self.coinAnimation.draw(screen, (23, 23))
+        self.coinAnimation.draw(screen, (34, 36))
         self.heartsBar.draw(screen, (25, 50))
         self.ammoIcons.draw(screen, (25, 100))
 
@@ -96,7 +96,6 @@ class DeathScreen(OnScreen):
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
         self.screen.blit(self.text_surface, self.text_rec)
         self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
-        self.playerCnt = 0
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
         self.sound.play()
 
