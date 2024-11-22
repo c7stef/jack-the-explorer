@@ -20,7 +20,7 @@ emptyHeart = pygame.image.load("assets/heart/empty.png")
 
 bullet = pygame.image.load("assets/bullet/bullet.png")
 
-class AnimatedSprite(pygame.sprite.Sprite):
+class AnimatedSprite():
     def __init__(self, path, scale=None):
         super().__init__()
 
@@ -48,7 +48,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         screen.blit(frame, position - pygame.Vector2(frame.get_size()) / 2)
 
 
-class HeartsBar(pygame.sprite.Sprite):
+class HeartsBar():
     def __init__(self, nrHearts, scale=None):
         super().__init__()
 

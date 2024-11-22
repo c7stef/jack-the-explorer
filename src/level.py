@@ -9,7 +9,7 @@ from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 from mossytile import MossyTile
 from scene import Scene
-from tunnel import Tunnel
+from tunnel import Tunnel, TunnelManager
 
 from gun import Pistol
 
@@ -23,23 +23,23 @@ class Level(OnScreen):
         scene = Scene(screen)
         self.scene = scene
 
-        tunnel_out = Tunnel(pygame.Vector2(700, 200), {}, upwards=False)
-        tunnel_in = Tunnel(pygame.Vector2(350, 400), {'tunnel_out' : tunnel_out}, upwards=True)
+        # tunnel_out = Tunnel(pygame.Vector2(700, 200), {}, upwards=False)
+        # tunnel_in = Tunnel(pygame.Vector2(350, 400), {'tunnel_out' : tunnel_out}, upwards=True)
 
-        scene.add_object(tunnel_in)
-        scene.add_object(tunnel_out)
+        # scene.add_object(tunnel_in)
+        # scene.add_object(tunnel_out)
 
-        tunnel_out_up = Tunnel(pygame.Vector2(800, 200), {}, upwards=True)
-        tunnel_in_up = Tunnel(pygame.Vector2(500, 400), {'tunnel_out' : tunnel_out_up}, upwards=True)
+        # tunnel_out_up = Tunnel(pygame.Vector2(800, 200), {}, upwards=True)
+        # tunnel_in_up = Tunnel(pygame.Vector2(500, 400), {'tunnel_out' : tunnel_out_up}, upwards=True)
 
-        scene.add_object(tunnel_in_up)
-        scene.add_object(tunnel_out_up)
+        # scene.add_object(tunnel_in_up)
+        # scene.add_object(tunnel_out_up)
+
+        scene.add_object(TunnelManager())
 
         self.weapons = []
 
         self.initPlayerWithPistol()
-
-
 
         scene.add_object(Block(100, 500, 500, 50))
         scene.add_object(Block(500, 400, 200, 50))
