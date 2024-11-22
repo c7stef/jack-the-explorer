@@ -16,7 +16,7 @@ class Scene:
         self.screen = screen
         self.to_remove = []
 
-        self.map_bounds = pygame.Rect(0, 0, 8192, 2048)
+        self.map_bounds = pygame.Rect(0, 0, 10240, 2048)
 
         def follow_player():
             if not self.following:
