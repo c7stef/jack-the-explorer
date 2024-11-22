@@ -1,7 +1,7 @@
 import pygame
 import pymunk
 
-from gameobject import RigidBody
+from gameobject import RigidBody, Named
 from pymunk import pygame_util
 from camera import Camera
 from player import Player
@@ -86,6 +86,15 @@ class Scene:
             if isinstance(obj, Player):
                 return obj
         return None
+    
+    def find_objects_by_name(self, name):
+        return [obj for obj in self.game_objects if isinstance(obj, Named) and obj.name == name]
+    
+    def find_object_by_name(self, name):
+        objects = self.find_objects_by_name(name)
+        if len(objects) != 1:
+            return None
+        return objects[0]
 
     def update(self):
         self.collisions.clear()

@@ -61,6 +61,11 @@ class Followable(ABC):
     def position(self):
         raise NotImplementedError("Position must be specialized by subclasses")
 
+class Named(ABC):
+    @property
+    @abstractmethod
+    def name(self):
+        raise NotImplementedError("Name must be specialized by subclasses")
 
 class Solid(GameObject, RigidBody):
     def __init__(self, x, y, width, height, body_type=pymunk.Body.STATIC, shapes=None, layer=collision.Layer.BLOCK.value):
