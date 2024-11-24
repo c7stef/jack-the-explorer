@@ -29,7 +29,7 @@ class Level(OnScreen):
 
         self.initPlayerWithPistol()
 
-        scene.add_object(Spike(300, 300, 50, 50))
+        scene.add_object(Spike(pygame.Vector2(300, 300), {'width' : 50, 'height' : 50}))
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
         scene.add_object(Block(200, 400, 200, 50))

@@ -1,5 +1,6 @@
 from enum import Enum
 
+import block
 import Pickups
 import enemy
 from checkpoint import Checkpoint
@@ -23,6 +24,7 @@ importDict = {
     'enemy': enemy.Enemy,
     'tunnel': Tunnel,
     'checkpoint': Checkpoint,
+    'spike': block.Spike,
     'enemyFlower': enemy.EnemyFlower}
 
 
