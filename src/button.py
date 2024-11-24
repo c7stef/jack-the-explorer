@@ -46,14 +46,39 @@ class Dropdown(GameObject):
         self.border_rect = pygame.Rect(x - self.border_thickness, y - self.border_thickness,
                                        width + 2 * self.border_thickness,height + 2 * self.border_thickness)
 
+        self.scroll_up_rect =  pygame.Rect(x, y + height, width, 15)
+
+        self.scroll_down_rect = pygame.Rect(x, y, width, 15)
+
+        self.scroll_offset = 0
+        self.max_visible_options = 5
+        self.option_height = height
+
     def handle_input(self):
         global mousePressed
         mouse_pos = pygame.mouse.get_pos()
 
+        if self.scroll_down_rect.collidepoint(mouse_pos):
+            self.scroll_offset = max(self.scroll_offset - 1, 0)
+        if self.scroll_up_rect.collidepoint(mouse_pos):
+            self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
+
         if self.is_open:
-            for i, option in enumerate(self.options):
-                option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.rect.height,
-                                          self.rect.width, self.rect.height)
+            if self.rect.collidepoint(mouse_pos):
+                if pygame.mouse.get_pressed()[0] and not mousePressed:
+                    if mouse_pos[1] < self.rect.y:
+                        self.scroll_offset = max(self.scroll_offset - 1, 0)
+                    elif mouse_pos[1] > self.rect.y + self.rect.height:
+                        self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
+                    mousePressed = True
+
+            for i in range(self.max_visible_options):
+                option_index = i + self.scroll_offset
+                if option_index >= len(self.options):
+                    break
+                option = self.options[option_index]
+                option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.option_height,
+                                          self.rect.width, self.option_height)
                 if option_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0] and not mousePressed:
                     self.selected_option = option
                     self.on_select(option)
@@ -79,17 +104,34 @@ class Dropdown(GameObject):
         screen.blit(text_surface, text_rect)
 
         if self.is_open:
-            for i, option in enumerate(self.options):
-                option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.rect.height,
-                                          self.rect.width, self.rect.height)
+            for i in range(self.max_visible_options):
+                option_index = i + self.scroll_offset
+                if option_index >= len(self.options):
+                    break
+                option = self.options[option_index]
+                option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.option_height,
+                                            self.rect.width, self.option_height)
                 option_rect_border = pygame.Rect(option_rect.x - self.border_thickness,
-                                                 option_rect.y - self.border_thickness, option_rect.width + 2 * self.border_thickness,
-                                                 option_rect.height + 2 * self.border_thickness)
+                                                    option_rect.y - self.border_thickness, option_rect.width + 2 * self.border_thickness,
+                                                    option_rect.height + 2 * self.border_thickness)
                 pygame.draw.rect(screen, self.border_color, option_rect_border)
                 pygame.draw.rect(screen, self.color, option_rect)
                 option_text_surface = self.font.render(option, True, (0, 0, 0))
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
                 screen.blit(option_text_surface, option_text_rect)
+
+            # Draw scroll indicators
+            if self.scroll_offset > 0:
+                pygame.draw.polygon(screen, self.border_color, [(self.rect.x + self.rect.width // 2, self.rect.y - 10),
+                                                                (self.rect.x + self.rect.width // 2 - 5, self.rect.y - 5),
+                                                                (self.rect.x + self.rect.width // 2 + 5, self.rect.y - 5)])
+            if self.scroll_offset < len(self.options) - self.max_visible_options:
+                pygame.draw.polygon(screen, self.border_color, [(self.rect.x + self.rect.width // 2, self.rect.y + self.rect.height + 10),
+                                                                        (self.rect.x + self.rect.width // 2 - 5, self.rect.y + self.rect.height + 5),
+                                                                (self.rect.x + self.rect.width // 2 + 5, self.rect.y + self.rect.height + 5)])
+
+
+
 
     def update(self):
         self.handle_input()

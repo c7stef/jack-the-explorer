@@ -59,7 +59,10 @@ class Settings(OnScreen):
 
         self.buttons.append(self.goBack)
 
-        options = ["1920x1080", "1280x720", "800x600"]
+        options = []
+
+        for opt in pygame.display.list_modes():
+            options.append(str(opt[0]) + "x" + str(opt[1]))
 
         self.pickResolution = "Resolution: "
         self.text_surface_res = self.font.render(self.pickResolution, True, (0, 0, 0))
@@ -78,12 +81,8 @@ class Settings(OnScreen):
         self.buttons.append(self.resolution)
 
     def changeResolution(self, option):
-        if option == "1920x1080":
-            pygame.display.set_mode((1920, 1080))
-        if option == "1280x720":
-            pygame.display.set_mode((1280, 720))
-        if option == "800x600":
-            pygame.display.set_mode((800, 600))
+        width, height = option.split("x")
+        pygame.display.set_mode((int(width), int(height)))
 
     def backToMain(self):
         utils.currentScreen = self.back
