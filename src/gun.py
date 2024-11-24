@@ -20,11 +20,13 @@ class Weapon(GameObject):
 
         self.isEquipped = False
         self.isReloading = False
+        self.reload_sound = pygame.mixer.Sound("sounds/reload.wav")
 
     def reload(self):
         if self.isReloading:
             return
         self.isReloading = True
+        self.reload_sound.play()
         self.reloadHistory = 0
 
     def updateAmmo(self):
@@ -61,6 +63,7 @@ class Weapon(GameObject):
             if self.reloadHistory >= self.RELOAD_TIME:
                 self.updateAmmo()
                 self.isReloading = False
+                self.reload_sound.stop()
 
     def equip(self):
         self.isEquipped = True
