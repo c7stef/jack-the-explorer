@@ -3,8 +3,14 @@ from button import Button
 import utils
 
 import pygame
+import math
+
+from imageProcessing import scale_surface
 
 from animatedSprite import AnimatedSprite, HeartsBar, BulletIcons
+
+bullet = pygame.image.load("assets/bullet/bullet.png")
+
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
@@ -18,6 +24,8 @@ class DisplayData(GameObject):
         self.health = 0
         self.maxHealth = 0
         self.player = player
+
+        self.bulletIcon = scale_surface(bullet, (23, 23))
 
         self.coinAnimation = AnimatedSprite("assets/coin", (23, 23))
 
@@ -46,6 +54,28 @@ class DisplayData(GameObject):
         self.coinAnimation.draw(screen, (34, 36))
         self.heartsBar.draw(screen, (25, 50))
         self.ammoIcons.draw(screen, (25, 100))
+
+        def drawArc(radius, color, circle_center, percentDone):
+            circleRect = pygame.Rect(circle_center[0] - radius, circle_center[1] - radius, radius * 2, radius * 2)
+            pygame.draw.arc(screen, color, circleRect, 0, 2 * math.pi * percentDone, 2)
+
+        def reloadingAnimation():
+            bullet_icon_pos = (100, 100)
+            screen.blit(self.bulletIcon, bullet_icon_pos)
+
+            percentDone = self.level.equippedWeapon.reloadHistory / self.level.equippedWeapon.RELOAD_TIME
+
+            bullet_icon_center = (bullet_icon_pos[0] + self.bulletIcon.get_width() / 2, bullet_icon_pos[1] + self.bulletIcon.get_height() / 2)
+
+            radius = self.bulletIcon.get_height() / 2 + 10
+            drawArc(radius, (75, 75, 75), bullet_icon_center, percentDone)
+            radius += 2
+            drawArc(radius, (150, 150, 150), bullet_icon_center, percentDone)
+            radius -= 4
+            drawArc(radius, (150, 150, 150), bullet_icon_center, percentDone)
+
+        if self.level.equippedWeapon.isReloading:
+            reloadingAnimation()
 
 
 class PauseScreen(OnScreen):

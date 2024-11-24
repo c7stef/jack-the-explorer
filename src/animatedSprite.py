@@ -95,7 +95,7 @@ class BulletIcons():
         self.bullet = bullet
 
         if scale:
-            self.bullet = pygame.transform.scale(self.bullet, scale)
+            self.bullet = scale_surface(self.bullet, scale)
             self.spacing = scale[0] + 5
 
     def update(self, level):
