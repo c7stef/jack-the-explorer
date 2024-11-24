@@ -3,6 +3,7 @@ import pygame
 
 import Pickups
 import enemy
+from checkpoint import Checkpoint
 from tunnel import Tunnel
 
 EPSILON = 0.001
@@ -22,6 +23,7 @@ importDict = {
     'health': Pickups.HealthPickUp,
     'enemy': enemy.Enemy,
     'tunnel': Tunnel,
+    'checkpoint': Checkpoint,
     'enemyFlower': enemy.EnemyFlower}
 
 def scale_surface(surface, scale):

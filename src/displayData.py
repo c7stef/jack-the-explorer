@@ -8,8 +8,6 @@ from animatedSprite import AnimatedSprite, HeartsBar, BulletIcons
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
-        self.scene = player.scene
-        self.screen = self.scene.screen
         self.font = pygame.font.SysFont("Arial", 25)
         self.color = (0, 0, 255)
         self.score = 0
@@ -86,21 +84,35 @@ class PauseScreen(OnScreen):
         self.goBackButton.draw(self.screen)
 
 class DeathScreen(OnScreen):
-    def __init__(self, level):
+    def __init__(self, level, checkpoint):
         self.screen = level.scene.screen
         self.scene = level.scene
         self.level = level
+        self.checkpoint = checkpoint
         font = pygame.font.SysFont("Arial", 225)
         text = "Wasted"
         self.text_surface = font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
         self.screen.blit(self.text_surface, self.text_rec)
         self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
+        self.last_button = Button(100, 200, 150, 75, "Last Checkpoint", 40, (0, 255, 255), self.last_checkpoint)
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
         self.sound.play()
 
+    def last_checkpoint(self):
+        self.sound.stop()
+
+        self.level.initPlayerWithPistol()
+        if self.checkpoint:
+            self.level.player.body.position = self.checkpoint.body.position
+
+        utils.currentScreen = self.level
+
     def restart(self):
         self.sound.stop()
+
+        for checkpoint in self.scene.find_objects_by_name("Checkpoint"):
+            checkpoint.reset()
 
         self.level.initPlayerWithPistol()
 
@@ -108,6 +120,7 @@ class DeathScreen(OnScreen):
 
     def handle_input(self):
         self.restart_button.update()
+        self.last_button.update()
 
     def update(self):
         self.handle_input()
@@ -115,4 +128,5 @@ class DeathScreen(OnScreen):
     def draw(self):
         self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
         self.restart_button.draw(self.screen)
+        self.last_button.draw(self.screen)
         self.screen.blit(self.text_surface, self.text_rec)

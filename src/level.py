@@ -10,7 +10,7 @@ from tilemap import TileMap
 from mossytile import MossyTile
 from scene import Scene
 from tunnel import Tunnel, TunnelManager
-
+from checkpoint import Checkpoint
 from gun import Pistol
 
 import utils
@@ -33,6 +33,8 @@ class Level(OnScreen):
         scene.add_object(Block(300, 500, 200, 50))
         scene.add_object(Block(500, 400, 200, 50))
         scene.add_object(Block(200, 400, 200, 50))
+        scene.add_object(Checkpoint(pygame.Vector2(400, 180), {'order': 0}))
+        scene.add_object(Checkpoint(pygame.Vector2(600, 180), {'order': 1}))
         scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
         scene.add_object(Enemy(pygame.Vector2(250, 450), {'xoffset' : 100, 'yoffset' : 0}, 2))
         scene.add_object(EnemyFlower(pygame.Vector2(250, 350), {'xoffset' : 0, 'yoffset' : 0}, 3))

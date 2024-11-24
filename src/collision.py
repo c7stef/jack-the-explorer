@@ -13,6 +13,7 @@ class Layer(Enum):
     HEALTHBOX = 10
     TUNNEL = 11
     SPIKE = 12
+    CHECKPOINT = 13
 
 COLLISION_DISABLED = 1
 
@@ -29,5 +30,6 @@ table = {
     (Layer.ENEMYBULLET, Layer.PLAYER),
     (Layer.ENEMYBULLET, Layer.BLOCK),
     (Layer.PLAYER, Layer.TUNNEL),
-    (Layer.PLAYER, Layer.SPIKE)
+    (Layer.PLAYER, Layer.SPIKE),
+    (Layer.PLAYER, Layer.CHECKPOINT)
 }

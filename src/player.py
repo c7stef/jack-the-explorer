@@ -24,7 +24,7 @@ class Player(GameObject, RigidBody, Followable):
         self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
-        
+
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.level.score = 0
@@ -49,6 +49,8 @@ class Player(GameObject, RigidBody, Followable):
         self.jump_held = False
         self.transportable = False
         self.color = (0, 0, 255)
+
+        self.lastCheckpoint = None
 
     @property
     def position(self):
@@ -118,7 +120,7 @@ class Player(GameObject, RigidBody, Followable):
                     self.scene.remove_object(self.display)
                     self.scene.remove_object(self)
                     utils.currentScreen = DeathScreen(self.level)
-            
+
             if collision_data["normal"].y < -0.4:
                 self.is_on_ground = True
                 if not self.jump_held:
@@ -135,14 +137,10 @@ class Player(GameObject, RigidBody, Followable):
                 if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:
                     self.transportable = True
                     self.tunnel = self.scene.find_rigid_body(collision_data["shape"])
-                    #self.transport_player(self.scene.find_rigid_body(collision_data["shape"]))
 
             if collision_data["normal"].x != 0:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
-                    self.color = (200, 0, 100)
-                    self.scene.remove_object(self.display)
-                    self.scene.remove_object(self)
-                    utils.currentScreen = DeathScreen(self.level)
+                    self.die()
 
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
@@ -160,9 +158,12 @@ class Player(GameObject, RigidBody, Followable):
                 if self.level.hp > self.level.maxHp:
                     self.level.hp = self.level.maxHp
                 self.level.score += 10
-               
+
             if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
                 self.scene.find_rigid_body(collision_data["shape"]).decay()
+
+            if collision_data["shape"].collision_type == collision.Layer.CHECKPOINT.value:
+                self.lastCheckpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
 
         self.handle_input()
 
@@ -173,25 +174,43 @@ class Player(GameObject, RigidBody, Followable):
             platform_velocity = self.on_platform.body.velocity
             self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
+        if self.out_of_bounds():
+            self.die()
+
     def deal_damage(self, damage):
         self.current_hp -= damage
 
         if self.current_hp <= 0:
-            self.lives -= 1 
+            self.lives -= 1
             if self.lives > 0:
-                self.respawn() 
-                self.current_hp = self.hp_per_life 
+                self.respawn()
+                self.current_hp = self.hp_per_life
             else:
-                self.scene.remove_object(self.display)
-                self.scene.remove_object(self)
-                utils.currentScreen = DeathScreen(self.level)
+                self.die()
 
     def respawn(self):
         self.body.position = self.respawn_position.x, self.respawn_position.y
+        if self.lastCheckpoint:
+            self.body.position = self.lastCheckpoint.body.position
         self.body.velocity = (0, 0)
 
     def equipWeapon(self, weapon):
         self.weapon = weapon
+
+    def out_of_bounds(self):
+        if self.body.position.y + self.height / 2 > self.scene.map_bounds.bottom:
+            return True
+        if self.body.position.y - self.height / 2 < self.scene.map_bounds.top:
+            return True
+        return False
+
+    def die(self):
+        lastCheckpoint = self.lastCheckpoint
+
+        self.scene.remove_object(self.display)
+        self.scene.remove_object(self)
+
+        utils.currentScreen = DeathScreen(self.level, lastCheckpoint)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
