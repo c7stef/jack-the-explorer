@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from button import Button
+from button import Button, Dropdown
 from gameobject import OnScreen
 from level import Level
 import utils
@@ -30,6 +30,7 @@ class MainMenu(OnScreen):
 
 
     def settings(self):
+        utils.currentScreen = Settings(self)
         pass
 
     def draw(self):
@@ -44,6 +45,60 @@ class MainMenu(OnScreen):
 
     def update(self):
         self.handle_input()
+
+class Settings(OnScreen):
+    def __init__(self, mainMenu):
+        self.back = mainMenu
+        self.screen = mainMenu.screen
+
+        self.font = pygame.font.SysFont("Arial", 20)
+
+        self.buttons = []
+
+        self.goBack = Button(100, 400, 200, 50, "Back", 30, (0, 120, 0), self.backToMain)
+
+        self.buttons.append(self.goBack)
+
+        options = ["1920x1080", "1280x720", "800x600"]
+
+        self.pickResolution = "Resolution: "
+        self.text_surface_res = self.font.render(self.pickResolution, True, (0, 0, 0))
+
+        dropdown_x = 300
+        dropdown_y = 100
+        dropdown_width = 200
+        dropdown_height = 50
+
+        self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height,
+                                   options, 20, (255, 255, 255), self.changeResolution)
+
+        self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
+                             dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
+
+        self.buttons.append(self.resolution)
+
+    def changeResolution(self, option):
+        if option == "1920x1080":
+            pygame.display.set_mode((1920, 1080))
+        if option == "1280x720":
+            pygame.display.set_mode((1280, 720))
+        if option == "800x600":
+            pygame.display.set_mode((800, 600))
+
+    def backToMain(self):
+        utils.currentScreen = self.back
+
+    def handleInput(self):
+        for b in self.buttons:
+            b.handle_input()
+
+    def update(self):
+        self.handleInput()
+
+    def draw(self):
+        for b in self.buttons:
+            b.draw(self.screen)
+        self.screen.blit(self.text_surface_res, self.text_pos_res)
 
 class LevelsMenu(OnScreen):
     def __init__(self, mainMenu):
