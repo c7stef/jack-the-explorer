@@ -5,7 +5,7 @@ from collision import Layer
 
 from gameobject import Solid, Named
 
-from utils import scale_surface
+from imageProcessing import scale_surface
 
 flag = pygame.image.load("assets/checkpoint/flag.png")
 

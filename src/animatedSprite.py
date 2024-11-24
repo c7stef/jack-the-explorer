@@ -1,5 +1,6 @@
 import pygame
-import utils
+
+from imageProcessing import scale_surface
 
 coinSprite = []
 
@@ -35,7 +36,7 @@ class AnimatedSprite():
 
         if scale is not None:
             for i in range(len(self.frames)):
-                self.frames[i] = utils.scale_surface(self.frames[i], scale)
+                self.frames[i] = scale_surface(self.frames[i], scale)
 
     def update(self):
         self.frameCnt += 1
@@ -55,7 +56,7 @@ class HeartsBar():
         self.spacing = 30
 
         self.nrHearts = nrHearts
-        self.hp_per_heart = 3 
+        self.hp_per_heart = 3
         self.current_hp = nrHearts * self.hp_per_heart
 
         self.fullHeart = fullHeart
