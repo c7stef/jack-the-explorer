@@ -62,6 +62,8 @@ class Settings(OnScreen):
         options = []
 
         for opt in pygame.display.list_modes():
+            if opt[0] < 600:
+                continue
             options.append(str(opt[0]) + "x" + str(opt[1]))
 
         self.pickResolution = "Resolution: "
