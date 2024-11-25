@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from button import Button, Dropdown
+from button import Button, Dropdown, Checkbox
 from gameobject import OnScreen
 from level import Level
 import utils
@@ -84,9 +84,14 @@ class Settings(OnScreen):
 
         self.drop_downs.append(self.resolution)
 
+        self.buttons.append(Checkbox(100, 300, 200, 50, "Fullscreen", 30, (0, 255, 0), self.toggleFullscreen))
+
     def changeResolution(self, option):
         width, height = option.split("x")
         pygame.display.set_mode((int(width), int(height)))
+
+    def toggleFullscreen(self, checked):
+        pygame.display.toggle_fullscreen()
 
     def backToMain(self):
         utils.currentScreen = self.back

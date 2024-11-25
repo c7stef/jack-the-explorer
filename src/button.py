@@ -2,7 +2,11 @@ import pygame
 
 from gameobject import GameObject
 
+from imageProcessing import scale_surface
+
 mousePressed = False
+
+tick = pygame.image.load("assets/tick/tick.png")
 
 class Button(GameObject):
     def __init__(self, x, y, width, height, text, font_size, color, on_click):
@@ -147,8 +151,43 @@ class Dropdown(GameObject):
                                                                         (self.rect.x + self.rect.width // 2 - 5, self.rect.y + self.rect.height + 5),
                                                                 (self.rect.x + self.rect.width // 2 + 5, self.rect.y + self.rect.height + 5)])
 
+    def update(self):
+        self.handle_input()
 
 
+class Checkbox(GameObject):
+    def __init__(self, x, y, width, height, text, font_size, color, on_click):
+        self.rect = pygame.Rect(x + height + 5, y, width, height)
+        self.rectSquare = pygame.Rect(x, y, height, height)
+        self.text = text
+        self.font = pygame.font.SysFont("Arial", font_size)
+        self.color = color
+        self.border_color = (0, 0, 0)
+        self.on_click = on_click
+        self.is_checked = False
+        self.tick = scale_surface(tick, (height, height))
+
+    def handle_input(self):
+        global mousePressed
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rectSquare.collidepoint(mouse_pos):
+            if pygame.mouse.get_pressed()[0] and not mousePressed:
+                self.is_checked = not self.is_checked
+                self.on_click(self.is_checked)
+                mousePressed = True
+        if not pygame.mouse.get_pressed()[0]:
+            mousePressed = False
 
     def update(self):
         self.handle_input()
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, self.rect)
+        pygame.draw.rect(screen, (240, 240, 240), self.rectSquare)
+        pygame.draw.rect(screen, self.border_color, self.rectSquare, 2)
+        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        screen.blit(text_surface, text_rect)
+
+        if self.is_checked:
+            screen.blit(self.tick, self.rectSquare.topleft)
