@@ -104,7 +104,7 @@ class Dropdown(GameObject):
                     self.selected_option = option
                     self.on_select(option)
                     self.is_open = False
-
+                    mousePressed = True
         if not pygame.mouse.get_pressed()[0]:
             mousePressed = False
 
@@ -115,7 +115,6 @@ class Dropdown(GameObject):
         else:
             if pygame.mouse.get_pressed()[0] and not mousePressed:
                 self.is_open = False
-                mousePressed = True
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.border_color, self.border_rect)

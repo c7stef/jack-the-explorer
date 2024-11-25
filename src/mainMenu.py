@@ -104,10 +104,10 @@ class Settings(OnScreen):
         utils.currentScreen = self.back
 
     def handleInput(self):
-        for b in self.buttons:
-            b.handle_input()
         for d in self.drop_downs:
             d.handle_input(self.events)
+        for b in self.buttons:
+            b.handle_input()
 
     def update(self):
         self.handleInput()
