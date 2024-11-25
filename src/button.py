@@ -57,7 +57,7 @@ class Dropdown(GameObject):
         self.scroll_speed = 15
         self.scroll_history = 0
 
-    def handle_input(self):
+    def handle_input(self, events):
         global mousePressed
         mouse_pos = pygame.mouse.get_pos()
 
@@ -72,6 +72,13 @@ class Dropdown(GameObject):
             if self.scroll_history >= self.scroll_speed:
                 self.scroll_history = 0
                 self.scroll_offset = max(self.scroll_offset - 1, 0)
+
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 4:
+                    self.scroll_offset = max(self.scroll_offset - 1, 0)
+                elif event.button == 5:
+                    self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
 
         if self.is_open:
             if self.rect.collidepoint(mouse_pos):

@@ -55,6 +55,8 @@ class Settings(OnScreen):
 
         self.buttons = []
 
+        self.drop_downs = []
+
         self.goBack = Button(100, 400, 200, 50, "Back", 30, (0, 120, 0), self.backToMain)
 
         self.buttons.append(self.goBack)
@@ -80,7 +82,7 @@ class Settings(OnScreen):
         self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
                              dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
 
-        self.buttons.append(self.resolution)
+        self.drop_downs.append(self.resolution)
 
     def changeResolution(self, option):
         width, height = option.split("x")
@@ -92,6 +94,8 @@ class Settings(OnScreen):
     def handleInput(self):
         for b in self.buttons:
             b.handle_input()
+        for d in self.drop_downs:
+            d.handle_input(self.events)
 
     def update(self):
         self.handleInput()
@@ -99,6 +103,8 @@ class Settings(OnScreen):
     def draw(self):
         for b in self.buttons:
             b.draw(self.screen)
+        for d in self.drop_downs:
+            d.draw(self.screen)
         self.screen.blit(self.text_surface_res, self.text_pos_res)
 
 class LevelsMenu(OnScreen):

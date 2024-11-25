@@ -32,6 +32,9 @@ class OnScreen(ABC):
     def setScreen(self, screen):
         self.screen = screen
 
+    def send_events(self, events):
+        self.events = events
+
     @abstractmethod
     def update(self):
         raise NotImplementedError("Update method must be implemented by subclasses")

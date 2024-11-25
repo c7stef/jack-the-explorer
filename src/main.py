@@ -27,9 +27,11 @@ utils.currentScreen = mainMenu
 running = True
 while running:
     # Event handling
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == pygame.QUIT:
             running = False
+    utils.currentScreen.send_events(events)
 
     # Update logic
     utils.currentScreen.update()
