@@ -46,22 +46,32 @@ class Dropdown(GameObject):
         self.border_rect = pygame.Rect(x - self.border_thickness, y - self.border_thickness,
                                        width + 2 * self.border_thickness,height + 2 * self.border_thickness)
 
-        self.scroll_up_rect =  pygame.Rect(x, y + height, width, 15)
+        self.scroll_down_rect =  pygame.Rect(x, y + height, width, 15)
 
-        self.scroll_down_rect = pygame.Rect(x, y, width, 15)
+        self.scroll_up_rect = pygame.Rect(x, y - 15 , width, 15)
 
         self.scroll_offset = 0
         self.max_visible_options = 5
         self.option_height = height
+
+        self.scroll_speed = 15
+        self.scroll_history = 0
 
     def handle_input(self):
         global mousePressed
         mouse_pos = pygame.mouse.get_pos()
 
         if self.scroll_down_rect.collidepoint(mouse_pos):
-            self.scroll_offset = max(self.scroll_offset - 1, 0)
+            self.scroll_history += 1
+            if self.scroll_history >= self.scroll_speed:
+                self.scroll_history = 0
+                self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
+
         if self.scroll_up_rect.collidepoint(mouse_pos):
-            self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
+            self.scroll_history += 1
+            if self.scroll_history >= self.scroll_speed:
+                self.scroll_history = 0
+                self.scroll_offset = max(self.scroll_offset - 1, 0)
 
         if self.is_open:
             if self.rect.collidepoint(mouse_pos):
