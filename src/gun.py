@@ -1,7 +1,8 @@
 import pygame
 
-from bullet import Bullet
+import utils
 
+from bullet import Bullet
 from gameobject import GameObject
 
 class Weapon(GameObject):
@@ -21,6 +22,7 @@ class Weapon(GameObject):
         self.isEquipped = False
         self.isReloading = False
         self.reload_sound = pygame.mixer.Sound("sounds/reload.wav")
+        self.reload_sound.set_volume(utils.volume)
 
     def reload(self):
         if self.magSize == self.magAmmo:

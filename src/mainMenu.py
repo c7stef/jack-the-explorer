@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from button import Button, Dropdown, Checkbox
+from button import Button, Dropdown, Checkbox, Slider
 from gameobject import OnScreen
 from level import Level
 import utils
@@ -63,6 +63,10 @@ class Settings(OnScreen):
 
         options = []
 
+        self.soundSlider = Slider(300, 200, 200, 50, (0, 255, 0), self.set_volume, "Volume: ", 20)
+
+        self.buttons.append(self.soundSlider)
+
         for opt in pygame.display.list_modes():
             if opt[0] < 600:
                 continue
@@ -92,6 +96,9 @@ class Settings(OnScreen):
 
     def toggleFullscreen(self, checked):
         pygame.display.toggle_fullscreen()
+
+    def set_volume(self, volume):
+        utils.volume = volume
 
     def backToMain(self):
         utils.currentScreen = self.back

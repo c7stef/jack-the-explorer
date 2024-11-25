@@ -11,6 +11,9 @@ EPSILON = 0.001
 escapePressed = False
 
 currentScreen = None
+
+volume = 1.0
+
 class Direction(Enum):
     LEFT = 1
     RIGHT = 2

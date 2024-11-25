@@ -191,3 +191,49 @@ class Checkbox(GameObject):
 
         if self.is_checked:
             screen.blit(self.tick, self.rectSquare.topleft)
+
+
+class Slider(GameObject):
+    def __init__(self, x, y, width, height, color, on_change, text, font_size):
+        self.rect = pygame.Rect(x, y, width, height)
+
+        self.font = pygame.font.SysFont("Arial", font_size)
+        self.text = text
+
+        self.color = color
+        self.border_color = (0, 0, 0)
+        self.on_change = on_change
+        self.value = 0.5
+        self.is_dragging = False
+
+    def handle_input(self):
+        global mousePressed
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            if pygame.mouse.get_pressed()[0] and not mousePressed:
+                self.is_dragging = True
+                mousePressed = True
+        if not pygame.mouse.get_pressed()[0]:
+            self.is_dragging = False
+            mousePressed = False
+
+        if self.is_dragging:
+            self.value = (mouse_pos[0] - self.rect.x) / self.rect.width
+            self.value = min(max(self.value, 0), 1)
+            self.on_change(self.value)
+
+    def update(self):
+        self.handle_input()
+
+    def draw(self, screen):
+        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=(self.rect.x - text_surface.get_width() / 2 - 5, self.rect.y + self.rect.height / 2))
+        screen.blit(text_surface, text_rect)
+
+        percent_text_surface = self.font.render(str(int(self.value * 100)) + "%", True, (0, 0, 0))
+        percent_text_rect = percent_text_surface.get_rect(center=(self.rect.x + self.rect.width + percent_text_surface.get_width() / 2 + 5, self.rect.y + self.rect.height / 2))
+        screen.blit(percent_text_surface, percent_text_rect)
+
+        pygame.draw.rect(screen, self.color, self.rect)
+        pygame.draw.rect(screen, self.border_color, self.rect, 2)
+        pygame.draw.rect(screen, (0, 0, 0), (self.rect.x + self.value * self.rect.width - 4, self.rect.y, 8, self.rect.height))

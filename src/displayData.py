@@ -127,6 +127,7 @@ class DeathScreen(OnScreen):
         self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
         self.last_button = Button(100, 200, 150, 75, "Last Checkpoint", 40, (0, 255, 255), self.last_checkpoint)
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
+        self.sound.set_volume(utils.volume)
         self.sound.play()
 
     def last_checkpoint(self):
