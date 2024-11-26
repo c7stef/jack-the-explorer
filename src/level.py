@@ -16,11 +16,12 @@ from gun import Pistol
 import utils
 
 class Level(OnScreen):
-    def __init__(self, screen, level, color):
-        self.screen = screen
-        self.level = level
+    def __init__(self, level_menu, level, color):
+        self.level_menu = level_menu
+        self.screen = level_menu.screen
+        self.num_level = level
         self.color = color
-        scene = Scene(screen)
+        scene = Scene(self.screen)
         self.scene = scene
 
         scene.add_object(TunnelManager())

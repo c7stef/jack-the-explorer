@@ -139,7 +139,7 @@ class LevelsMenu(OnScreen):
         self.buttons.append(self.goBack)
 
     def startLevel1(self):
-        utils.currentScreen = Level(self.screen, 0, (0, 255, 0))
+        utils.currentScreen = Level(self, 0, (0, 255, 0))
         pass
 
     def startLevel2(self):

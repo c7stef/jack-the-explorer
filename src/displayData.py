@@ -88,13 +88,35 @@ class PauseScreen(OnScreen):
         self.text_surface = self.font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
 
+        self.buttons = []
+
         self.goBackButton = Button(100, 100, 150, 75, "Continue", 40, (0, 255, 255), self.goBack)
+        self.buttons.append(self.goBackButton)
+        self.main_menu_button = Button(100, 200, 150, 75, "Main Menu", 40, (0, 255, 255), self.goToMainMenu)
+        self.buttons.append(self.main_menu_button)
+        self.restart_button = Button(100, 300, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
+        self.buttons.append(self.restart_button)
+        self.last_checkpoint_button = Button(100, 400, 150, 75, "Last Checkpoint", 40, (0, 255, 255), self.last_checkpoint)
+        self.buttons.append(self.last_checkpoint_button)
 
     def goBack(self):
         utils.currentScreen = self.level
 
+    def goToMainMenu(self):
+        utils.currentScreen = self.level.level_menu.back
+
+    def restart(self):
+        from level import Level
+        utils.currentScreen = Level(self.level.level_menu, self.level.num_level, (0, 255, 0))
+
+    def last_checkpoint(self):
+        self.level.player.respawn()
+
+        utils.currentScreen = self.level
+
     def handle_input(self):
-        self.goBackButton.update()
+        for b in self.buttons:
+            b.update()
 
         keys = pygame.key.get_pressed()
 
@@ -111,7 +133,9 @@ class PauseScreen(OnScreen):
         self.scene.draw(self.screen)
         self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
         self.screen.blit(self.text_surface, self.text_rec)
-        self.goBackButton.draw(self.screen)
+        for b in self.buttons:
+            b.draw(self.screen)
+
 
 class DeathScreen(OnScreen):
     def __init__(self, level, checkpoint):
