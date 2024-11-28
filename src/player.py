@@ -1,7 +1,7 @@
 import pygame
 import pymunk
 
-from displayData import DeathScreen, DisplayData, PauseScreen
+from displayData import DeathScreen, DisplayData, PauseScreen, FinishScreen
 from gameobject import GameObject, RigidBody, Followable
 from bullet import Bullet
 
@@ -72,6 +72,8 @@ class Player(GameObject, RigidBody, Followable):
 
         if keys[pygame.K_ESCAPE] and not utils.escapePressed:
             utils.currentScreen = PauseScreen(self.level)
+            # Debug purposes
+            # utils.currentScreen = FinishScreen(self.level)
             utils.escapePressed = True
         if not keys[pygame.K_ESCAPE]:
             utils.escapePressed = False
@@ -174,6 +176,9 @@ class Player(GameObject, RigidBody, Followable):
         if self.out_of_bounds():
             self.die()
 
+        if self.reached_end():
+            utils.currentScreen = FinishScreen(self.level)
+
     def deal_damage(self, damage):
         self.current_hp -= damage
 
@@ -198,6 +203,11 @@ class Player(GameObject, RigidBody, Followable):
         if self.body.position.y + self.height / 2 > self.scene.map_bounds.bottom:
             return True
         if self.body.position.y - self.height / 2 < self.scene.map_bounds.top:
+            return True
+        return False
+
+    def reached_end(self):
+        if self.body.position.x + self.width / 2 > self.scene.map_bounds.right:
             return True
         return False
 

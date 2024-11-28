@@ -185,3 +185,84 @@ class DeathScreen(OnScreen):
         self.restart_button.draw(self.screen)
         self.last_button.draw(self.screen)
         self.screen.blit(self.text_surface, self.text_rec)
+
+
+class FinishScreen(OnScreen):
+    def __init__(self, level):
+
+        self.screen = level.scene.screen
+        self.scene = level.scene
+
+        self.scene.remove_object(self.scene.find_player().display)
+        self.scene.remove_object(self.scene.find_player())
+
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
+
+        self.font_ratio = 0.08
+
+        self.level = level
+        font = pygame.font.SysFont("Arial", int(self.screen_height * self.font_ratio))
+        text = f"Level {self.level.num_level} completed"
+        self.text_surface = font.render(text, True, (50, 200, 50))
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))
+
+        self.buttons = []
+
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
+        self.center_button_x = self.screen_width / 2 - self.button_width / 2
+        self.center_button_y = self.screen_height / 2 - self.button_height / 2
+        self.offset = self.screen_height / 10
+
+        self.restart_button = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset,
+                                     self.button_width, self.button_height, "Restart", 40, (0, 255, 255), self.restart)
+        self.main_menu_button = Button(self.center_button_x, self.center_button_y + self.button_height + self.offset,
+                                       self.button_width, self.button_height, "Main Menu", 40, (0, 255, 255), self.goToMainMenu)
+        self.next_level_button = Button(self.center_button_x, self.center_button_y,
+                                        self.button_width, self.button_height, "Next Level", 40, (0, 255, 255), self.nextLevel)
+
+        self.buttons.append(self.restart_button)
+        self.buttons.append(self.main_menu_button)
+        self.buttons.append(self.next_level_button)
+
+        self.sound = pygame.mixer.Sound("sounds/nextLevel.mp3")
+        self.sound.set_volume(utils.volume)
+        self.sound.play()
+
+    def goToMainMenu(self):
+        self.sound.stop()
+
+        utils.currentScreen = self.level.level_menu.back
+
+    def nextLevel(self):
+        self.sound.stop()
+
+        from level import Level
+
+        utils.currentScreen = Level(self.level.level_menu, self.level.num_level + 1, (0, 255, 0))
+
+    def restart(self):
+        self.sound.stop()
+
+        for checkpoint in self.scene.find_objects_by_name("Checkpoint"):
+            checkpoint.reset()
+
+        from level import Level
+
+        utils.currentScreen = Level(self.level.level_menu, self.level.num_level, (0, 255, 0))
+
+    def handle_input(self):
+        for b in self.buttons:
+            b.update()
+
+    def update(self):
+        self.handle_input()
+
+    def draw(self):
+        self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
+
+        for b in self.buttons:
+            b.draw(self.screen)
+
+        self.screen.blit(self.text_surface, self.text_rec)
