@@ -13,9 +13,19 @@ class MainMenu(OnScreen):
 
         self.buttons = []
 
-        self.start = Button(100, 100, 200, 50, "Start", 30, (0, 255, 0), self.startGame)
-        self.quit = Button(100, 200, 200, 50, "Quit", 30, (255, 0, 0), self.quitGame)
-        self.settings = Button(100, 300, 200, 50, "Settings", 30, (0, 0, 255), self.settings)
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
+
+        self.button_width = 200
+        self.button_height = 50
+        self.centered_button_x = self.screen_width / 2 - self.button_width / 2
+        self.centered_button_y = self.screen_height / 2 - self.button_height / 2
+
+        self.offset = 100
+
+        self.start = Button(self.centered_button_x, self.centered_button_y - self.button_height - self.offset, self.button_width, self.button_height, "Start", 30, (0, 255, 0), self.startGame)
+        self.quit = Button(self.centered_button_x, self.centered_button_y + self.button_height + self.offset, self.button_width, self.button_height, "Quit", 30, (255, 0, 0), self.quitGame)
+        self.settings = Button(self.centered_button_x, self.centered_button_y, self.button_width, self.button_height, "Settings", 30, (0, 0, 255), self.settings)
 
         self.buttons.append(self.start)
         self.buttons.append(self.quit)
@@ -127,11 +137,17 @@ class LevelsMenu(OnScreen):
 
         self.buttons = []
 
-        self.level1 = Button(100, 100, 200, 50, "Level 1", 30, (0, 255, 0), self.startLevel1)
-        self.level2 = Button(100, 200, 200, 50, "Level 2", 30, (255, 0, 0), self.startLevel2)
-        self.level3 = Button(100, 300, 200, 50, "Level 3", 30, (0, 0, 255), self.startLevel3)
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
 
-        self.goBack = Button(100, 400, 200, 50, "Back", 30, (0, 120, 0), self.backToMain)
+        self.button_width = 200
+        self.centered_button_x = self.screen_width / 2 - self.button_width / 2
+
+        self.level1 = Button(self.centered_button_x, 100, self.button_width, 50, "Level 1", 30, (0, 255, 0), self.startLevel1)
+        self.level2 = Button(self.centered_button_x, 200, self.button_width, 50, "Level 2", 30, (255, 0, 0), self.startLevel2)
+        self.level3 = Button(self.centered_button_x, 300, self.button_width, 50, "Level 3", 30, (0, 0, 255), self.startLevel3)
+
+        self.goBack = Button(self.centered_button_x, 400, self.button_width, 50, "Back", 30, (0, 120, 0), self.backToMain)
 
         self.buttons.append(self.level1)
         self.buttons.append(self.level2)
