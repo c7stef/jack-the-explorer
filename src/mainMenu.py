@@ -74,12 +74,32 @@ class Settings(OnScreen):
 
         self.drop_downs = []
 
-        self.goBack = Button(100, 400, 200, 50, "Back", 30, (0, 120, 0), self.backToMain)
+        self.focused_element = None
 
-        self.left = ControlsButton(100, 20, 200, 50, "Left", 30, (0, 255, 0), utils.controls, "left")
-        self.right = ControlsButton(350, 20, 200, 50, "Right", 30, (0, 255, 0), utils.controls, "right")
-        self.up = ControlsButton(600, 20, 200, 50, "Up", 30, (0, 255, 0), utils.controls, "up")
-        self.down = ControlsButton(850, 20, 200, 50, "Down", 30, (0, 255, 0), utils.controls, "down")
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
+
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
+
+        self.button_right_column_center_x = self.screen_width / 2 + self.screen_width / 4 - self.button_width / 2
+        self.button_right_column_first_y = self.screen_height / 10
+
+        self.font_ratio = 0.04
+        self.font_size = int(self.screen_height * self.font_ratio)
+
+        self.offset = self.screen_height / 18
+
+        self.goBack = Button(100, 400, self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.backToMain)
+
+        self.left = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y,
+                                   self.button_width, self.button_height, "Left", self.font_size, (0, 255, 0), utils.controls, "left")
+        self.right = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + self.offset + self.button_height,
+                                    self.button_width, self.button_height, "Right", self.font_size, (0, 255, 0), utils.controls, "right")
+        self.up = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 2 * (self.offset + self.button_height),
+                                 self.button_width, self.button_height, "Up", self.font_size, (0, 255, 0), utils.controls, "up")
+        self.down = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 3 * (self.offset + self.button_height),
+                                   self.button_width, self.button_height, "Down", self.font_size, (0, 255, 0), utils.controls, "down")
 
         self.buttons.append(self.goBack)
         self.controls.append(self.left)
@@ -123,6 +143,14 @@ class Settings(OnScreen):
                         self.soundSlider.set_value(float(line.split(":")[1]))
                     if "resolution" in line:
                         self.resolution.set_option(line.split(":")[1].strip())
+                    if "left" in line:
+                        self.left.update_text(int(line.split(":")[1]))
+                    if "right" in line:
+                        self.right.update_text(int(line.split(":")[1]))
+                    if "up" in line:
+                        self.up.update_text(int(line.split(":")[1]))
+                    if "down" in line:
+                        self.down.update_text(int(line.split(":")[1]))
 
         except FileNotFoundError:
             with open("settings.cfg", "w") as f:
@@ -143,19 +171,27 @@ class Settings(OnScreen):
             f.write("volume: " + str(utils.volume) + "\n")
             f.write("resolution: " + str(pygame.display.get_surface().get_width()) + "x" +
                     str(pygame.display.get_surface().get_height()) + "\n")
-            f.write(f"left: {utils.K_LEFT}\n")
-            f.write(f"right: {utils.K_RIGHT}\n")
-            f.write(f"up: {utils.K_UP}\n")
-            f.write(f"down: {utils.K_DOWN}\n")
+            f.write(f"left: {utils.controls['left']}\n")
+            f.write(f"right: {utils.controls['right']}\n")
+            f.write(f"up: {utils.controls['up']}\n")
+            f.write(f"down: {utils.controls['down']}\n")
 
 
         utils.currentScreen = MainMenu(self.screen)
 
     def handleInput(self):
+        if self.focused_element is not None:
+            ret = self.focused_element.handle_input(self.events)
+            if ret is None:
+                self.focused_element = None
+            else: return
         for d in self.drop_downs:
             d.handle_input(self.events)
         for c in self.controls:
-            c.handle_input(self.events)
+            ret = c.handle_input(self.events)
+            if isinstance(ret, ControlsButton):
+                self.focused_element = ret
+                pass
         for b in self.buttons:
             b.handle_input()
 

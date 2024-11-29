@@ -7,6 +7,7 @@ from imageProcessing import scale_surface
 import utils
 
 mousePressed = False
+select_key = False
 
 tick = pygame.image.load("assets/tick/tick.png")
 
@@ -51,32 +52,44 @@ class Button(GameObject):
 class ControlsButton(Button):
     def __init__(self, x, y, width, height, text, font_size, color, controls, key):
         super().__init__(x, y, width, height, text, font_size, color, None)
+        text_rect = pygame.Rect(x - width, y, width, height)
+        self.text_surface = self.font.render(text, True, (0, 0, 0))
+        self.text_rect = self.text_surface.get_rect(center=text_rect.center)
         self.controls = controls
         self.key = key
         self.selected = False
         self.text_in = pygame.key.name(controls[key])
 
+    def update_text(self, text):
+        self.controls[self.key] = text
+        self.text_in = pygame.key.name(self.controls[self.key])
+
     def handle_input(self, events):
+        global select_key
         if self.selected:
             for e in events:
                 if e.type == pygame.KEYDOWN:
                     self.text_in = pygame.key.name(e.key)
                     self.controls[self.key] = e.key
                     self.selected = False
-                    break
+                    select_key = False
+                    return None
 
         global mousePressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.hover = True
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+            if pygame.mouse.get_pressed()[0] and not mousePressed and not select_key:
                 mousePressed = True
                 self.selected = True
+                select_key = True
+                return self
         else:
             self.hover = False
         if not pygame.mouse.get_pressed()[0]:
             mousePressed = False
         self.is_selected()
+        return True
 
     def is_selected(self):
         if self.selected:
@@ -95,6 +108,7 @@ class ControlsButton(Button):
         text_surface = self.font.render(self.text_in, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
+        screen.blit(self.text_surface, self.text_rect)
 
 class Dropdown(GameObject):
     def __init__(self, x, y, width, height, options, font_size, color, on_select):
