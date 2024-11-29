@@ -1,6 +1,8 @@
 import pygame
 import sys
 
+import pickle
+
 from button import Button, Dropdown, Checkbox, Slider, ControlsButton
 from gameobject import OnScreen
 from level import Level
@@ -64,6 +66,13 @@ class MainMenu(OnScreen):
 
 class Settings(OnScreen):
     def __init__(self, mainMenu):
+        try:
+            with open("controls.bin", "rb") as f:
+                utils.controls = pickle.load(f)
+        except FileNotFoundError:
+            with open("controls.bin", "wb") as f:
+                pickle.dump(utils.controls, f)
+
         self.back = mainMenu
         self.screen = mainMenu.screen
 
@@ -145,14 +154,6 @@ class Settings(OnScreen):
                         self.soundSlider.set_value(float(line.split(":")[1]))
                     if "resolution" in line:
                         self.resolution.set_option(line.split(":")[1].strip())
-                    if "left" in line:
-                        self.left.update_text(int(line.split(":")[1]))
-                    if "right" in line:
-                        self.right.update_text(int(line.split(":")[1]))
-                    if "up" in line:
-                        self.up.update_text(int(line.split(":")[1]))
-                    if "down" in line:
-                        self.down.update_text(int(line.split(":")[1]))
 
         except FileNotFoundError:
             with open("settings.cfg", "w") as f:
@@ -173,12 +174,8 @@ class Settings(OnScreen):
             f.write("volume: " + str(utils.volume) + "\n")
             f.write("resolution: " + str(pygame.display.get_surface().get_width()) + "x" +
                     str(pygame.display.get_surface().get_height()) + "\n")
-            f.write(f"left: {utils.controls['left']}\n")
-            f.write(f"right: {utils.controls['right']}\n")
-            f.write(f"up: {utils.controls['up']}\n")
-            f.write(f"down: {utils.controls['down']}\n")
-
-
+        with open("controls.bin", "wb") as f:
+            pickle.dump(utils.controls, f)
         utils.currentScreen = MainMenu(self.screen)
 
     def handleInput(self):
