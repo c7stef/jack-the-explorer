@@ -143,13 +143,32 @@ class DeathScreen(OnScreen):
         self.scene = level.scene
         self.level = level
         self.checkpoint = checkpoint
-        font = pygame.font.SysFont("Arial", 225)
+
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
+        self.big_font_ratio = 0.45
+        self.font_ratio = 0.05
+        self.button_font_size = int(self.screen_height * self.font_ratio)
+
+        font = pygame.font.SysFont("Arial", int(self.screen_height * self.big_font_ratio))
         text = "Wasted"
         self.text_surface = font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
         self.screen.blit(self.text_surface, self.text_rec)
-        self.restart_button = Button(100, 100, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
-        self.last_button = Button(100, 200, 150, 75, "Last Checkpoint", 40, (0, 255, 255), self.last_checkpoint)
+
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
+
+        self.button_y_bottom_left = self.screen_height - self.button_height - self.screen_height / 10
+        self.button_x_bottom_left = self.screen_width / 20
+
+        self.button_y_buttom_right = self.screen_height - self.button_height - self.screen_height / 10
+        self.button_x_buttom_right = self.screen_width - self.button_width - self.screen_width / 20
+
+        self.restart_button = Button(self.button_x_bottom_left, self.button_y_bottom_left, self.button_width,
+                                     self.button_height, "Restart", self.button_font_size, (0, 255, 255), self.restart)
+        self.last_button = Button(self.button_x_buttom_right, self.button_y_buttom_right, self.button_width,
+                                  self.button_height, "Last Checkpoint", self.button_font_size, (0, 255, 255), self.last_checkpoint)
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
         self.sound.set_volume(utils.volume)
         self.sound.play()

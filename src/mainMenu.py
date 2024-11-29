@@ -16,16 +16,22 @@ class MainMenu(OnScreen):
         self.screen_width = self.screen.get_width()
         self.screen_height = self.screen.get_height()
 
-        self.button_width = 200
-        self.button_height = 50
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
         self.centered_button_x = self.screen_width / 2 - self.button_width / 2
         self.centered_button_y = self.screen_height / 2 - self.button_height / 2
 
-        self.offset = 100
+        self.font_ratio = 0.04
+        self.font_size = int(self.screen_height * self.font_ratio)
 
-        self.start = Button(self.centered_button_x, self.centered_button_y - self.button_height - self.offset, self.button_width, self.button_height, "Start", 30, (0, 255, 0), self.startGame)
-        self.quit = Button(self.centered_button_x, self.centered_button_y + self.button_height + self.offset, self.button_width, self.button_height, "Quit", 30, (255, 0, 0), self.quitGame)
-        self.settings = Button(self.centered_button_x, self.centered_button_y, self.button_width, self.button_height, "Settings", 30, (0, 0, 255), self.settings)
+        self.offset = self.screen_height / 18
+
+        self.start = Button(self.centered_button_x, self.centered_button_y - self.button_height - self.offset, self.button_width
+                            , self.button_height, "Start", self.font_size, (0, 255, 0), self.startGame)
+        self.quit = Button(self.centered_button_x, self.centered_button_y + self.button_height + self.offset,
+                           self.button_width, self.button_height, "Quit", self.font_size, (255, 0, 0), self.quitGame)
+        self.settings = Button(self.centered_button_x, self.centered_button_y,
+                               self.button_width, self.button_height, "Settings", self.font_size, (0, 0, 255), self.settings)
 
         self.buttons.append(self.start)
         self.buttons.append(self.quit)
@@ -111,7 +117,7 @@ class Settings(OnScreen):
         utils.volume = volume
 
     def backToMain(self):
-        utils.currentScreen = self.back
+        utils.currentScreen = MainMenu(self.screen)
 
     def handleInput(self):
         for d in self.drop_downs:
@@ -140,14 +146,23 @@ class LevelsMenu(OnScreen):
         self.screen_width = self.screen.get_width()
         self.screen_height = self.screen.get_height()
 
-        self.button_width = 200
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
         self.centered_button_x = self.screen_width / 2 - self.button_width / 2
+        self.centered_button_y = self.screen_height / 2
+        self.offset = self.screen_height / 18
 
-        self.level1 = Button(self.centered_button_x, 100, self.button_width, 50, "Level 1", 30, (0, 255, 0), self.startLevel1)
-        self.level2 = Button(self.centered_button_x, 200, self.button_width, 50, "Level 2", 30, (255, 0, 0), self.startLevel2)
-        self.level3 = Button(self.centered_button_x, 300, self.button_width, 50, "Level 3", 30, (0, 0, 255), self.startLevel3)
+        self.font_ratio = 0.04
+        self.font_size = int(self.screen_height * self.font_ratio)
 
-        self.goBack = Button(self.centered_button_x, 400, self.button_width, 50, "Back", 30, (0, 120, 0), self.backToMain)
+        self.level1 = Button(self.centered_button_x, self.centered_button_y - self.offset / 2 - self.offset - self.button_height * 2,
+                             self.button_width, self.button_height, "Level 1", self.font_size, (0, 255, 0), self.startLevel1)
+        self.level2 = Button(self.centered_button_x, self.centered_button_y - self.offset / 2 - self.button_height,
+                             self.button_width, self.button_height, "Level 2", self.font_size, (255, 0, 0), self.startLevel2)
+        self.level3 = Button(self.centered_button_x, self.centered_button_y + self.offset / 2, self.button_width,
+                             self.button_height, "Level 3", self.font_size, (0, 0, 255), self.startLevel3)
+        self.goBack = Button(self.centered_button_x, self.centered_button_y + self.offset / 2 + self.button_height + self.offset,
+                             self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.backToMain)
 
         self.buttons.append(self.level1)
         self.buttons.append(self.level2)
