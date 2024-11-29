@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-from button import Button, Dropdown, Checkbox, Slider
+from button import Button, Dropdown, Checkbox, Slider, ControlsButton
 from gameobject import OnScreen
 from level import Level
 import utils
@@ -70,12 +70,22 @@ class Settings(OnScreen):
         self.font = pygame.font.SysFont("Arial", 20)
 
         self.buttons = []
+        self.controls = []
 
         self.drop_downs = []
 
         self.goBack = Button(100, 400, 200, 50, "Back", 30, (0, 120, 0), self.backToMain)
 
+        self.left = ControlsButton(100, 20, 200, 50, "Left", 30, (0, 255, 0), utils.controls, "left")
+        self.right = ControlsButton(350, 20, 200, 50, "Right", 30, (0, 255, 0), utils.controls, "right")
+        self.up = ControlsButton(600, 20, 200, 50, "Up", 30, (0, 255, 0), utils.controls, "up")
+        self.down = ControlsButton(850, 20, 200, 50, "Down", 30, (0, 255, 0), utils.controls, "down")
+
         self.buttons.append(self.goBack)
+        self.controls.append(self.left)
+        self.controls.append(self.right)
+        self.controls.append(self.up)
+        self.controls.append(self.down)
 
         options = []
 
@@ -106,6 +116,18 @@ class Settings(OnScreen):
 
         self.buttons.append(Checkbox(100, 300, 200, 50, "Fullscreen", 30, (0, 255, 0), self.toggleFullscreen))
 
+        try:
+            with open("settings.cfg", "r") as f:
+                for line in f:
+                    if "volume" in line:
+                        self.soundSlider.set_value(float(line.split(":")[1]))
+                    if "resolution" in line:
+                        self.resolution.set_option(line.split(":")[1].strip())
+
+        except FileNotFoundError:
+            with open("settings.cfg", "w") as f:
+                f.write("")
+
     def changeResolution(self, option):
         width, height = option.split("x")
         pygame.display.set_mode((int(width), int(height)))
@@ -117,11 +139,23 @@ class Settings(OnScreen):
         utils.volume = volume
 
     def backToMain(self):
+        with open("settings.cfg", "w") as f:
+            f.write("volume: " + str(utils.volume) + "\n")
+            f.write("resolution: " + str(pygame.display.get_surface().get_width()) + "x" +
+                    str(pygame.display.get_surface().get_height()) + "\n")
+            f.write(f"left: {utils.K_LEFT}\n")
+            f.write(f"right: {utils.K_RIGHT}\n")
+            f.write(f"up: {utils.K_UP}\n")
+            f.write(f"down: {utils.K_DOWN}\n")
+
+
         utils.currentScreen = MainMenu(self.screen)
 
     def handleInput(self):
         for d in self.drop_downs:
             d.handle_input(self.events)
+        for c in self.controls:
+            c.handle_input(self.events)
         for b in self.buttons:
             b.handle_input()
 
@@ -129,6 +163,8 @@ class Settings(OnScreen):
         self.handleInput()
 
     def draw(self):
+        for c in self.controls:
+            c.draw(self.screen)
         for b in self.buttons:
             b.draw(self.screen)
         for d in self.drop_downs:

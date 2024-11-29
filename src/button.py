@@ -4,6 +4,8 @@ from gameobject import GameObject
 
 from imageProcessing import scale_surface
 
+import utils
+
 mousePressed = False
 
 tick = pygame.image.load("assets/tick/tick.png")
@@ -46,6 +48,54 @@ class Button(GameObject):
         screen.blit(text_surface, text_rect)
 
 
+class ControlsButton(Button):
+    def __init__(self, x, y, width, height, text, font_size, color, controls, key):
+        super().__init__(x, y, width, height, text, font_size, color, None)
+        self.controls = controls
+        self.key = key
+        self.selected = False
+        self.text_in = pygame.key.name(controls[key])
+
+    def handle_input(self, events):
+        if self.selected:
+            for e in events:
+                if e.type == pygame.KEYDOWN:
+                    self.text_in = pygame.key.name(e.key)
+                    self.controls[self.key] = e.key
+                    self.selected = False
+                    break
+
+        global mousePressed
+        mouse_pos = pygame.mouse.get_pos()
+        if self.rect.collidepoint(mouse_pos):
+            self.hover = True
+            if pygame.mouse.get_pressed()[0] and not mousePressed:
+                mousePressed = True
+                self.selected = True
+        else:
+            self.hover = False
+        if not pygame.mouse.get_pressed()[0]:
+            mousePressed = False
+        self.is_selected()
+
+    def is_selected(self):
+        if self.selected:
+            if self.text_in[0] != ">":
+                self.text_in = f"> {self.text_in} <"
+        else:
+            if self.text_in[0] == ">":
+                self.text_in = self.text_in[2:-2]
+
+    def draw(self, screen):
+
+        if self.hover:
+            pygame.draw.rect(screen, self.hover_color, self.rect)
+        else:
+            pygame.draw.rect(screen, self.color, self.rect)
+        text_surface = self.font.render(self.text_in, True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        screen.blit(text_surface, text_rect)
+
 class Dropdown(GameObject):
     def __init__(self, x, y, width, height, options, font_size, color, on_select):
         self.rect = pygame.Rect(x, y, width, height)
@@ -70,6 +120,10 @@ class Dropdown(GameObject):
 
         self.scroll_speed = 15
         self.scroll_history = 0
+
+    def set_option(self, option):
+        self.selected_option = option
+        self.on_select(option)
 
     def handle_input(self, events):
         global mousePressed
@@ -214,6 +268,10 @@ class Slider(GameObject):
         self.on_change = on_change
         self.value = 0.5
         self.is_dragging = False
+
+    def set_value(self, value):
+        self.value = value
+        self.on_change(value)
 
     def handle_input(self):
         global mousePressed
