@@ -16,13 +16,20 @@ class Button(GameObject):
         self.color = color
         self.on_click = on_click
 
+        self.hover = False
+
+        self.hover_color = ( min(color[0] + 20, 255), min(color[1] + 20, 255), min(color[2] + 20, 255))
+
     def handle_input(self):
         global mousePressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
+            self.hover = True
             if pygame.mouse.get_pressed()[0] and not mousePressed:
                 self.on_click()
                 mousePressed = True
+        else:
+            self.hover = False
         if not pygame.mouse.get_pressed()[0]:
             mousePressed = False
 
@@ -30,7 +37,10 @@ class Button(GameObject):
         self.handle_input()
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.rect)
+        if self.hover:
+            pygame.draw.rect(screen, self.hover_color, self.rect)
+        else:
+            pygame.draw.rect(screen, self.color, self.rect)
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
