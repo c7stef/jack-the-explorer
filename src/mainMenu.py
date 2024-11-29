@@ -69,6 +69,8 @@ class Settings(OnScreen):
 
         self.font = pygame.font.SysFont("Arial", 20)
 
+        self.old_conflicts = []
+
         self.buttons = []
         self.controls = []
 
@@ -197,6 +199,28 @@ class Settings(OnScreen):
 
     def update(self):
         self.handleInput()
+        self.check_controls_conflicts()
+
+    def check_controls_conflicts(self):
+        conflict_found = False
+        conflicts = []
+        for c in self.controls:
+            for c2 in self.controls:
+                if c != c2 and c.controls[c.key] == c2.controls[c2.key]:
+                    if c not in conflicts:
+                        conflicts.append(c)
+                    if c2 not in conflicts:
+                        conflicts.append(c2)
+                    conflict_found = True
+        for c in conflicts:
+            c.font_color = (255, 0, 0)
+
+        if self.old_conflicts != conflicts:
+            for c in self.old_conflicts:
+                if c not in conflicts:
+                    c.font_color = (0, 0, 0)
+        self.old_conflicts = conflicts
+        return conflict_found
 
     def draw(self):
         for c in self.controls:
