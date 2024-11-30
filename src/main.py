@@ -1,15 +1,22 @@
 import pygame
 import sys
+import pickle
 
 from mainMenu import MainMenu
 import utils
 # Initialize pygame
 pygame.init()
 
+# Load controls
+try:
+    with open("controls.bin", "rb") as f:
+        utils.controls = pickle.load(f)
+except FileNotFoundError:
+    with open("controls.bin", "wb") as f:
+        pickle.dump(utils.controls, f)
+
 # Screen settings
-SCREEN_WIDTH = pygame.display.Info().current_w
-SCREEN_HEIGHT = pygame.display.Info().current_h
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
 pygame.display.set_caption("Platformer")
 
 # Clock to manage frame rate

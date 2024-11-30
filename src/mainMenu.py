@@ -51,13 +51,6 @@ class MainMenu(OnScreen):
 
 class Settings(OnScreen):
     def __init__(self, mainMenu):
-        try:
-            with open("controls.bin", "rb") as f:
-                utils.controls = pickle.load(f)
-        except FileNotFoundError:
-            with open("controls.bin", "wb") as f:
-                pickle.dump(utils.controls, f)
-
         self.font = pygame.font.SysFont("Arial", 20)
         options = []
         for opt in pygame.display.list_modes():
