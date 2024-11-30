@@ -29,6 +29,15 @@ class GameObject(ABC):
         raise NotImplementedError("Draw method must be implemented by subclasses")
 
 class OnScreen(ABC):
+    def set_screen_size(self):
+        self.screen_width = self.screen.get_width()
+        self.screen_height = self.screen.get_height()
+        self.button_width = self.screen_width / 5
+        self.button_height = self.screen_height / 13
+        self.offset = self.screen_height / 18
+        self.font_ratio = 0.04
+        self.font_size = int(self.screen_height * self.font_ratio)
+
     def setScreen(self, screen):
         self.screen = screen
 

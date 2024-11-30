@@ -140,9 +140,6 @@ class Dropdown(GameObject):
         self.scroll_speed = 15
         self.scroll_history = 0
 
-        if self.selected_option is not None:
-            self.on_select(self.selected_option)
-
     def set_option(self, option):
         self.selected_option = option
         self.on_select(option)
@@ -242,8 +239,8 @@ class Dropdown(GameObject):
 
 class Checkbox(GameObject):
     def __init__(self, x, y, width, height, text, font_size, color, on_click):
-        self.rect = pygame.Rect(x + height + 5, y, width, height)
-        self.rectSquare = pygame.Rect(x, y, height, height)
+        self.rect = pygame.Rect(x + 5, y, width, height)
+        self.rectSquare = pygame.Rect(x - height, y, height, height)
         self.text = text
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color

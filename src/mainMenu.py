@@ -73,84 +73,68 @@ class Settings(OnScreen):
             with open("controls.bin", "wb") as f:
                 pickle.dump(utils.controls, f)
 
+        self.font = pygame.font.SysFont("Arial", 20)
+        options = []
+        for opt in pygame.display.list_modes():
+            if opt[0] < 600:
+                continue
+            options.append(str(opt[0]) + "x" + str(opt[1]))
+        self.resolution_options = options
         self.back = mainMenu
         self.screen = mainMenu.screen
-
-        self.font = pygame.font.SysFont("Arial", 20)
-
         self.old_conflicts = []
+        self.pickResolution = "Resolution: "
+        self.text_surface_res = self.font.render(self.pickResolution, True, (0, 0, 0))
+        self.init_ui()
 
+    def changeResolution(self, option):
+        utils.controls['resolution'] = option
+        self.init_ui()
+
+    def init_ui(self):
+        pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
+        self.set_screen_size()
         self.buttons = []
-        self.controls = []
-
         self.drop_downs = []
-
+        self.controls = []
         self.focused_element = None
-
-        self.screen_width = self.screen.get_width()
-        self.screen_height = self.screen.get_height()
-
-        self.button_width = self.screen_width / 5
-        self.button_height = self.screen_height / 13
-
+        self.left_column_center_x = self.screen_width / 2 - self.screen_width / 4
+        self.top_left_y = self.screen_height / 10
         self.button_right_column_center_x = self.screen_width / 2 + self.screen_width / 4 - self.button_width / 2
         self.button_right_column_first_y = self.screen_height / 10
+        dropdown_x = self.left_column_center_x
+        dropdown_y = self.top_left_y
+        dropdown_width = self.screen_width / 8
+        dropdown_height = self.screen_height / 18
+        self.fullscreen_checkbox_y = self.top_left_y + dropdown_height + self.offset
+        self.soundSlider_y = self.fullscreen_checkbox_y + self.offset + self.button_height
+        options = self.resolution_options
 
-        self.font_ratio = 0.04
-        self.font_size = int(self.screen_height * self.font_ratio)
-
-        self.offset = self.screen_height / 18
-
-        self.goBack = Button(100, 400, self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.backToMain)
-
-        self.left = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y,
-                                   self.button_width, self.button_height, "Left", self.font_size, (0, 255, 0), utils.controls, "left")
+        self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height, options, int(self.font_size / 1.5),
+                                   (255, 255, 255), self.changeResolution, utils.controls['resolution'])
+        self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
+                             dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
+        self.buttons.append(Checkbox(self.left_column_center_x, self.fullscreen_checkbox_y, self.button_width,
+                                     self.button_height, "Fullscreen", self.font_size, (0, 255, 0), self.toggleFullscreen))
+        self.left = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y, self.button_width,
+                                   self.button_height, "Left", self.font_size, (0, 255, 0), utils.controls, "left")
         self.right = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + self.offset + self.button_height,
                                     self.button_width, self.button_height, "Right", self.font_size, (0, 255, 0), utils.controls, "right")
         self.up = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 2 * (self.offset + self.button_height),
                                  self.button_width, self.button_height, "Up", self.font_size, (0, 255, 0), utils.controls, "up")
         self.down = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 3 * (self.offset + self.button_height),
                                    self.button_width, self.button_height, "Down", self.font_size, (0, 255, 0), utils.controls, "down")
-
-        self.buttons.append(self.goBack)
+        self.soundSlider = Slider(self.left_column_center_x, self.soundSlider_y, self.button_width,
+                                  self.button_height, (0, 255, 0), self.set_volume, "Volume: ", 20, utils.controls['sound'])
+        self.goBack = Button(self.left_column_center_x, self.soundSlider_y + self.button_height + self.offset,
+                             self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.backToMain)
         self.controls.append(self.left)
         self.controls.append(self.right)
         self.controls.append(self.up)
         self.controls.append(self.down)
-
-        options = []
-
-        self.soundSlider = Slider(300, 200, 200, 50, (0, 255, 0), self.set_volume, "Volume: ", 20, utils.controls['sound'])
-
         self.buttons.append(self.soundSlider)
-
-        for opt in pygame.display.list_modes():
-            if opt[0] < 600:
-                continue
-            options.append(str(opt[0]) + "x" + str(opt[1]))
-
-        self.pickResolution = "Resolution: "
-        self.text_surface_res = self.font.render(self.pickResolution, True, (0, 0, 0))
-
-        dropdown_x = 300
-        dropdown_y = 100
-        dropdown_width = 200
-        dropdown_height = 50
-
-        self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height,
-                                   options, 20, (255, 255, 255), self.changeResolution, utils.controls['resolution'])
-
-        self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
-                             dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
-
+        self.buttons.append(self.goBack)
         self.drop_downs.append(self.resolution)
-
-        self.buttons.append(Checkbox(100, 300, 200, 50, "Fullscreen", 30, (0, 255, 0), self.toggleFullscreen))
-
-    def changeResolution(self, option):
-        utils.controls['resolution'] = option
-        width, height = option.split("x")
-        pygame.display.set_mode((int(width), int(height)))
 
     def toggleFullscreen(self, checked):
         pygame.display.toggle_fullscreen()
