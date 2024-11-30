@@ -170,7 +170,7 @@ class DeathScreen(OnScreen):
         self.last_button = Button(self.button_x_buttom_right, self.button_y_buttom_right, self.button_width,
                                   self.button_height, "Last Checkpoint", self.button_font_size, (0, 255, 255), self.last_checkpoint)
         self.sound = pygame.mixer.Sound("sounds/uAreDead.mp3")
-        self.sound.set_volume(utils.volume)
+        self.sound.set_volume(utils.controls['sound'])
         self.sound.play()
 
     def last_checkpoint(self):
@@ -246,7 +246,7 @@ class FinishScreen(OnScreen):
         self.buttons.append(self.next_level_button)
 
         self.sound = pygame.mixer.Sound("sounds/nextLevel.mp3")
-        self.sound.set_volume(utils.volume)
+        self.sound.set_volume(utils.controls['sound'])
         self.sound.play()
 
     def goToMainMenu(self):

@@ -116,14 +116,14 @@ class ControlsButton(Button):
         screen.blit(self.text_surface, self.text_rect)
 
 class Dropdown(GameObject):
-    def __init__(self, x, y, width, height, options, font_size, color, on_select):
+    def __init__(self, x, y, width, height, options, font_size, color, on_select, selected_option=None):
         self.rect = pygame.Rect(x, y, width, height)
         self.options = options
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color
         self.border_color = (0, 0, 0)
         self.on_select = on_select
-        self.selected_option = None
+        self.selected_option = selected_option
         self.is_open = False
         self.border_thickness = 2
         self.border_rect = pygame.Rect(x - self.border_thickness, y - self.border_thickness,
@@ -139,6 +139,9 @@ class Dropdown(GameObject):
 
         self.scroll_speed = 15
         self.scroll_history = 0
+
+        if self.selected_option is not None:
+            self.on_select(self.selected_option)
 
     def set_option(self, option):
         self.selected_option = option
@@ -276,7 +279,7 @@ class Checkbox(GameObject):
 
 
 class Slider(GameObject):
-    def __init__(self, x, y, width, height, color, on_change, text, font_size):
+    def __init__(self, x, y, width, height, color, on_change, text, font_size, default_value=0.5):
         self.rect = pygame.Rect(x, y, width, height)
 
         self.font = pygame.font.SysFont("Arial", font_size)
@@ -285,7 +288,7 @@ class Slider(GameObject):
         self.color = color
         self.border_color = (0, 0, 0)
         self.on_change = on_change
-        self.value = 0.5
+        self.value = default_value
         self.is_dragging = False
 
     def set_value(self, value):

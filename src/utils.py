@@ -13,18 +13,13 @@ escapePressed = False
 
 currentScreen = None
 
-volume = 1.0
-
-K_LEFT = pygame.K_LEFT
-K_RIGHT = pygame.K_RIGHT
-K_UP = pygame.K_UP
-K_DOWN = pygame.K_DOWN
-
 controls = {
     'left': pygame.K_LEFT,
     'right': pygame.K_RIGHT,
     'up': pygame.K_UP,
-    'down': pygame.K_DOWN
+    'down': pygame.K_DOWN,
+    'sound': 0.5,
+    'resolution': "1600x1000"
 }
 
 class Direction(Enum):

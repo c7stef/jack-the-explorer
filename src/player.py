@@ -62,10 +62,10 @@ class Player(GameObject, RigidBody, Followable):
     def handle_input(self):
         keys = pygame.key.get_pressed()
 
-        left_pressed = keys[utils.controls['left']] or keys[pygame.K_a]
-        right_pressed = keys[utils.controls['right']] or keys[pygame.K_d]
-        up_pressed = keys[pygame.K_w] or keys[utils.controls['up']]
-        down_pressed = keys[pygame.K_s] or keys[utils.controls['down']]
+        left_pressed = keys[utils.controls['left']]
+        right_pressed = keys[utils.controls['right']]
+        up_pressed = keys[utils.controls['up']]
+        down_pressed = keys[utils.controls['down']]
 
         if down_pressed and self.transportable:
             self.transport_player(self.tunnel)

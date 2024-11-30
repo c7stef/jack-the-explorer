@@ -22,7 +22,7 @@ class Weapon(GameObject):
         self.isEquipped = False
         self.isReloading = False
         self.reload_sound = pygame.mixer.Sound("sounds/reload.wav")
-        self.reload_sound.set_volume(utils.volume)
+        self.reload_sound.set_volume(utils.controls['sound'])
 
     def reload(self):
         if self.magSize == self.magAmmo:

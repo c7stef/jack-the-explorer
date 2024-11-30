@@ -120,7 +120,7 @@ class Settings(OnScreen):
 
         options = []
 
-        self.soundSlider = Slider(300, 200, 200, 50, (0, 255, 0), self.set_volume, "Volume: ", 20)
+        self.soundSlider = Slider(300, 200, 200, 50, (0, 255, 0), self.set_volume, "Volume: ", 20, utils.controls['sound'])
 
         self.buttons.append(self.soundSlider)
 
@@ -138,7 +138,7 @@ class Settings(OnScreen):
         dropdown_height = 50
 
         self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height,
-                                   options, 20, (255, 255, 255), self.changeResolution)
+                                   options, 20, (255, 255, 255), self.changeResolution, utils.controls['resolution'])
 
         self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
                              dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
@@ -147,19 +147,8 @@ class Settings(OnScreen):
 
         self.buttons.append(Checkbox(100, 300, 200, 50, "Fullscreen", 30, (0, 255, 0), self.toggleFullscreen))
 
-        try:
-            with open("settings.cfg", "r") as f:
-                for line in f:
-                    if "volume" in line:
-                        self.soundSlider.set_value(float(line.split(":")[1]))
-                    if "resolution" in line:
-                        self.resolution.set_option(line.split(":")[1].strip())
-
-        except FileNotFoundError:
-            with open("settings.cfg", "w") as f:
-                f.write("")
-
     def changeResolution(self, option):
+        utils.controls['resolution'] = option
         width, height = option.split("x")
         pygame.display.set_mode((int(width), int(height)))
 
@@ -167,13 +156,9 @@ class Settings(OnScreen):
         pygame.display.toggle_fullscreen()
 
     def set_volume(self, volume):
-        utils.volume = volume
+        utils.controls['sound'] = volume
 
     def backToMain(self):
-        with open("settings.cfg", "w") as f:
-            f.write("volume: " + str(utils.volume) + "\n")
-            f.write("resolution: " + str(pygame.display.get_surface().get_width()) + "x" +
-                    str(pygame.display.get_surface().get_height()) + "\n")
         with open("controls.bin", "wb") as f:
             pickle.dump(utils.controls, f)
         utils.currentScreen = MainMenu(self.screen)
