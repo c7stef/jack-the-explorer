@@ -67,28 +67,24 @@ class ControlsButton(Button):
     def handle_input(self, events):
         global mousePressed
         self.is_selected()
-        if self.selected:
-            for e in events:
-                if e.type == pygame.KEYDOWN:
-                    if e.key is pygame.K_ESCAPE:
-                        self.selected = False
-                        return None
-                    self.text_in = pygame.key.name(e.key)
-                    self.controls[self.key] = e.key
+        ret = None
+        for e in events:
+            if e.type == pygame.MOUSEBUTTONDOWN:
+                if self.rect.collidepoint(pygame.mouse.get_pos()):
+                    self.hover = True
+                    self.selected = True
+                else:
+                    self.hover = False
+            if e.type == pygame.KEYDOWN and self.selected:
+                if e.key is pygame.K_ESCAPE:
                     self.selected = False
-                    return None
-        mouse_pos = pygame.mouse.get_pos()
-        if self.rect.collidepoint(mouse_pos):
-            self.hover = True
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
-                mousePressed = True
-                self.selected = True
-                return self
-        else:
-            self.hover = False
-        if not pygame.mouse.get_pressed()[0]:
-            mousePressed = False
-        return True
+                    break
+                self.text_in = pygame.key.name(e.key)
+                self.controls[self.key] = e.key
+                self.selected = False
+        if self.selected:
+            return self
+        return ret
 
     def is_selected(self):
         if self.selected:
