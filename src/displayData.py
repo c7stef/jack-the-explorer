@@ -91,8 +91,6 @@ class PauseScreen(OnScreen):
 
         self.buttons = []
 
-        self.center_button_x = self.screen_width / 2 - self.button_width / 2
-        self.center_button_y = self.screen_height / 2 - self.button_height / 2
         self.center_button2_y = self.center_button_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
         self.center_button4_y = self.center_button3_y + self.button_height + self.offset
@@ -222,8 +220,6 @@ class FinishScreen(OnScreen):
         self.scene.remove_object(self.scene.find_player())
 
         self.set_screen_size()
-        self.center_button_x = self.screen_width / 2 - self.button_width / 2
-        self.center_button_y = self.screen_height / 2 - self.button_height / 2
         self.offset = self.screen_height / 10
         self.font_ratio = 0.08
         self.buttons = []
