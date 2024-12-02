@@ -7,7 +7,6 @@ from imageProcessing import scale_surface
 import utils
 
 mousePressed = False
-select_key = False
 
 tick = pygame.image.load("assets/tick/tick.png")
 
@@ -66,34 +65,29 @@ class ControlsButton(Button):
         self.text_in = pygame.key.name(self.controls[self.key])
 
     def handle_input(self, events):
-        global select_key
+        global mousePressed
+        self.is_selected()
         if self.selected:
             for e in events:
                 if e.type == pygame.KEYDOWN:
                     if e.key is pygame.K_ESCAPE:
                         self.selected = False
-                        select_key = False
                         return None
                     self.text_in = pygame.key.name(e.key)
                     self.controls[self.key] = e.key
                     self.selected = False
-                    select_key = False
                     return None
-
-        global mousePressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.hover = True
-            if pygame.mouse.get_pressed()[0] and not mousePressed and not select_key:
+            if pygame.mouse.get_pressed()[0] and not mousePressed:
                 mousePressed = True
                 self.selected = True
-                select_key = True
                 return self
         else:
             self.hover = False
         if not pygame.mouse.get_pressed()[0]:
             mousePressed = False
-        self.is_selected()
         return True
 
     def is_selected(self):

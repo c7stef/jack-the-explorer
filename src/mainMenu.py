@@ -135,7 +135,7 @@ class Settings(OnScreen):
             ret = c.handle_input(self.events)
             if isinstance(ret, ControlsButton):
                 self.focused_element = ret
-                pass
+                return
         for b in self.buttons:
             b.handle_input()
 
