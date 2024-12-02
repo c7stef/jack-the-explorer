@@ -83,20 +83,31 @@ class PauseScreen(OnScreen):
         self.screen = level.scene.screen
         self.scene = level.scene
         self.level = level
-        self.font = pygame.font.SysFont("Arial", 225)
         text = "Paused"
+        self.set_screen_size()
+        self.font = pygame.font.SysFont("Arial", self.font_size * 8)
         self.text_surface = self.font.render(text, True, (255, 0, 0))
-        self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 4.5))
 
         self.buttons = []
 
-        self.goBackButton = Button(100, 100, 150, 75, "Continue", 40, (0, 255, 255), self.goBack)
+        self.center_button_x = self.screen_width / 2 - self.button_width / 2
+        self.center_button_y = self.screen_height / 2 - self.button_height / 2
+        self.center_button2_y = self.center_button_y + self.button_height + self.offset
+        self.center_button3_y = self.center_button2_y + self.button_height + self.offset
+        self.center_button4_y = self.center_button3_y + self.button_height + self.offset
+
+        self.goBackButton = Button(self.center_button_x, self.center_button_y, self.button_width,
+                                   self.button_height, "Continue", self.font_size, (0, 255, 255), self.goBack)
         self.buttons.append(self.goBackButton)
-        self.main_menu_button = Button(100, 200, 150, 75, "Main Menu", 40, (0, 255, 255), self.goToMainMenu)
+        self.main_menu_button = Button(self.center_button_x, self.center_button2_y, self.button_width,
+                                       self.button_height, "Main Menu", self.font_size, (0, 255, 255), self.goToMainMenu)
         self.buttons.append(self.main_menu_button)
-        self.restart_button = Button(100, 300, 150, 75, "Restart", 40, (0, 255, 255), self.restart)
+        self.restart_button = Button(self.center_button_x, self.center_button3_y, self.button_width,
+                                     self.button_height, "Restart", self.font_size, (0, 255, 255), self.restart)
         self.buttons.append(self.restart_button)
-        self.last_checkpoint_button = Button(100, 400, 150, 75, "Last Checkpoint", 40, (0, 255, 255), self.last_checkpoint)
+        self.last_checkpoint_button = Button(self.center_button_x, self.center_button4_y, self.button_width,
+                                             self.button_height, "Last Checkpoint", self.font_size, (0, 255, 255), self.last_checkpoint)
         self.buttons.append(self.last_checkpoint_button)
 
     def goBack(self):
