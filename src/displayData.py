@@ -16,6 +16,8 @@ class DisplayData(GameObject):
         self.level = player.level
         self.font = pygame.font.SysFont("Arial", 25)
         self.color = (0, 0, 255)
+        self.z_index = 100
+
         self.score = 0
         self.coinCnt = 0
         self.magAmmo = 0

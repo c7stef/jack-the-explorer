@@ -6,22 +6,16 @@ from pymunk import pygame_util
 from camera import Camera
 from player import Player
 import collision
+from sortedcontainers import SortedList
 
 class Scene:
     def __init__(self, screen):
-        self.game_objects = []
+        self.game_objects = SortedList(key=lambda x: x.z_index)
         self.physics_space = pymunk.Space()
         self.physics_space.gravity = (0, 4.0)
         self.following = None
         self.screen = screen
         self.to_remove = []
-
-        self.map_bounds = pygame.Rect(0, 0, 10240, 2048)
-
-        def follow_player():
-            if not self.following:
-                return None
-            return self.following.position
 
         camera_rect = screen.get_rect()
         self.camera = Camera(self.update_camera, camera_rect.center, camera_rect.w, camera_rect.h)
@@ -40,9 +34,12 @@ class Scene:
             handler = self.physics_space.add_collision_handler(type_a.value, type_b.value)
             handler.pre_solve = pre_solve_collision
 
+    def set_bounds(self, bounds):
+        self.map_bounds = bounds
+
     def add_object(self, game_object):
         game_object.set_scene(self)
-        self.game_objects.append(game_object)
+        self.game_objects.add(game_object)
         if isinstance(game_object, RigidBody):
             self.physics_space.add(*game_object.body_data())
         if isinstance(game_object, Player):
@@ -132,6 +129,19 @@ class Scene:
         screen.fill((255, 255, 255))
         for obj in self.game_objects:
             obj.draw(screen)
+    def relative_position_parallax(self, position, size):
+        camera_size = pygame.Vector2(self.camera.rect.size)
+        main_size = pygame.Vector2(self.map_bounds.size)
+        
+        parallax_gap = main_size - size
+        camera_gap = main_size - camera_size
+
+        factor = pygame.Vector2(
+            parallax_gap.x / camera_gap.x - 1,
+            parallax_gap.y / camera_gap.y - 1
+        )
+
+        return self.camera.relative_position_scaled(position, factor)
 
     def relative_position(self, position):
         return self.camera.relative_position(position)

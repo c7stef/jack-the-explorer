@@ -10,6 +10,13 @@ class Camera:
         current_center = pygame.Vector2(self.rect.center)
         self.rect.center = pygame.Vector2.lerp(current_center, self.update_func(), 0.08)
 
+    def relative_position_scaled(self, position, factor):
+        offset = pygame.Vector2(
+            self.rect.left * factor.x,
+            self.rect.top * factor.y
+        )
+        return pygame.Vector2(position) + offset
+    
     def relative_position(self, position):
         return pygame.Vector2(position) - pygame.Vector2(self.rect.topleft)
 

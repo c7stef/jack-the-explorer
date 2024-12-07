@@ -7,7 +7,7 @@ from block import Block, MovingPlatform, DecayingBlock, Spike
 from enemy import Enemy, EnemyFlower
 from Pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
-from mossytile import MossyTile
+from mossytile import MossyTile, MossyBgTile
 from scene import Scene
 from tunnel import Tunnel, TunnelManager
 from checkpoint import Checkpoint
@@ -42,10 +42,25 @@ class Level(OnScreen):
         scene.add_object(HealthPickUp(pygame.Vector2(400, 350)))
         scene.add_object(AmmoPickUp(pygame.Vector2(500, 350)))
         scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
-        tilemap = TileMap("assets/tilemaps/level1-map.tmx")
-        scene.add_object(tilemap)
-        tilemap.create_tiles({'mossy': MossyTile})
-        tilemap.create_objects('Objects', utils.importDict)
+
+        self.map_position = pygame.Vector2(-64, -64)
+
+        main_tilemap = TileMap("assets/tilemaps/level1-map.tmx")
+        scene.add_object(main_tilemap)
+
+        # Half a tile is cut off on each side
+        scene.set_bounds(pygame.Rect(
+            pygame.Vector2(0, 0),
+            main_tilemap.bounds() - main_tilemap.tile_size()
+        ))
+
+        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile})
+        main_tilemap.create_objects(self.map_position, 'Objects', utils.importDict)
+
+        bg_tilemap = TileMap("assets/tilemaps/level1-bg.tmx")
+        scene.add_object(bg_tilemap)
+
+        bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
 
     def update(self):
         self.scene.update()

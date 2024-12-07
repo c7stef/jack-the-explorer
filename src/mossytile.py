@@ -1,12 +1,13 @@
 import pygame
 import pymunk
 
-from gameobject import Solid
+from gameobject import GameObject, Solid
 import collision
 
 class MossyTile(Solid):
     def __init__(self, position, image, colliders):
-        self.RADIUS = 10
+        self.CORNER_RADIUS = 10
+        self.z_index = 1
         
         shapes = []
 
@@ -16,12 +17,12 @@ class MossyTile(Solid):
             points = [(p.x - width/2, p.y - height/2) for p in box.as_points]
 
             # Manually offset rectangle points
-            points[0] = points[0][0] + self.RADIUS, points[0][1] + self.RADIUS            
-            points[1] = points[1][0] + self.RADIUS, points[1][1] - self.RADIUS
-            points[2] = points[2][0] - self.RADIUS, points[2][1] - self.RADIUS
-            points[3] = points[3][0] - self.RADIUS, points[3][1] + self.RADIUS
+            points[0] = points[0][0] + self.CORNER_RADIUS, points[0][1] + self.CORNER_RADIUS            
+            points[1] = points[1][0] + self.CORNER_RADIUS, points[1][1] - self.CORNER_RADIUS
+            points[2] = points[2][0] - self.CORNER_RADIUS, points[2][1] - self.CORNER_RADIUS
+            points[3] = points[3][0] - self.CORNER_RADIUS, points[3][1] + self.CORNER_RADIUS
             
-            shapes.append(pymunk.Poly(None, points, radius=self.RADIUS))
+            shapes.append(pymunk.Poly(None, points, radius=self.CORNER_RADIUS))
 
         super().__init__(
             position.x, position.y,
@@ -39,3 +40,19 @@ class MossyTile(Solid):
 
     def draw(self, screen):
         screen.blit(self.image, self.scene.relative_position((self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))
+
+class MossyBgTile(GameObject):
+    def __init__(self, position, image, colliders):
+        self.z_index = -1
+
+        self.position = position
+        self.width, self.height = image.get_width(), image.get_height()
+        self.image = image
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        position = self.position - pygame.Vector2(self.width, self.height) / 2
+        screen.blit(self.image, self.scene.relative_position_parallax(position, 128 * pygame.Vector2(59, 11)))
+

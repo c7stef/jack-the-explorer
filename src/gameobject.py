@@ -20,6 +20,16 @@ class GameObject(ABC):
     def parent(self, game_object):
         self._parent = game_object
 
+    @property
+    def z_index(self):
+        if not hasattr(self, '_z_index'):
+            self._z_index = 0
+        return self._z_index
+    
+    @z_index.setter
+    def z_index(self, value):
+        self._z_index = value
+
     @abstractmethod
     def update(self):
         raise NotImplementedError("Update method must be implemented by subclasses")
