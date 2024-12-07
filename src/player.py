@@ -130,6 +130,7 @@ class Player(GameObject, RigidBody, Followable):
                     collision.Layer.BLOCK.value,
                     collision.Layer.PLATFORM.value,
                     collision.Layer.TUNNEL.value,
+                    collision.Layer.DECBLOCK.value
                 }:
                     self.is_on_ground = True
                     if not self.jump_held:
