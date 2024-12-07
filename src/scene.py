@@ -36,6 +36,10 @@ class Scene:
 
     def set_bounds(self, bounds):
         self.map_bounds = bounds
+    
+    @property
+    def camera_rect(self):
+        return self.camera.rect
 
     def add_object(self, game_object):
         game_object.set_scene(self)

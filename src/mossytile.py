@@ -4,6 +4,10 @@ import pymunk
 from gameobject import GameObject, Solid
 import collision
 
+BG_TINT_COLOR = (69, 139, 170)
+BG_GRADIENT_COLOR1 = (235, 254, 255)
+BG_GRADIENT_COLOR2 = (14, 122, 130)
+
 class MossyTile(Solid):
     def __init__(self, position, image, colliders):
         self.CORNER_RADIUS = 10
@@ -43,7 +47,7 @@ class MossyTile(Solid):
 
 class MossyBgTile(GameObject):
     def __init__(self, position, image, colliders):
-        self.z_index = -1
+        self.z_index = -10
 
         self.position = position
         self.width, self.height = image.get_width(), image.get_height()

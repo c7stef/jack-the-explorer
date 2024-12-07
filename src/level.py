@@ -1,17 +1,18 @@
 import pygame
 
-from button import Button
 from player import Player
 from gameobject import OnScreen
 from block import Block, MovingPlatform, DecayingBlock, Spike
 from enemy import Enemy, EnemyFlower
 from pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
+import mossytile
 from mossytile import MossyTile, MossyBgTile
 from scene import Scene
-from tunnel import Tunnel, TunnelManager
+from tunnel import TunnelManager
 from checkpoint import Checkpoint
 from gun import Pistol
+from effect import BackgroundTint, BackgroundGradient
 
 import utils
 
@@ -61,6 +62,13 @@ class Level(OnScreen):
         scene.add_object(bg_tilemap)
 
         bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
+
+        scene.add_object(BackgroundTint(mossytile.BG_TINT_COLOR))
+        scene.add_object(BackgroundGradient(
+            mossytile.BG_GRADIENT_COLOR1,
+            mossytile.BG_GRADIENT_COLOR2
+        ))
+        scene.add_object(BackgroundTint((32, 153, 247), z_index=90, alpha=30))
 
     def update(self):
         self.scene.update()
