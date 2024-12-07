@@ -18,7 +18,7 @@ class Enemy(Solid):
         self.dt = 0.01
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
         self.hp = health
-        self.maxHealth = health
+        self.max_health = health
         self.color = (250, 40, 60)
 
     def update(self):
@@ -48,8 +48,8 @@ class EnemyFlower(Enemy):
                 health = properties['health']
         super().__init__(position, properties, health)
         self.color = (250, 40, 60)
-        self.fireRate = 10
-        self.bulletTimer = 10
+        self.fire_rate = 10
+        self.bullet_timer = 10
 
 
     def update(self):
@@ -60,19 +60,19 @@ class EnemyFlower(Enemy):
         if self.t < 0:
             self.dt = -self.dt
             self.t = 0
-        self.bulletTimer += 1
+        self.bullet_timer += 1
         self.player = self.scene.find_player()
         self.body.position = tuple(self.p1.lerp(self.p2, self.t))
-        if self.directSight(self.player) and self.bulletTimer > self.fireRate:
-            self.bulletTimer = 0
+        if self.direct_sight(self.player) and self.bullet_timer > self.fire_rate:
+            self.bullet_timer = 0
             self.shoot(self.player)
 
-    def directSight(self, player):
-        playerPos = player.body.position
-        enemyPos = self.body.position
-        if playerPos.get_distance(enemyPos) < 2000:
+    def direct_sight(self, player):
+        player_pos = player.body.position
+        enemy_pos = self.body.position
+        if player_pos.get_distance(enemy_pos) < 2000:
             query = self.scene.physics_space.segment_query_first([
-                self.body.position.x, self.body.position.y], [playerPos.x, playerPos.y], 1,
+                self.body.position.x, self.body.position.y], [player_pos.x, player_pos.y], 1,
                 pymunk.ShapeFilter(mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value))
             if query:
                 if query.shape.collision_type == collision.Layer.PLAYER.value:

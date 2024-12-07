@@ -2,11 +2,11 @@ import pygame
 
 from gameobject import GameObject
 
-from imageProcessing import scale_surface
+from image_processing import scale_surface
 
 import utils
 
-mousePressed = False
+mouse_pressed = False
 
 tick = pygame.image.load("assets/tick/tick.png")
 
@@ -23,17 +23,17 @@ class Button(GameObject):
         self.hover_color = ( min(color[0] + 20, 255), min(color[1] + 20, 255), min(color[2] + 20, 255))
 
     def handle_input(self):
-        global mousePressed
+        global mouse_pressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
             self.hover = True
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+            if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.on_click()
-                mousePressed = True
+                mouse_pressed = True
         else:
             self.hover = False
         if not pygame.mouse.get_pressed()[0]:
-            mousePressed = False
+            mouse_pressed = False
 
     def update(self):
         self.handle_input()
@@ -65,7 +65,7 @@ class ControlsButton(Button):
         self.text_in = pygame.key.name(self.controls[self.key])
 
     def handle_input(self, events):
-        global mousePressed
+        global mouse_pressed
         self.is_selected()
         ret = None
         for e in events:
@@ -135,7 +135,7 @@ class Dropdown(GameObject):
         self.on_select(option)
 
     def handle_input(self, events):
-        global mousePressed
+        global mouse_pressed
         mouse_pos = pygame.mouse.get_pos()
 
         if self.scroll_down_rect.collidepoint(mouse_pos):
@@ -159,12 +159,12 @@ class Dropdown(GameObject):
 
         if self.is_open:
             if self.rect.collidepoint(mouse_pos):
-                if pygame.mouse.get_pressed()[0] and not mousePressed:
+                if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                     if mouse_pos[1] < self.rect.y:
                         self.scroll_offset = max(self.scroll_offset - 1, 0)
                     elif mouse_pos[1] > self.rect.y + self.rect.height:
                         self.scroll_offset = min(self.scroll_offset + 1, len(self.options) - self.max_visible_options)
-                    mousePressed = True
+                    mouse_pressed = True
 
             for i in range(self.max_visible_options):
                 option_index = i + self.scroll_offset
@@ -173,20 +173,20 @@ class Dropdown(GameObject):
                 option = self.options[option_index]
                 option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.option_height,
                                           self.rect.width, self.option_height)
-                if option_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0] and not mousePressed:
+                if option_rect.collidepoint(mouse_pos) and pygame.mouse.get_pressed()[0] and not mouse_pressed:
                     self.selected_option = option
                     self.on_select(option)
                     self.is_open = False
-                    mousePressed = True
+                    mouse_pressed = True
         if not pygame.mouse.get_pressed()[0]:
-            mousePressed = False
+            mouse_pressed = False
 
         if self.rect.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+            if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.is_open = not self.is_open
-                mousePressed = True
+                mouse_pressed = True
         else:
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+            if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.is_open = False
 
     def draw(self, screen):
@@ -230,7 +230,7 @@ class Dropdown(GameObject):
 class Checkbox(GameObject):
     def __init__(self, x, y, width, height, text, font_size, color, on_click):
         self.rect = pygame.Rect(x + 5, y, width, height)
-        self.rectSquare = pygame.Rect(x - height, y, height, height)
+        self.rect_square = pygame.Rect(x - height, y, height, height)
         self.text = text
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color
@@ -240,29 +240,29 @@ class Checkbox(GameObject):
         self.tick = scale_surface(tick, (height, height))
 
     def handle_input(self):
-        global mousePressed
+        global mouse_pressed
         mouse_pos = pygame.mouse.get_pos()
-        if self.rectSquare.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+        if self.rect_square.collidepoint(mouse_pos):
+            if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.is_checked = not self.is_checked
                 self.on_click(self.is_checked)
-                mousePressed = True
+                mouse_pressed = True
         if not pygame.mouse.get_pressed()[0]:
-            mousePressed = False
+            mouse_pressed = False
 
     def update(self):
         self.handle_input()
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.rect)
-        pygame.draw.rect(screen, (240, 240, 240), self.rectSquare)
-        pygame.draw.rect(screen, self.border_color, self.rectSquare, 2)
+        pygame.draw.rect(screen, (240, 240, 240), self.rect_square)
+        pygame.draw.rect(screen, self.border_color, self.rect_square, 2)
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
         if self.is_checked:
-            screen.blit(self.tick, self.rectSquare.topleft)
+            screen.blit(self.tick, self.rect_square.topleft)
 
 
 class Slider(GameObject):
@@ -283,15 +283,15 @@ class Slider(GameObject):
         self.on_change(value)
 
     def handle_input(self):
-        global mousePressed
+        global mouse_pressed
         mouse_pos = pygame.mouse.get_pos()
         if self.rect.collidepoint(mouse_pos):
-            if pygame.mouse.get_pressed()[0] and not mousePressed:
+            if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.is_dragging = True
-                mousePressed = True
+                mouse_pressed = True
         if not pygame.mouse.get_pressed()[0]:
             self.is_dragging = False
-            mousePressed = False
+            mouse_pressed = False
 
         if self.is_dragging:
             self.value = (mouse_pos[0] - self.rect.x) / self.rect.width

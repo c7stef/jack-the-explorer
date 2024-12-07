@@ -2,7 +2,7 @@ import pygame
 import pymunk
 import math
 
-from displayData import DeathScreen, DisplayData, PauseScreen, FinishScreen
+from display_data import DeathScreen, DisplayData, PauseScreen, FinishScreen
 from gameobject import GameObject, RigidBody, Followable
 from bullet import Bullet
 
@@ -32,7 +32,7 @@ class Player(GameObject, RigidBody, Followable):
         self.jump_time = 0
         self.jump_impulses_left = 0
         self.level.score = 0
-        self.level.coinCnt = 0
+        self.level.coin_cnt = 0
         self.scene = level.scene
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
@@ -54,7 +54,7 @@ class Player(GameObject, RigidBody, Followable):
         self.transportable = False
         self.color = (0, 0, 255)
 
-        self.lastCheckpoint = None
+        self.last_checkpoint = None
 
     @property
     def position(self):
@@ -74,13 +74,13 @@ class Player(GameObject, RigidBody, Followable):
         if down_pressed and self.transportable:
             self.transport_player(self.tunnel)
 
-        if keys[pygame.K_ESCAPE] and not utils.escapePressed:
-            utils.currentScreen = PauseScreen(self.level)
+        if keys[pygame.K_ESCAPE] and not utils.escape_pressed:
+            utils.current_screen = PauseScreen(self.level)
             # Debug purposes
-            # utils.currentScreen = FinishScreen(self.level)
-            utils.escapePressed = True
+            # utils.current_screen = FinishScreen(self.level)
+            utils.escape_pressed = True
         if not keys[pygame.K_ESCAPE]:
-            utils.escapePressed = False
+            utils.escape_pressed = False
 
         if left_pressed:
             self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
@@ -143,7 +143,7 @@ class Player(GameObject, RigidBody, Followable):
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
-                    self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
+                    self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).max_health
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 
                 # Player is on tunnel
@@ -163,25 +163,25 @@ class Player(GameObject, RigidBody, Followable):
             # Player collides with a coin
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                self.level.coinCnt += 1
+                self.level.coin_cnt += 1
                 self.level.score += 10
 
             # Player collides with an ammo box
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
-                self.weapon.pickUpAmmo(self.scene.find_rigid_body(collision_data["shape"]).ammoAmount)
+                self.weapon.pick_up_ammo(self.scene.find_rigid_body(collision_data["shape"]).ammo_amount)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.score += 10
 
             # Player collides with a health box
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
-                self.level.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
+                self.level.hp += self.scene.find_rigid_body(collision_data["shape"]).health_amount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.level.hp > self.level.maxHp:
-                    self.level.hp = self.level.maxHp
+                if self.level.hp > self.level.max_hp:
+                    self.level.hp = self.level.max_hp
                 self.level.score += 10
 
             if collision_data["shape"].collision_type == collision.Layer.CHECKPOINT.value:
-                self.lastCheckpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
+                self.last_checkpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
 
         self.handle_input()
 
@@ -196,7 +196,7 @@ class Player(GameObject, RigidBody, Followable):
             self.die()
 
         if self.reached_end():
-            utils.currentScreen = FinishScreen(self.level)
+            utils.current_screen = FinishScreen(self.level)
 
     def deal_damage(self, damage):
         self.current_hp -= damage
@@ -211,11 +211,11 @@ class Player(GameObject, RigidBody, Followable):
 
     def respawn(self):
         self.body.position = self.respawn_position.x, self.respawn_position.y
-        if self.lastCheckpoint:
-            self.body.position = self.lastCheckpoint.body.position
+        if self.last_checkpoint:
+            self.body.position = self.last_checkpoint.body.position
         self.body.velocity = (0, 0)
 
-    def equipWeapon(self, weapon):
+    def equip_weapon(self, weapon):
         self.weapon = weapon
 
     def out_of_bounds(self):
@@ -231,12 +231,12 @@ class Player(GameObject, RigidBody, Followable):
         return False
 
     def die(self):
-        lastCheckpoint = self.lastCheckpoint
+        last_checkpoint = self.last_checkpoint
 
         self.scene.remove_object(self.display)
         self.scene.remove_object(self)
 
-        utils.currentScreen = DeathScreen(self.level, lastCheckpoint)
+        utils.current_screen = DeathScreen(self.level, last_checkpoint)
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

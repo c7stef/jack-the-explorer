@@ -14,68 +14,68 @@ class Weapon(GameObject):
         self.FIRE_RATE = 0
         self.RELOAD_TIME = 0
 
-        self.bulletHistory = 0
-        self.reloadHistory = 0
-        self.magAmmo = 0
-        self.currentAmmo = 0
+        self.bullet_history = 0
+        self.reload_history = 0
+        self.mag_ammo = 0
+        self.current_ammo = 0
 
-        self.isEquipped = False
-        self.isReloading = False
+        self.is_equipped = False
+        self.is_reloading = False
         self.reload_sound = pygame.mixer.Sound("sounds/reload.wav")
         self.reload_sound.set_volume(utils.controls['sound'])
 
     def reload(self):
-        if self.magSize == self.magAmmo:
+        if self.mag_size == self.mag_ammo:
             return
-        if self.isReloading:
+        if self.is_reloading:
             return
-        self.isReloading = True
+        self.is_reloading = True
         self.reload_sound.play()
-        self.reloadHistory = 0
+        self.reload_history = 0
 
-    def updateAmmo(self):
+    def update_ammo(self):
         # Empty mag, enough ammo
-        if self.magAmmo == 0 and self.currentAmmo >= self.magSize:
-            self.magAmmo = self.magSize
-            self.currentAmmo -= self.magSize
+        if self.mag_ammo == 0 and self.current_ammo >= self.mag_size:
+            self.mag_ammo = self.mag_size
+            self.current_ammo -= self.mag_size
         # Not empty mag, enough ammo
-        elif self.magAmmo < self.magSize and self.currentAmmo >= self.magSize - self.magAmmo:
-            self.currentAmmo -= self.magSize - self.magAmmo
-            self.magAmmo = self.magSize
+        elif self.mag_ammo < self.mag_size and self.current_ammo >= self.mag_size - self.mag_ammo:
+            self.current_ammo -= self.mag_size - self.mag_ammo
+            self.mag_ammo = self.mag_size
         # Not enough ammo, empty mag
-        elif self.currentAmmo < self.magSize and self.magAmmo == 0:
-            self.magAmmo = self.currentAmmo
-            self.currentAmmo = 0
-        elif self.currentAmmo < self.magSize - self.magAmmo:
-            self.magAmmo += self.currentAmmo
-            self.currentAmmo = 0
+        elif self.current_ammo < self.mag_size and self.mag_ammo == 0:
+            self.mag_ammo = self.current_ammo
+            self.current_ammo = 0
+        elif self.current_ammo < self.mag_size - self.mag_ammo:
+            self.mag_ammo += self.current_ammo
+            self.current_ammo = 0
 
     def fire(self):
-        if self.bulletHistory >= self.FIRE_RATE and self.magAmmo > 0 and not self.isReloading:
+        if self.bullet_history >= self.FIRE_RATE and self.mag_ammo > 0 and not self.is_reloading:
             mouse_pos = pygame.mouse.get_pos()
-            relativeBodyPos = self.scene.relative_position(self.player.body.position)
-            relativeBulletDirection = mouse_pos - relativeBodyPos
-            self.magAmmo -= 1
+            relative_body_pos = self.scene.relative_position(self.player.body.position)
+            relative_bullet_direction = mouse_pos - relative_body_pos
+            self.mag_ammo -= 1
 
-            self.scene.add_object(Bullet(self.player.body.position.x, self.player.body.position.y, relativeBulletDirection))
-            self.bulletHistory = 0
+            self.scene.add_object(Bullet(self.player.body.position.x, self.player.body.position.y, relative_bullet_direction))
+            self.bullet_history = 0
 
     def update(self):
-        self.bulletHistory += 1
-        if self.isReloading:
-            self.reloadHistory += 1
-            if self.reloadHistory >= self.RELOAD_TIME:
-                self.updateAmmo()
-                self.isReloading = False
+        self.bullet_history += 1
+        if self.is_reloading:
+            self.reload_history += 1
+            if self.reload_history >= self.RELOAD_TIME:
+                self.update_ammo()
+                self.is_reloading = False
                 self.reload_sound.stop()
 
     def equip(self):
-        self.isEquipped = True
+        self.is_equipped = True
 
-    def pickUpAmmo(self, ammo):
-        self.currentAmmo += ammo
-        if self.currentAmmo + ammo > self.maxAmmo:
-            self.currentAmmo = self.maxAmmo
+    def pick_up_ammo(self, ammo):
+        self.current_ammo += ammo
+        if self.current_ammo + ammo > self.max_ammo:
+            self.current_ammo = self.max_ammo
 
 class Pistol(Weapon):
     def __init__(self, level):
@@ -83,10 +83,10 @@ class Pistol(Weapon):
         self.FIRE_RATE = 15
         self.RELOAD_TIME = 60
         self.damage = 1
-        self.magSize = 5
-        self.maxAmmo = 69
-        self.currentAmmo = 15
-        self.magAmmo = 5
+        self.mag_size = 5
+        self.max_ammo = 69
+        self.current_ammo = 15
+        self.mag_ammo = 5
 
     def draw(self, screen):
         # Add weapon model

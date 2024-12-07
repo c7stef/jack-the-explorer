@@ -50,7 +50,7 @@ class OnScreen(ABC):
         self.font_ratio = 0.04
         self.font_size = int(self.screen_height * self.font_ratio)
 
-    def setScreen(self, screen):
+    def set_screen(self, screen):
         self.screen = screen
 
     def send_events(self, events):

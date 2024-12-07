@@ -2,16 +2,16 @@ from enum import Enum
 import pygame
 
 import block
-import Pickups
+import pickups
 import enemy
 from checkpoint import Checkpoint
 from tunnel import Tunnel
 
 EPSILON = 0.001
 
-escapePressed = False
+escape_pressed = False
 
-currentScreen = None
+current_screen = None
 
 controls = {
     'left': pygame.K_LEFT,
@@ -28,15 +28,15 @@ class Direction(Enum):
     UP = 3
     DOWN = 4
 
-importDict = {
-    'coin': Pickups.Coin,
-    'ammo': Pickups.AmmoPickUp,
-    'health': Pickups.HealthPickUp,
+import_dict = {
+    'coin': pickups.Coin,
+    'ammo': pickups.AmmoPickUp,
+    'health': pickups.HealthPickUp,
     'enemy': enemy.Enemy,
     'tunnel': Tunnel,
     'checkpoint': Checkpoint,
     'spike': block.Spike,
-    'enemyFlower': enemy.EnemyFlower}
+    'enemy_flower': enemy.EnemyFlower}
 
 
 

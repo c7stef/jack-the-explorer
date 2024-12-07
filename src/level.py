@@ -5,7 +5,7 @@ from player import Player
 from gameobject import OnScreen
 from block import Block, MovingPlatform, DecayingBlock, Spike
 from enemy import Enemy, EnemyFlower
-from Pickups import Coin, AmmoPickUp, HealthPickUp
+from pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 from mossytile import MossyTile, MossyBgTile
 from scene import Scene
@@ -28,7 +28,7 @@ class Level(OnScreen):
 
         self.weapons = []
 
-        self.initPlayerWithPistol()
+        self.init_player_with_pistol()
 
         scene.add_object(Spike(pygame.Vector2(300, 300), {'width' : 50, 'height' : 50}))
         scene.add_object(Block(300, 500, 200, 50))
@@ -55,7 +55,7 @@ class Level(OnScreen):
         ))
 
         main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile})
-        main_tilemap.create_objects(self.map_position, 'Objects', utils.importDict)
+        main_tilemap.create_objects(self.map_position, 'Objects', utils.import_dict)
 
         bg_tilemap = TileMap("assets/tilemaps/level1-bg.tmx")
         scene.add_object(bg_tilemap)
@@ -65,25 +65,25 @@ class Level(OnScreen):
     def update(self):
         self.scene.update()
 
-    def initPlayerWithPistol(self):
+    def init_player_with_pistol(self):
         self.weapons = []
         self.player = Player(100, 100, self)
         self.scene.following = self.player
         gun = Pistol(self)
         self.weapons.append(gun)
-        self.player.equipWeapon(gun)
+        self.player.equip_weapon(gun)
         self.scene.add_object(self.player)
         self.scene.add_object(gun)
 
         self.score = 0
-        self.coinCnt = 0
-        self.currentAmmo = 0
+        self.coin_cnt = 0
+        self.current_ammo = 0
 
         self.hp = 10
-        self.maxHp = 10
+        self.max_hp = 10
 
-        self.equippedWeapon = self.weapons[0]
-        self.equippedWeapon.equip()
+        self.equipped_weapon = self.weapons[0]
+        self.equipped_weapon.equip()
 
 
     def draw(self):

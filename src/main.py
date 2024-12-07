@@ -2,7 +2,7 @@ import pygame
 import sys
 import pickle
 
-from mainMenu import MainMenu
+from main_menu import MainMenu
 import utils
 # Initialize pygame
 pygame.init()
@@ -26,9 +26,9 @@ FPS = 60
 # Colors
 WHITE = (255, 255, 255)
 
-mainMenu = MainMenu(screen)
+main_menu = MainMenu(screen)
 
-utils.currentScreen = mainMenu
+utils.current_screen = main_menu
 
 # Main game loop
 running = True
@@ -38,16 +38,16 @@ while running:
     for event in events:
         if event.type == pygame.QUIT:
             running = False
-    utils.currentScreen.send_events(events)
+    utils.current_screen.send_events(events)
 
     # Update logic
-    utils.currentScreen.update()
+    utils.current_screen.update()
 
     # Clear the screen
     screen.fill(WHITE)
 
     # Draw everything
-    utils.currentScreen.draw()
+    utils.current_screen.draw()
 
     # Update the display
     pygame.display.flip()
