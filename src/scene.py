@@ -34,6 +34,16 @@ class Scene:
             handler = self.physics_space.add_collision_handler(type_a.value, type_b.value)
             handler.pre_solve = pre_solve_collision
 
+    @property
+    def effects(self):
+        if not hasattr(self, '_effects'):
+            self._effects = []
+        return self._effects
+    
+    @effects.setter
+    def effects(self, value):
+        self._effects = value
+
     def set_bounds(self, bounds):
         self.map_bounds = bounds
 
@@ -129,6 +139,10 @@ class Scene:
         screen.fill((255, 255, 255))
         for obj in self.game_objects:
             obj.draw(screen)
+        
+        for effect in self.effects:
+            screen = effect.apply(screen)
+    
     def relative_position_parallax(self, position, size):
         camera_size = pygame.Vector2(self.camera.rect.size)
         main_size = pygame.Vector2(self.map_bounds.size)

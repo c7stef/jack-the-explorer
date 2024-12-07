@@ -6,3 +6,7 @@ class Effect(ABC):
     @abstractmethod
     def apply(self, surface):
         raise NotImplementedError("Apply method must be implemented by subclasses")
+
+class Bloom(Effect):
+    def apply(self, surface):
+        return bloom_effect24(surface, 10)

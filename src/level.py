@@ -12,6 +12,7 @@ from scene import Scene
 from tunnel import Tunnel, TunnelManager
 from checkpoint import Checkpoint
 from gun import Pistol
+from effect import Bloom
 
 import utils
 
@@ -61,6 +62,8 @@ class Level(OnScreen):
         scene.add_object(bg_tilemap)
 
         bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
+
+        self.scene.effects.append(Bloom())
 
     def update(self):
         self.scene.update()
