@@ -12,7 +12,7 @@ from scene import Scene
 from tunnel import TunnelManager
 from checkpoint import Checkpoint
 from gun import Pistol
-from effect import BackgroundTint, BackgroundGradient
+from effect import TintEffect, BackgroundGradient
 
 import utils
 
@@ -63,12 +63,12 @@ class Level(OnScreen):
 
         bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
 
-        scene.add_object(BackgroundTint(mossytile.BG_TINT_COLOR))
+        scene.add_object(TintEffect(mossytile.BG_TINT_COLOR))
         scene.add_object(BackgroundGradient(
             mossytile.BG_GRADIENT_COLOR1,
             mossytile.BG_GRADIENT_COLOR2
         ))
-        scene.add_object(BackgroundTint((32, 153, 247), z_index=90, alpha=30))
+        scene.add_object(TintEffect(mossytile.FG_TINT_COLOR, z_index=90, alpha=30))
 
     def update(self):
         self.scene.update()

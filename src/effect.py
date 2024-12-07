@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 import numpy as np
 
-class BackgroundImage(GameObject, ABC):
+class ImageOverlay(GameObject, ABC):
     def update(self):
         pass
 
@@ -26,7 +26,7 @@ class BackgroundImage(GameObject, ABC):
         screen.blit(surface, (0, 0))
 
 
-class BackgroundTint(BackgroundImage):
+class TintEffect(ImageOverlay):
     def __init__(self, color, alpha=100, z_index=-5):
         self.z_index = z_index
         self.color = color
@@ -69,14 +69,12 @@ def _create_radial_gradient(width, height, color_start, color_end):
     # Stack the R, G, B channels together to form an RGB image
     gradient_data = np.stack((r, g, b), axis=-1)
 
-    print(gradient_data.shape)
-    print(width, height)
     # Convert the numpy array to a Pygame surface
     pygame.surfarray.blit_array(gradient_surface, gradient_data)
 
     return gradient_surface
 
-class BackgroundGradient(BackgroundImage):
+class BackgroundGradient(ImageOverlay):
     def __init__(self, color1, color2):
         self.z_index = -20
         self.color1 = color1

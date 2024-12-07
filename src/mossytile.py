@@ -7,6 +7,7 @@ import collision
 BG_TINT_COLOR = (69, 139, 170)
 BG_GRADIENT_COLOR1 = (235, 254, 255)
 BG_GRADIENT_COLOR2 = (14, 122, 130)
+FG_TINT_COLOR = (32, 153, 247)
 
 class MossyTile(Solid):
     def __init__(self, position, image, colliders):
