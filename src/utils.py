@@ -36,7 +36,8 @@ import_dict = {
     'tunnel': Tunnel,
     'checkpoint': Checkpoint,
     'spike': block.Spike,
-    'enemy_flower': enemy.EnemyFlower}
+    'enemy_flower': enemy.EnemyFlower
+}
 
 
 
