@@ -1,5 +1,6 @@
 import pygame
 import pymunk
+import math
 
 from displayData import DeathScreen, DisplayData, PauseScreen, FinishScreen
 from gameobject import GameObject, RigidBody, Followable
@@ -24,6 +25,9 @@ class Player(GameObject, RigidBody, Followable):
         self.MAX_VELOCITY = 300
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
+        self.HORIZONTAL_DRAG = 17/20
+        self.VERTICAL_NORMAL_Y = 0.6
+        self.HORIZONTAL_NORMAL_X = math.sqrt(1 - self.VERTICAL_NORMAL_Y ** 2)
 
         self.jump_time = 0
         self.jump_impulses_left = 0
@@ -110,8 +114,7 @@ class Player(GameObject, RigidBody, Followable):
             self.body.velocity = (0, 0)
 
     def update(self):
-
-        self.body.velocity = self.body.velocity.x*17/20, self.body.velocity.y
+        self.body.velocity = self.body.velocity.x*self.HORIZONTAL_DRAG, self.body.velocity.y
         self.transportable = False
         collisions = self.get_collisions()
         self.is_on_ground = False
@@ -120,46 +123,62 @@ class Player(GameObject, RigidBody, Followable):
             if collision_data["shape"].collision_type == collision.Layer.SPIKE.value:
                 self.die()
 
-            if collision_data["normal"].y < -0.4:
-                self.is_on_ground = True
-                if not self.jump_held:
-                    self.jump_impulses_left = self.JUMP_IMPULSES_MAX
-                if collision_data["shape"].collision_type == collision.Layer.BLOCK.value:
-                    pass
+            # Normal is mostly upwards
+            if collision_data["normal"].y < -self.VERTICAL_NORMAL_Y:
+                # Player is on the ground and can jump again
+                if collision_data["shape"].collision_type in {
+                    collision.Layer.BLOCK.value,
+                    collision.Layer.PLATFORM.value,
+                    collision.Layer.TUNNEL.value,
+                }:
+                    self.is_on_ground = True
+                    if not self.jump_held:
+                        self.jump_impulses_left = self.JUMP_IMPULSES_MAX
+
+                # Player is on moving platform                
                 if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
                     self.on_platform = collision_data["shape"]
+                
+                # Player stepped on enemy
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
                     self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).maxHealth
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                
+                # Player is on tunnel
                 if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:
                     self.transportable = True
                     self.tunnel = self.scene.find_rigid_body(collision_data["shape"])
 
-            if collision_data["normal"].x != 0:
+                # Player is on a decaying block
+                if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
+                    self.scene.find_rigid_body(collision_data["shape"]).decay()
+
+            # Collision is to the side
+            if abs(collision_data["normal"].x) > self.HORIZONTAL_NORMAL_X:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.die()
 
+            # Player collides with a coin
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.coinCnt += 1
                 self.level.score += 10
 
+            # Player collides with an ammo box
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
                 self.weapon.pickUpAmmo(self.scene.find_rigid_body(collision_data["shape"]).ammoAmount)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.score += 10
 
+            # Player collides with a health box
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
                 self.level.hp += self.scene.find_rigid_body(collision_data["shape"]).healthAmount
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 if self.level.hp > self.level.maxHp:
                     self.level.hp = self.level.maxHp
                 self.level.score += 10
-
-            if collision_data["shape"].collision_type == collision.Layer.DECBLOCK.value:
-                self.scene.find_rigid_body(collision_data["shape"]).decay()
 
             if collision_data["shape"].collision_type == collision.Layer.CHECKPOINT.value:
                 self.lastCheckpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
