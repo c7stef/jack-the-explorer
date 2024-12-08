@@ -70,7 +70,7 @@ class MovingPlatform(Solid):
 
 class Spike(Solid):
     def __init__(self, position, properties=None):
-        super().__init__(position.x, position.y, properties['width'], properties['height'],
+        super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
 
     def draw(self, screen):

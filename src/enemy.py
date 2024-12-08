@@ -4,6 +4,7 @@ import pymunk
 from block import Solid
 from bullet import EnemyBullet
 import collision
+import utils
 
 class Enemy(Solid):
     def __init__(self, position, properties, health=6):
@@ -13,9 +14,15 @@ class Enemy(Solid):
         if 'health' in properties:
             health = properties['health']
         self.p1 = position
-        self.p2 = pygame.Vector2(int(position[0] + properties['xoffset']), int(position[1] + properties['yoffset']))
+        xoffset = properties.get('xoffset', 0)
+        yoffset = properties.get('yoffset', 0)
+        self.p2 = position + pygame.Vector2(xoffset, yoffset)
         self.t = 0
-        self.dt = 0.01
+        distance_to_move = (self.p2 - self.p1).magnitude()
+        if distance_to_move > utils.EPSILON:
+            self.dt = 1 / distance_to_move
+        else:
+            self.dt = 0
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
         self.hp = health
         self.max_health = health
@@ -48,21 +55,14 @@ class EnemyFlower(Enemy):
                 health = properties['health']
         super().__init__(position, properties, health)
         self.color = (250, 40, 60)
-        self.fire_rate = 10
+        self.fire_rate = 40
         self.bullet_timer = 10
 
 
     def update(self):
-        self.t += self.dt
-        if self.t > 1:
-            self.dt = -self.dt
-            self.t = 1
-        if self.t < 0:
-            self.dt = -self.dt
-            self.t = 0
+        super().update()
         self.bullet_timer += 1
         self.player = self.scene.find_player()
-        self.body.position = tuple(self.p1.lerp(self.p2, self.t))
         if self.direct_sight(self.player) and self.bullet_timer > self.fire_rate:
             self.bullet_timer = 0
             self.shoot(self.player)
@@ -82,8 +82,8 @@ class EnemyFlower(Enemy):
     def shoot(self, player):
         start = self.body.position
         stop = player.body.position
-        dir = pygame.Vector2(stop) - pygame.Vector2(start)
-        self.scene.add_object(EnemyBullet(start.x, start.y, dir))
+        direction = pygame.Vector2(stop) - pygame.Vector2(start)
+        self.scene.add_object(EnemyBullet(start.x, start.y, direction))
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

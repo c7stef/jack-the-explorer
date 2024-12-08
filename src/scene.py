@@ -62,10 +62,14 @@ class Scene:
         for game_object in self.to_remove:
             # Remove from physics space
             if isinstance(game_object, RigidBody):
-                self.physics_space.remove(*game_object.body_data())
+                try:
+                    self.physics_space.remove(*game_object.body_data())
+                except AssertionError:
+                    pass
 
             # Remove from scene
-            self.game_objects.remove(game_object)
+            if game_object in self.game_objects:
+                self.game_objects.remove(game_object)
 
         # Clear delete list
         self.to_remove.clear()

@@ -28,7 +28,7 @@ class Direction(Enum):
     UP = 3
     DOWN = 4
 
-import_dict = {
+level1_objects = {
     'coin': pickups.Coin,
     'ammo': pickups.AmmoPickUp,
     'health': pickups.HealthPickUp,
@@ -38,6 +38,4 @@ import_dict = {
     'spike': block.Spike,
     'enemy_flower': enemy.EnemyFlower
 }
-
-
 

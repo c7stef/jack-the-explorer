@@ -13,6 +13,7 @@ from tunnel import TunnelManager
 from checkpoint import Checkpoint
 from gun import Pistol
 from effect import TintEffect, BackgroundGradient
+from scifi_tile import SciFiTile
 
 import utils
 
@@ -31,22 +32,22 @@ class Level(OnScreen):
 
         self.init_player_with_pistol()
 
-        scene.add_object(Spike(pygame.Vector2(300, 300), {'width' : 50, 'height' : 50}))
-        scene.add_object(Block(300, 500, 200, 50))
-        scene.add_object(Block(500, 400, 200, 50))
-        scene.add_object(Block(200, 400, 200, 50))
-        scene.add_object(Checkpoint(pygame.Vector2(400, 180), {'order': 0}))
-        scene.add_object(Checkpoint(pygame.Vector2(600, 180), {'order': 1}))
-        scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
-        scene.add_object(Enemy(pygame.Vector2(250, 450), {'xoffset' : 100, 'yoffset' : 0}, 2))
-        scene.add_object(EnemyFlower(pygame.Vector2(250, 350), {'xoffset' : 0, 'yoffset' : 0}, 3))
-        scene.add_object(HealthPickUp(pygame.Vector2(400, 350)))
-        scene.add_object(AmmoPickUp(pygame.Vector2(500, 350)))
-        scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
+        # scene.add_object(Spike(pygame.Vector2(300, 300), {'width' : 50, 'height' : 50}))
+        # scene.add_object(Block(300, 500, 200, 50))
+        # scene.add_object(Block(500, 400, 200, 50))
+        # scene.add_object(Block(200, 400, 200, 50))
+        # scene.add_object(Checkpoint(pygame.Vector2(400, 180), {'order': 0}))
+        # scene.add_object(Checkpoint(pygame.Vector2(600, 180), {'order': 1}))
+        # scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
+        # scene.add_object(Enemy(pygame.Vector2(250, 450), {'xoffset' : 100, 'yoffset' : 0}, 2))
+        # scene.add_object(EnemyFlower(pygame.Vector2(250, 350), {'xoffset' : 0, 'yoffset' : 0}, 3))
+        # scene.add_object(HealthPickUp(pygame.Vector2(400, 350)))
+        # scene.add_object(AmmoPickUp(pygame.Vector2(500, 350)))
+        # scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
 
         self.map_position = pygame.Vector2(-64, -64)
 
-        main_tilemap = TileMap("assets/tilemaps/level1-map.tmx")
+        main_tilemap = TileMap("assets/sci-fi-tilemap/sci-fi-map.tmx")
         scene.add_object(main_tilemap)
 
         # Half a tile is cut off on each side
@@ -55,10 +56,10 @@ class Level(OnScreen):
             main_tilemap.bounds() - main_tilemap.tile_size()
         ))
 
-        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile})
-        main_tilemap.create_objects(self.map_position, 'Objects', utils.import_dict)
+        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile})
+        main_tilemap.create_objects(self.map_position, 'Objects', utils.level1_objects)
 
-        bg_tilemap = TileMap("assets/tilemaps/level1-bg.tmx")
+        bg_tilemap = TileMap("assets/mossy-tilemap/level1-bg.tmx")
         scene.add_object(bg_tilemap)
 
         bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
@@ -75,7 +76,8 @@ class Level(OnScreen):
 
     def init_player_with_pistol(self):
         self.weapons = []
-        self.player = Player(100, 100, self)
+        # self.player = Player(832, 1128, self)
+        self.player = Player(512, 1016, self)
         self.scene.following = self.player
         gun = Pistol(self)
         self.weapons.append(gun)

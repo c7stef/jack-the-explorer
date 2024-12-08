@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="16" tilewidth="128" tileheight="128" infinite="0" nextlayerid="5" nextobjectid="81">
+ <editorsettings>
+  <export target="level1-map.tmj" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="mossy-tileset.tsx"/>
+ <layer id="1" name="Platform" width="80" height="16">
+  <data encoding="csv">
+5,16,6,5,16,16,16,16,16,16,16,16,16,17,0,0,0,22,32,2,31,23,23,23,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+10,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,28,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+12,2,46,17,0,22,23,23,23,23,24,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,5,17,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,12,3,0,0,0,0,0,0,0,36,3,0,0,0,0,0,0,1,37,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,0,0,0,0,0,0,0,0,0,0,0,0,0,8,5,45,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,9,12,3,0,0,0,0,0,0,8,10,0,0,1,2,31,23,39,17,0,0,0,0,0,0,0,22,32,31,23,24,0,0,0,0,22,39,38,24,0,0,0,0,0,0,0,0,0,0,0,0,8,10,15,45,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,23,24,0,0,0,0,0,
+9,5,16,17,0,0,0,0,22,32,13,10,0,22,39,16,17,0,0,0,0,0,0,0,0,0,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,22,23,24,0,0,0,0,0,22,23,39,30,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+5,17,0,0,0,0,0,0,0,15,6,10,0,0,0,0,0,0,0,0,0,1,2,2,2,3,0,0,15,30,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,15,45,3,0,22,23,24,0,0,0,0,0,0,0,22,23,24,0,0,0,0,0,0,0,0,
+10,0,0,0,0,0,0,0,0,0,29,38,24,0,0,0,0,0,22,24,0,8,5,16,16,17,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,0,0,0,0,18,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+10,0,0,0,22,23,23,23,24,0,18,0,0,0,0,0,0,0,0,0,0,8,10,0,0,0,0,0,0,18,0,0,0,22,32,3,0,0,0,0,33,34,35,22,24,0,15,16,30,0,0,0,0,0,0,0,8,10,0,0,0,0,0,0,0,0,22,23,24,0,0,0,0,0,0,0,0,0,0,0,
+10,0,0,0,0,0,0,0,0,0,0,0,0,0,22,23,23,23,23,24,0,15,30,0,0,0,0,0,0,0,0,0,0,0,15,30,0,0,0,0,11,18,11,0,0,0,0,0,11,0,0,0,0,0,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+10,0,0,0,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,0,22,23,24,0,0,0,0,0,0,47,32,2,2,2,19,23,49,0,0,0,0,1,37,0,0,0,0,4,0,0,8,10,0,0,22,23,23,23,23,24,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+12,2,2,2,2,13,9,12,2,2,31,23,23,24,0,0,0,0,0,0,0,0,40,23,24,0,0,0,0,0,0,0,0,0,0,0,15,28,28,16,17,0,0,0,0,0,0,8,10,0,0,0,0,11,0,0,8,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,9,9,9,9,9,9,5,16,16,17,0,0,0,0,0,0,0,0,0,0,0,18,0,0,0,0,22,23,23,23,23,24,0,0,0,0,40,42,0,0,0,0,0,0,22,24,15,38,32,2,2,2,7,2,31,39,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,5,16,16,16,16,16,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,23,32,7,7,3,0,0,0,0,0,0,0,0,0,15,16,16,16,16,16,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,15,6,9,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="4" name="Objects">
+  <object id="3" type="coin" x="1192" y="680" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="6" type="coin" x="1192" y="592" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="11" type="enemy" x="346.242" y="1477.4" width="80" height="80">
+   <properties>
+    <property name="xoffset" type="int" value="100"/>
+    <property name="yoffset" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="16" type="health" x="832.41" y="1348.22">
+   <properties>
+    <property name="health" type="int" value="5"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="17" type="tunnel" x="3744" y="1500" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="1"/>
+    <property name="tunnel_out" type="int" value="0"/>
+    <property name="upwards" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="20" type="tunnel" x="2845" y="90" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="0"/>
+    <property name="upwards" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="23" type="coin" x="2347" y="414" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="25" type="coin" x="2756.12" y="638.303" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="26" type="coin" x="2347" y="286" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="28" type="tunnel" x="128" y="1366.79" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="2"/>
+    <property name="tunnel_out" type="int" value="3"/>
+    <property name="upwards" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="29" type="tunnel" x="1885.7" y="464.606" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="3"/>
+    <property name="upwards" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="31" type="coin" x="674" y="176" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="32" type="coin" x="804" y="176" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="33" type="coin" x="940" y="172" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="45" type="tunnel" x="6944" y="1488" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="4"/>
+    <property name="tunnel_out" type="int" value="5"/>
+    <property name="upwards" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="47" type="coin" x="7076" y="191.152" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="48" type="coin" x="7233.58" y="363.879" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="49" type="coin" x="7388.12" y="521.455" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="51" type="coin" x="7567.88" y="688.97" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="53" type="tunnel" x="6656" y="228" width="200" height="200">
+   <properties>
+    <property name="self_id" type="int" value="5"/>
+    <property name="upwards" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="54" type="enemy" x="4601.33" y="1352" width="80" height="80">
+   <properties>
+    <property name="xoffset" type="int" value="384"/>
+    <property name="yoffset" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="55" type="ammo" x="3912" y="596">
+   <properties>
+    <property name="bullet_capacity" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="56" type="coin" x="1714.42" y="688.909" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="57" type="coin" x="1553.82" y="938.606" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="58" type="coin" x="616" y="896" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="59" type="coin" x="784" y="900" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="60" type="coin" x="968" y="900" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="61" type="coin" x="1682.67" y="1049.33" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="62" type="coin" x="1818.67" y="1156.67" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="64" type="ammo" x="578" y="206">
+   <properties>
+    <property name="bullet_capacity" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="65" type="checkpoint" x="5309.45" y="1127.82">
+   <properties>
+    <property name="order" type="int" value="1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="67" type="enemy_flower" x="1422" y="453.333" width="80" height="80">
+   <properties>
+    <property name="health" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="68" type="spike" x="2715" y="837" width="80" height="80"/>
+  <object id="70" type="spike" x="2797" y="837" width="80" height="80"/>
+  <object id="71" type="enemy" x="5468" y="716" width="80" height="80">
+   <properties>
+    <property name="xoffset" type="int" value="100"/>
+    <property name="yoffset" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="72" type="enemy_flower" x="2974" y="1480" width="80" height="80">
+   <properties>
+    <property name="health" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="73" type="coin" x="2992" y="1389.33" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="77" type="coin" x="2992" y="1261.33" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="78" type="coin" x="2992" y="1326.33" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="79" type="ammo" x="4670" y="1746">
+   <properties>
+    <property name="bullet_capacity" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="80" type="ammo" x="6094.67" y="1364">
+   <properties>
+    <property name="bullet_capacity" type="int" value="10"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>
