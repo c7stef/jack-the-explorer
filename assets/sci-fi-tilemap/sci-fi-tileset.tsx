@@ -131,6 +131,11 @@
    <property name="type" value="scifi_tile"/>
   </properties>
  </tile>
+ <tile id="38">
+  <properties>
+   <property name="type" value="scifi_tile"/>
+  </properties>
+ </tile>
  <tile id="39">
   <properties>
    <property name="type" value="scifi_tile"/>
@@ -224,6 +229,26 @@
  <tile id="71">
   <properties>
    <property name="type" value="scifi_tile"/>
+  </properties>
+ </tile>
+ <tile id="72">
+  <properties>
+   <property name="type" value="spike"/>
+  </properties>
+ </tile>
+ <tile id="73">
+  <properties>
+   <property name="type" value="spike"/>
+  </properties>
+ </tile>
+ <tile id="74">
+  <properties>
+   <property name="type" value="spike"/>
+  </properties>
+ </tile>
+ <tile id="75">
+  <properties>
+   <property name="type" value="spike"/>
   </properties>
  </tile>
  <tile id="80">
