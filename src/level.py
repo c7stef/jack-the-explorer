@@ -13,12 +13,27 @@ from scifi_tile import SciFiTile
 
 import utils
 
+class LevelData:
+    def __init__(self, player_pos, tilemap_path):
+        self.player_pos = player_pos
+        self.tilemap_path = tilemap_path
+
+level_data = {
+    1: LevelData(
+        player_pos=(832, 1128),
+        tilemap_path="assets/mossy-tilemap/level1-map.tmx"
+    ),
+    2: LevelData(
+        player_pos=(256, 508),
+        tilemap_path="assets/sci-fi-tilemap/level2-map.tmx"
+    )
+}
+
 class Level(OnScreen):
-    def __init__(self, level_menu, level, color):
+    def __init__(self, level_menu, level):
         self.level_menu = level_menu
         self.screen = level_menu.screen
         self.num_level = level
-        self.color = color
         scene = Scene(self.screen)
         self.scene = scene
 
@@ -30,8 +45,7 @@ class Level(OnScreen):
 
         self.map_position = pygame.Vector2(-64, -64)
 
-        # main_tilemap = TileMap("assets/sci-fi-tilemap/sci-fi-map.tmx")
-        main_tilemap = TileMap("assets/mossy-tilemap/level1-map.tmx")
+        main_tilemap = TileMap(level_data[self.num_level].tilemap_path)
         scene.add_object(main_tilemap)
 
         # Half a tile is cut off on each side
@@ -62,8 +76,7 @@ class Level(OnScreen):
 
     def init_player_with_pistol(self):
         self.weapons = []
-        self.player = Player(832, 1128, self)
-        # self.player = Player(512, 1016, self)
+        self.player = Player(*level_data[self.num_level].player_pos, self)
         self.scene.following = self.player
         gun = Pistol(self)
         self.weapons.append(gun)

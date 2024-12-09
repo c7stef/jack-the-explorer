@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.0" name="sci-fi-tileset" tilewidth="128" tileheight="128" tilecount="160" columns="16">
- <image source="frames/frame_3.png" width="2048" height="1280"/>
+<tileset version="1.10" tiledversion="1.11.0" name="sci-fi-tileset" tilewidth="64" tileheight="64" tilecount="160" columns="16">
+ <image source="frames/frame_3.png" width="1024" height="640"/>
  <tile id="0">
   <properties>
    <property name="type" value="scifi_tile"/>

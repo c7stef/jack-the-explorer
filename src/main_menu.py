@@ -189,11 +189,11 @@ class LevelsMenu(OnScreen):
         self.center_button4_y = self.center_button3_y + self.button_height + self.offset
 
         self.level1 = Button(self.center_button_x, self.center_button1_y,
-                             self.button_width, self.button_height, "Level 1", self.font_size, (0, 255, 0), self.start_level1)
+                             self.button_width, self.button_height, "Level 1", self.font_size, (0, 255, 0), self.start_level(1))
         self.level2 = Button(self.center_button_x, self.center_button2_y,
-                             self.button_width, self.button_height, "Level 2", self.font_size, (255, 0, 0), self.start_level2)
+                             self.button_width, self.button_height, "Level 2", self.font_size, (255, 0, 0), self.start_level(2))
         self.level3 = Button(self.center_button_x, self.center_button3_y, self.button_width,
-                             self.button_height, "Level 3", self.font_size, (0, 0, 255), self.start_level3)
+                             self.button_height, "Level 3", self.font_size, (0, 0, 255), self.start_level(3))
         self.go_back = Button(self.center_button_x, self.center_button4_y,
                              self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.back_to_main)
         self.buttons.append(self.level1)
@@ -201,14 +201,10 @@ class LevelsMenu(OnScreen):
         self.buttons.append(self.level3)
         self.buttons.append(self.go_back)
 
-    def start_level1(self):
-        utils.current_screen = Level(self, 1, (0, 255, 0))
-
-    def start_level2(self):
-        pass
-
-    def start_level3(self):
-        pass
+    def start_level(self, level):
+        def start_level_action():
+            utils.current_screen = Level(self, level)
+        return start_level_action
 
     def back_to_main(self):
         utils.current_screen = self.back
