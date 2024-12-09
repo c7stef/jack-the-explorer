@@ -22,7 +22,10 @@ except FileNotFoundError:
         pickle.dump(utils.controls, f)
 
 # Screen settings
-screen = pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
+if utils.controls['fullscreen']:
+    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+else:
+    screen = pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
 pygame.display.set_caption("Platformer")
 
 # Clock to manage frame rate

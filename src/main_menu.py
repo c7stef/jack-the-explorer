@@ -65,10 +65,12 @@ class Settings(OnScreen):
 
     def change_resolution(self, option):
         utils.controls['resolution'] = option
-        self.init_ui()
+        if not utils.controls['fullscreen']:
+            self.init_ui()
 
     def init_ui(self):
-        pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
+        if not utils.controls['fullscreen']:
+            pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
         self.set_screen_size()
         self.buttons = []
         self.drop_downs = []
@@ -90,8 +92,8 @@ class Settings(OnScreen):
                                    (255, 255, 255), self.change_resolution, utils.controls['resolution'])
         self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
                              dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
-        self.buttons.append(Checkbox(self.left_column_center_x, self.fullscreen_checkbox_y, self.button_width,
-                                     self.button_height, "Fullscreen", self.font_size, (0, 255, 0), self.toggle_fullscreen))
+        self.buttons.append(Checkbox(self.left_column_center_x, self.fullscreen_checkbox_y, self.button_width, self.button_height,
+                                     "Fullscreen", self.font_size, (0, 255, 0), self.toggle_fullscreen, utils.controls['fullscreen']))
         self.left = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y, self.button_width,
                                    self.button_height, "Left", self.font_size, (0, 255, 0), utils.controls, "left")
         self.right = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + self.offset + self.button_height,
@@ -115,8 +117,10 @@ class Settings(OnScreen):
         self.buttons.append(self.go_back)
         self.drop_downs.append(self.resolution)
 
-    def toggle_fullscreen(self, checked):
+    def toggle_fullscreen(self):
         pygame.display.toggle_fullscreen()
+        utils.controls['fullscreen'] = not utils.controls['fullscreen']
+        self.init_ui()
 
     def set_volume(self, volume):
         utils.controls['sound'] = volume

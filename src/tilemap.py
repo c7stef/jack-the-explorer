@@ -45,7 +45,7 @@ class TileMap(GameObject):
                 raise KeyError(f'No game object is bound to the tile type {tile_type}')
 
             tile_image = self.tmx.get_tile_image_by_gid(gid)
-            tile_size = self.tmx.tilewidth
+            tile_size = self.tile_size().x
             tile_position = position + pygame.Vector2(column, row) * tile_size
             tile_colliders = tile_colliders_by_gid.get(gid, [])
             tile_centre = tile_position + pygame.Vector2(tile_size, tile_size) / 2
