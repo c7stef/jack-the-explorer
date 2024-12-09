@@ -20,7 +20,7 @@ controls = {
     'down': pygame.K_s,
     'sound': 0.5,
     'reload': pygame.K_r,
-    'resolution': "1600x1000"
+    'resolution': "1440x900"
 }
 
 class Direction(Enum):
