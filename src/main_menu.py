@@ -71,7 +71,6 @@ class Settings(OnScreen):
     def init_ui(self):
         if not utils.controls['fullscreen']:
             pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
-            print("Resolution changed to " + utils.controls['resolution'] + " through init")
         self.set_screen_size()
         self.buttons = []
         self.drop_downs = []
