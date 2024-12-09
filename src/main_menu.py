@@ -100,6 +100,8 @@ class Settings(OnScreen):
                                  self.button_width, self.button_height, "Up", self.font_size, (0, 255, 0), utils.controls, "up")
         self.down = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 3 * (self.offset + self.button_height),
                                    self.button_width, self.button_height, "Down", self.font_size, (0, 255, 0), utils.controls, "down")
+        self.reload = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 4 * (self.offset + self.button_height),
+                                    self.button_width, self.button_height, "Reload", self.font_size, (0, 255, 0), utils.controls, "reload")
         self.sound_slider = Slider(self.left_column_center_x, self.soundSlider_y, self.button_width,
                                   self.button_height, (0, 255, 0), self.set_volume, "Volume: ", 20, utils.controls['sound'])
         self.go_back = Button(self.left_column_center_x, self.soundSlider_y + self.button_height + self.offset,
@@ -108,6 +110,7 @@ class Settings(OnScreen):
         self.controls.append(self.right)
         self.controls.append(self.up)
         self.controls.append(self.down)
+        self.controls.append(self.reload)
         self.buttons.append(self.sound_slider)
         self.buttons.append(self.go_back)
         self.drop_downs.append(self.resolution)

@@ -101,8 +101,8 @@ class Player(GameObject, RigidBody, Followable):
         if not up_pressed:
             self.jump_impulses_left = 0
             self.jump_held = False
-
-        if keys[pygame.K_r]:
+        
+        if keys[utils.controls['reload']]:
             self.weapon.reload()
 
         if pygame.mouse.get_pressed()[0]:
@@ -136,17 +136,17 @@ class Player(GameObject, RigidBody, Followable):
                     if not self.jump_held:
                         self.jump_impulses_left = self.JUMP_IMPULSES_MAX
 
-                # Player is on moving platform                
+                # Player is on moving platform
                 if collision_data["shape"].collision_type == collision.Layer.PLATFORM.value:
                     self.on_platform = collision_data["shape"]
-                
+
                 # Player stepped on enemy
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
                     self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).max_health
                     self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                
+
                 # Player is on tunnel
                 if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:
                     self.transportable = True
