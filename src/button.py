@@ -95,7 +95,6 @@ class ControlsButton(Button):
                 self.text_in = self.text_in[2:-2]
 
     def draw(self, screen):
-
         if self.hover:
             pygame.draw.rect(screen, self.hover_color, self.rect)
         else:
@@ -228,7 +227,7 @@ class Dropdown(GameObject):
 
 
 class Checkbox(GameObject):
-    def __init__(self, x, y, width, height, text, font_size, color, on_click):
+    def __init__(self, x, y, width, height, text, font_size, color, on_click, initial_state=False):
         self.rect = pygame.Rect(x + 5, y, width, height)
         self.rect_square = pygame.Rect(x - height, y, height, height)
         self.text = text
@@ -236,7 +235,7 @@ class Checkbox(GameObject):
         self.color = color
         self.border_color = (0, 0, 0)
         self.on_click = on_click
-        self.is_checked = False
+        self.is_checked = initial_state
         self.tick = scale_surface(tick, (height, height))
 
     def handle_input(self):
@@ -245,7 +244,7 @@ class Checkbox(GameObject):
         if self.rect_square.collidepoint(mouse_pos):
             if pygame.mouse.get_pressed()[0] and not mouse_pressed:
                 self.is_checked = not self.is_checked
-                self.on_click(self.is_checked)
+                self.on_click()
                 mouse_pressed = True
         if not pygame.mouse.get_pressed()[0]:
             mouse_pressed = False

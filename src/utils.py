@@ -20,7 +20,8 @@ controls = {
     'down': pygame.K_s,
     'sound': 0.5,
     'reload': pygame.K_r,
-    'resolution': "1440x900"
+    'resolution': "1440x900",
+    'fullscreen': False
 }
 
 class Direction(Enum):
