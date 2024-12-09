@@ -256,7 +256,7 @@ class FinishScreen(OnScreen):
 
         from level import Level
 
-        utils.current_screen = Level(self.level.level_menu, self.level.num_level + 1, (0, 255, 0))
+        utils.current_screen = Level(self.level.level_menu, self.level.num_level + 1)
 
     def restart(self):
         self.sound.stop()

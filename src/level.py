@@ -10,6 +10,7 @@ from tunnel import TunnelManager
 from gun import Pistol
 from effect import TintEffect, BackgroundGradient, BackgroundParticles
 from scifi_tile import SciFiTile
+from winter import WinterTile
 
 import utils
 
@@ -26,6 +27,10 @@ level_data = {
     2: LevelData(
         player_pos=(256, 508),
         tilemap_path="assets/sci-fi-tilemap/level2-map.tmx"
+    ),
+    3: LevelData(
+        player_pos=(256, 508),
+        tilemap_path="assets/winter-tilemap/level3.tmx"
     )
 }
 
@@ -53,7 +58,7 @@ class Level(OnScreen):
             main_tilemap.bounds() - main_tilemap.tile_size()
         ))
 
-        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile})
+        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile, 'winter_tile' : WinterTile})
         main_tilemap.create_objects(self.map_position, 'Objects', utils.level1_objects)
 
         bg_tilemap = TileMap("assets/mossy-tilemap/level1-bg.tmx")
