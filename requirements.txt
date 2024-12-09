@@ -6,3 +6,4 @@ pygame==2.6.1
 pymunk==6.9.0
 PyTMX==3.32
 sortedcontainers
+particlepy

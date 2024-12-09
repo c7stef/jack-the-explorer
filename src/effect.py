@@ -1,5 +1,7 @@
 import pygame
 from gameobject import GameObject
+import particlepy
+import random
 
 from abc import ABC, abstractmethod
 
@@ -82,3 +84,49 @@ class BackgroundGradient(ImageOverlay):
     
     def create_surface(self, width, height):
         return _create_radial_gradient(width, height, self.color1, self.color2)
+
+class BackgroundParticles(GameObject):
+    def __init__(self):
+        self.z_index = -1
+        particle_system = particlepy.particle.ParticleSystem()
+        self.particle_system = particle_system
+        self.relative_position = pygame.Vector2(0, 0)
+    
+    def update(self):
+        self.particle_system.update(1/120)
+
+        screen_width, screen_height = self.scene.map_bounds.size
+
+        self.particle_system.emit(
+            particlepy.particle.Particle(
+                shape=particlepy.shape.Circle(
+                    radius=random.randint(5, 10),
+                    color=(255, 255, 255),
+                    alpha=100),
+                position=(random.uniform(0, screen_width), random.uniform(0, screen_height)),
+                velocity=(random.uniform(-15, 15), random.uniform(-15, 15)),
+                
+                delta_radius=0.2))
+
+        # color manipulation
+        for particle in self.particle_system.particles:
+            particle.shape.color = particlepy.math.fade_color(
+                particle=particle,
+                color=(255, 255, 255),
+                progress=particle.inverted_progress)
+            particle.shape.alpha = particlepy.math.fade_alpha(particle, 0, progress=particle.inverted_progress)
+
+        # render shapes
+        self.particle_system.make_shape()
+
+        parallax_size = pygame.Vector2(screen_width, screen_height) * 0.7
+
+        # post shape creation manipulation
+        for particle in self.particle_system.particles:
+            particle.position += self.scene.relative_position_parallax((0, 0), parallax_size) - self.relative_position
+        
+        self.relative_position = self.scene.relative_position_parallax((0, 0), parallax_size)
+
+    def draw(self, screen):
+        self.particle_system.render(surface=screen)
+    

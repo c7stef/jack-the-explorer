@@ -2,17 +2,13 @@ import pygame
 
 from player import Player
 from gameobject import OnScreen
-from block import Block, MovingPlatform, DecayingBlock, Spike
-from enemy import Enemy, EnemyFlower
-from pickups import Coin, AmmoPickUp, HealthPickUp
 from tilemap import TileMap
 import mossytile
 from mossytile import MossyTile, MossyBgTile
 from scene import Scene
 from tunnel import TunnelManager
-from checkpoint import Checkpoint
 from gun import Pistol
-from effect import TintEffect, BackgroundGradient
+from effect import TintEffect, BackgroundGradient, BackgroundParticles
 from scifi_tile import SciFiTile
 
 import utils
@@ -32,22 +28,10 @@ class Level(OnScreen):
 
         self.init_player_with_pistol()
 
-        # scene.add_object(Spike(pygame.Vector2(300, 300), {'width' : 50, 'height' : 50}))
-        # scene.add_object(Block(300, 500, 200, 50))
-        # scene.add_object(Block(500, 400, 200, 50))
-        # scene.add_object(Block(200, 400, 200, 50))
-        # scene.add_object(Checkpoint(pygame.Vector2(400, 180), {'order': 0}))
-        # scene.add_object(Checkpoint(pygame.Vector2(600, 180), {'order': 1}))
-        # scene.add_object(MovingPlatform(200, 50, pygame.Vector2(100, 200), pygame.Vector2(300, 200), 10))
-        # scene.add_object(Enemy(pygame.Vector2(250, 450), {'xoffset' : 100, 'yoffset' : 0}, 2))
-        # scene.add_object(EnemyFlower(pygame.Vector2(250, 350), {'xoffset' : 0, 'yoffset' : 0}, 3))
-        # scene.add_object(HealthPickUp(pygame.Vector2(400, 350)))
-        # scene.add_object(AmmoPickUp(pygame.Vector2(500, 350)))
-        # scene.add_object(DecayingBlock(150, 150, 1000, 10, 100))
-
         self.map_position = pygame.Vector2(-64, -64)
 
-        main_tilemap = TileMap("assets/sci-fi-tilemap/sci-fi-map.tmx")
+        # main_tilemap = TileMap("assets/sci-fi-tilemap/sci-fi-map.tmx")
+        main_tilemap = TileMap("assets/mossy-tilemap/level1-map.tmx")
         scene.add_object(main_tilemap)
 
         # Half a tile is cut off on each side
@@ -71,19 +55,23 @@ class Level(OnScreen):
         ))
         scene.add_object(TintEffect(mossytile.FG_TINT_COLOR, z_index=90, alpha=30))
 
+        scene.add_object
+
     def update(self):
         self.scene.update()
 
     def init_player_with_pistol(self):
         self.weapons = []
-        # self.player = Player(832, 1128, self)
-        self.player = Player(512, 1016, self)
+        self.player = Player(832, 1128, self)
+        # self.player = Player(512, 1016, self)
         self.scene.following = self.player
         gun = Pistol(self)
         self.weapons.append(gun)
         self.player.equip_weapon(gun)
         self.scene.add_object(self.player)
         self.scene.add_object(gun)
+
+        self.scene.add_object(BackgroundParticles())
 
         self.score = 0
         self.coin_cnt = 0
