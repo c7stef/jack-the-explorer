@@ -25,11 +25,21 @@
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="2" x="0.666667" y="63">
+    <polygon points="0,0 5.66667,-24 18,-43.6667 37,-57 62.3333,-62.6667 62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="5">
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="2" x="63" y="63">
+    <polygon points="0,0 -5.66667,-24 -18,-43.6667 -37,-57 -62.3333,-62.6667 -62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="6">
   <properties>
@@ -65,11 +75,21 @@
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.666667" y="0.3333">
+    <polygon points="0,0 5.66667,24 18,43.6667 37,57 62.3333,62.6667 62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="21">
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="3">
+   <object id="2" x="63" y="0.3333">
+    <polygon points="0,0 -5.66667,24 -18,43.6667 -37,57 -62.3333,62.6667 -62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="22">
   <properties>
@@ -180,11 +200,21 @@
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.666667" y="63">
+    <polygon points="0,0 5.66667,-24 18,-43.6667 37,-57 62.3333,-62.6667 62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="69">
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="63" y="63">
+    <polygon points="0,0 -5.66667,-24 -18,-43.6667 -37,-57 -62.3333,-62.6667 -62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="70">
   <properties>
@@ -220,11 +250,21 @@
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="0.666667" y="0.3333">
+    <polygon points="0,0 5.66667,24 18,43.6667 37,57 62.3333,62.6667 62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="85">
   <properties>
    <property name="type" value="scifi_tile"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="63" y="0.3333">
+    <polygon points="0,0 -5.66667,24 -18,43.6667 -37,57 -62.3333,62.6667 -62.3333,0"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="86">
   <properties>

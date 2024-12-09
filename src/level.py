@@ -43,9 +43,8 @@ class Level(OnScreen):
 
         self.init_player_with_pistol()
 
-        self.map_position = pygame.Vector2(-64, -64)
-
         main_tilemap = TileMap(level_data[self.num_level].tilemap_path)
+        self.map_position = -main_tilemap.tile_size() / 2
         scene.add_object(main_tilemap)
 
         # Half a tile is cut off on each side
