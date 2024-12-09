@@ -14,10 +14,10 @@ escape_pressed = False
 current_screen = None
 
 controls = {
-    'left': pygame.K_LEFT,
-    'right': pygame.K_RIGHT,
-    'up': pygame.K_UP,
-    'down': pygame.K_DOWN,
+    'left': pygame.K_a,
+    'right': pygame.K_d,
+    'up': pygame.K_w,
+    'down': pygame.K_s,
     'sound': 0.5,
     'resolution': "1600x1000"
 }
