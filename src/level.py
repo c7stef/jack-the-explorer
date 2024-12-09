@@ -15,19 +15,22 @@ from winter import WinterTile
 import utils
 
 class LevelData:
-    def __init__(self, player_pos, tilemap_path):
+    def __init__(self, player_pos, tilemap_path, bg_path):
         self.player_pos = player_pos
         self.tilemap_path = tilemap_path
+        self.bg_path = bg_path
 
 level_data = {
     1: LevelData(
         player_pos=(832, 1128),
-        tilemap_path="assets/mossy-tilemap/level1-map.tmx"
+        tilemap_path="assets/mossy-tilemap/level1-map.tmx",
+        bg_path="assets/mossy-tilemap/level1-bg.tmx"
     ),
     2: LevelData(
         player_pos=(256, 508),
         tilemap_path="assets/sci-fi-tilemap/level2-map.tmx"
-    ),
+        bg_path="assets/sci-fi-tilemap/level2-bg.tmx"
+    )
     3: LevelData(
         player_pos=(256, 508),
         tilemap_path="assets/winter-tilemap/level3.tmx"
@@ -61,7 +64,7 @@ class Level(OnScreen):
         main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile, 'winter_tile' : WinterTile})
         main_tilemap.create_objects(self.map_position, 'Objects', utils.level1_objects)
 
-        bg_tilemap = TileMap("assets/mossy-tilemap/level1-bg.tmx")
+        bg_tilemap = TileMap(level_data[self.num_level].bg_path)
         scene.add_object(bg_tilemap)
 
         bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
