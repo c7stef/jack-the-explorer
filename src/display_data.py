@@ -155,7 +155,7 @@ class DeathScreen(OnScreen):
         self.level = level
         self.checkpoint = checkpoint
         self.set_screen_size()
-        self.big_font_ratio = 0.45
+        self.big_font_ratio = 0.35
         self.font_ratio = 0.05
         self.button_font_size = int(self.screen_height * self.font_ratio)
 

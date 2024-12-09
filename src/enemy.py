@@ -7,12 +7,11 @@ import collision
 import utils
 
 class Enemy(Solid):
-    def __init__(self, position, properties, health=6):
+    def __init__(self, position, properties):
         super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.ENEMY.value)
-        if 'health' in properties:
-            health = properties['health']
+        health = properties.get('health', 6)
         self.p1 = position
         xoffset = properties.get('xoffset', 0)
         yoffset = properties.get('yoffset', 0)
@@ -49,11 +48,8 @@ class Enemy(Solid):
 
 
 class EnemyFlower(Enemy):
-    def __init__(self, position, properties, health=6):
-        if properties:
-            if 'health' in properties:
-                health = properties['health']
-        super().__init__(position, properties, health)
+    def __init__(self, position, properties):
+        super().__init__(position, properties)
         self.color = (250, 40, 60)
         self.fire_rate = 40
         self.bullet_timer = 10

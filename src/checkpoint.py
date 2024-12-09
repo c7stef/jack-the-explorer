@@ -15,9 +15,7 @@ class Checkpoint(Solid, Named):
         body_type=pymunk.Body.STATIC, layer=Layer.CHECKPOINT.value)
         self.shape.sensor = True
 
-        if properties:
-            if 'order' in properties:
-                self.order = properties['order']
+        self.order = properties.get('order', 0)
 
         self.flag = scale_surface(flag, (50, 50))
         self.color = (200, 50, 0)
