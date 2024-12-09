@@ -5,13 +5,13 @@ import pygame
 
 class SciFiTile(Solid):
     def __init__(self, position, image, colliders):
-        self.CORNER_RADIUS = 10
+        self.CORNER_RADIUS = 6
         self.z_index = 1
         
         shapes = []
 
         width, height = image.get_width(), image.get_height()
-        shapes.append(pymunk.Poly.create_box(None, (118, 118), radius=self.CORNER_RADIUS))
+        shapes.append(pymunk.Poly.create_box(None, (56, 56), radius=self.CORNER_RADIUS))
 
         super().__init__(
             position.x, position.y,
