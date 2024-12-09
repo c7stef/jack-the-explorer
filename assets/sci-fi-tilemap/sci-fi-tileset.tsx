@@ -131,6 +131,11 @@
    <property name="type" value="scifi_tile"/>
   </properties>
  </tile>
+ <tile id="38">
+  <properties>
+   <property name="type" value="scifi_tile"/>
+  </properties>
+ </tile>
  <tile id="39">
   <properties>
    <property name="type" value="scifi_tile"/>
