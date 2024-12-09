@@ -187,8 +187,9 @@ class LevelsMenu(OnScreen):
         self.buttons = []
         self.set_screen_size()
 
-        self.center_button1_y = self.center_button_y - self.button_height - self.offset
-        self.center_button2_y = self.center_button_y
+        self.space_used = 4 * self.button_height + 3 * self.offset
+        self.center_button1_y = self.screen_height / 2 - self.space_used / 2
+        self.center_button2_y = self.center_button1_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
         self.center_button4_y = self.center_button3_y + self.button_height + self.offset
 

@@ -10,13 +10,26 @@ mouse_pressed = False
 
 tick = pygame.image.load("assets/tick/tick.png")
 
+button_default = {
+'default' : pygame.image.load("assets/buttons/button1.png"),
+'hover' : pygame.image.load("assets/buttons/button1_hover.png")
+}
+
+button_backgrounds = {
+    'default' : button_default
+}
+
 class Button(GameObject):
-    def __init__(self, x, y, width, height, text, font_size, color, on_click):
+    def __init__(self, x, y, width, height, text, font_size, color, on_click, button_type='default'):
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color
         self.on_click = on_click
+        self.image = button_backgrounds[button_type]
+
+        # self.image['default'] = scale_surface(self.image['default'], (width, height))
+        # self.image['hover'] = scale_surface(self.image['hover'], (width, height))
 
         self.hover = False
 
@@ -40,9 +53,9 @@ class Button(GameObject):
 
     def draw(self, screen):
         if self.hover:
-            pygame.draw.rect(screen, self.hover_color, self.rect)
+            screen.blit(self.image['hover'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
         else:
-            pygame.draw.rect(screen, self.color, self.rect)
+            screen.blit(self.image['default'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
