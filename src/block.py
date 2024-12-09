@@ -70,6 +70,7 @@ class MovingPlatform(Solid):
 
 class Spike(Solid):
     def __init__(self, position, image = None, colliders = None):
+        self.image = image
         if isinstance(image, dict,):
             super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
