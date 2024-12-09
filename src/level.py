@@ -11,6 +11,7 @@ from gun import Pistol
 from effect import TintEffect, BackgroundGradient, BackgroundParticles
 from scifi_tile import SciFiTile
 from winter import WinterTile
+from block import Spike
 
 import utils
 
@@ -28,12 +29,13 @@ level_data = {
     ),
     2: LevelData(
         player_pos=(256, 508),
-        tilemap_path="assets/sci-fi-tilemap/level2-map.tmx"
-        bg_path="assets/sci-fi-tilemap/level2-bg.tmx"
-    )
+        tilemap_path="assets/sci-fi-tilemap/level2-map.tmx",
+        bg_path="assets/mossy-tilemap/level1-bg.tmx"
+    ),
     3: LevelData(
         player_pos=(256, 508),
-        tilemap_path="assets/winter-tilemap/level3.tmx"
+        tilemap_path="assets/winter-tilemap/level3.tmx",
+        bg_path="assets/mossy-tilemap/level1-bg.tmx"
     )
 }
 
@@ -61,13 +63,13 @@ class Level(OnScreen):
             main_tilemap.bounds() - main_tilemap.tile_size()
         ))
 
-        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile, 'winter_tile' : WinterTile})
+        main_tilemap.create_tiles(self.map_position, {'mossy': MossyTile, 'scifi_tile': SciFiTile, 'winter_tile' : WinterTile, 'spike' : Spike})
         main_tilemap.create_objects(self.map_position, 'Objects', utils.level1_objects)
 
         bg_tilemap = TileMap(level_data[self.num_level].bg_path)
         scene.add_object(bg_tilemap)
 
-        bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile})
+        bg_tilemap.create_tiles(self.map_position, {'mossy': MossyBgTile, 'scifi_tile': MossyBgTile, 'winter_tile' : MossyBgTile})
 
         scene.add_object(TintEffect(mossytile.BG_TINT_COLOR))
         scene.add_object(BackgroundGradient(

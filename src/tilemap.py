@@ -35,6 +35,9 @@ class TileMap(GameObject):
                 continue
 
             tile_properties = self.tmx.get_tile_properties_by_gid(gid)
+            
+            if tile_properties is None:
+                raise KeyError(f'Tile with gid={gid} has no properties.')
 
             if 'type' not in tile_properties:
                 raise KeyError(f'Tile with gid={gid} has no type.')
@@ -54,7 +57,7 @@ class TileMap(GameObject):
             tile.parent = self
 
             self.scene.add_object(tile)
-    
+
     def bounds(self):
         return pygame.Vector2(
             self.tmx.width * self.tmx.tilewidth,

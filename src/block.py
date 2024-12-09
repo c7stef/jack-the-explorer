@@ -69,9 +69,40 @@ class MovingPlatform(Solid):
 
 
 class Spike(Solid):
-    def __init__(self, position, properties=None):
-        super().__init__(position.x, position.y, 50, 50,
+    def __init__(self, position, image = None, colliders = None):
+        if isinstance(image, dict,):
+            super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
+            return
+        self.CORNER_RADIUS = 5
+        self.z_index = 1
+
+        shapes = []
+
+        width, height = image.get_width(), image.get_height()
+
+        if colliders == []:
+            shapes.append(pymunk.Poly.create_box(None, (56, 56), radius=self.CORNER_RADIUS))
+        else:
+            for poly in colliders:
+                points = [(x - width/2, y - height/2) for x, y in poly.apply_transformations()]
+                points = [(x * 0.85, y * 0.85) for x, y in points]
+
+                shapes.append(pymunk.Poly(None, points, radius=self.CORNER_RADIUS))
+
+        super().__init__(
+            position.x, position.y,
+            50, 50,
+            layer=collision.Layer.SPIKE.value,
+            shapes=shapes
+        )
+
+        self.image = image
+        for shape in self.shapes:
+            shape.body = self.body
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+        if isinstance(self.image, dict):
+            pygame.draw.rect(screen, (255, 0, 0), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+        else:
+            screen.blit(self.image, self.scene.relative_position((self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))
