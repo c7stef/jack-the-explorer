@@ -10,7 +10,7 @@ class AmmoPickUp(Solid):
                          body_type=pymunk.Body.STATIC,
                          layer=collision.Layer.AMMOBOX.value)
         self.shape.sensor = True
-        self.ammo_amount = properties('bullet_capacity', 10)
+        self.ammo_amount = properties.get('bullet_capacity', 10)
 
     def draw(self, screen):
         pygame.draw.circle(screen, (20, 20, 255), self.scene.relative_position(self.body.position), 25)
