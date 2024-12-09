@@ -10,7 +10,13 @@ pygame.init()
 # Load controls
 try:
     with open("controls.bin", "rb") as f:
-        utils.controls = pickle.load(f)
+        ok = True
+        saved_controls = pickle.load(f)
+        for key in utils.controls.keys():
+            if key not in saved_controls.keys():
+                ok = False
+                break
+        utils.controls = saved_controls if ok else utils.controls
 except FileNotFoundError:
     with open("controls.bin", "wb") as f:
         pickle.dump(utils.controls, f)
