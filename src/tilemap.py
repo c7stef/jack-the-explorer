@@ -1,6 +1,7 @@
-from gameobject import GameObject
+from gameobject import GameObject, Solid
 from pytmx import util_pygame
 import pygame
+import pymunk
 
 class TileMap(GameObject):
     def __init__(self, tmx_path):
@@ -36,7 +37,7 @@ class TileMap(GameObject):
 
             tile_properties = self.tmx.get_tile_properties_by_gid(gid)
 
-            if 'type' not in tile_properties:
+            if not tile_properties or 'type' not in tile_properties:
                 raise KeyError(f'Tile with gid={gid} has no type.')
 
             tile_type = tile_properties['type']
@@ -69,3 +70,55 @@ class TileMap(GameObject):
 
     def draw(self, screen):
         pass
+
+class SolidTile(Solid):
+    def __init__(self, position, image, colliders, layer):
+        self.CORNER_RADIUS = 5
+        self.z_index = 1
+        
+        shapes = []
+
+        width, height = image.get_width(), image.get_height()
+
+        if colliders == []:
+            shapes.append(pymunk.Poly.create_box(None, (56, 56), radius=self.CORNER_RADIUS))
+        else:
+            for poly in colliders:
+                points = [(x - width/2, y - height/2) for x, y in poly.apply_transformations()]
+                points = [(x * 0.85, y * 0.85) for x, y in points]
+                
+                shapes.append(pymunk.Poly(None, points, radius=self.CORNER_RADIUS))
+
+        super().__init__(
+            position.x, position.y,
+            width, height,
+            layer=layer,
+            shapes=shapes
+        )
+
+        self.image = image
+        for shape in self.shapes:
+            shape.body = self.body
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        screen.blit(self.image, self.scene.relative_position((self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))
+
+class BgTile(GameObject):
+    def __init__(self, position, image, colliders):
+        self.z_index = -10
+
+        self.position = position
+        self.width, self.height = image.get_width(), image.get_height()
+        self.image = image
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        position = self.position - pygame.Vector2(self.width, self.height) / 2
+        map_size = self.parent.bounds() - self.parent.tile_size()
+        screen.blit(self.image, self.scene.relative_position_parallax(position, map_size))
+

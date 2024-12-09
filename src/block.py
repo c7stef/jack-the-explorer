@@ -66,12 +66,3 @@ class MovingPlatform(Solid):
 
     def draw(self, screen):
         pygame.draw.rect(screen, (60, 200, 200), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
-
-
-class Spike(Solid):
-    def __init__(self, position, properties=None):
-        super().__init__(position.x, position.y, 50, 50,
-                         body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
-
-    def draw(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

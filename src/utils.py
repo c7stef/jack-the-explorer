@@ -1,7 +1,7 @@
 from enum import Enum
 import pygame
 
-import block
+import enemy
 import pickups
 import enemy
 from checkpoint import Checkpoint
@@ -37,7 +37,7 @@ level1_objects = {
     'enemy': enemy.Enemy,
     'tunnel': Tunnel,
     'checkpoint': Checkpoint,
-    'spike': block.Spike,
+    'spike': enemy.Spike,
     'enemy_flower': enemy.EnemyFlower
 }
 

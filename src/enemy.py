@@ -1,7 +1,8 @@
 import pygame
 import pymunk
 
-from block import Solid
+from gameobject import Solid
+from tilemap import SolidTile
 from bullet import EnemyBullet
 import collision
 import utils
@@ -54,7 +55,6 @@ class EnemyFlower(Enemy):
         self.fire_rate = 40
         self.bullet_timer = 10
 
-
     def update(self):
         super().update()
         self.bullet_timer += 1
@@ -83,3 +83,18 @@ class EnemyFlower(Enemy):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+
+class Spike(Solid):
+    def __init__(self, position, properties=None):
+        super().__init__(position.x, position.y, 50, 50,
+                         body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, (255, 0, 0), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+
+class SpikeTile(SolidTile):
+    def __init__(self, position, image, colliders):
+        super().__init__(
+            position, image, colliders,
+            layer=collision.Layer.SPIKE.value
+        )

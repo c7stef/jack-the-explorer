@@ -19,7 +19,7 @@ def scale_surface(surface, new_size):
     pil_image = Image.frombytes(mode, size, data)
     
     # Scale the image using Pillow with LANCZOS resampling
-    scaled_pil_image = pil_image.resize((new_width, new_height), Image.LANCZOS)
+    scaled_pil_image = pil_image.resize((int(new_width), int(new_height)), Image.LANCZOS)
     
     # Convert back to a Pygame surface
     scaled_data = scaled_pil_image.tobytes()

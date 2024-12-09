@@ -5,9 +5,9 @@ from gameobject import GameObject, Solid
 import collision
 
 BG_TINT_COLOR = (69, 139, 170)
+FG_TINT_COLOR = (32, 153, 247)
 BG_GRADIENT_COLOR1 = (235, 254, 255)
 BG_GRADIENT_COLOR2 = (14, 122, 130)
-FG_TINT_COLOR = (32, 153, 247)
 
 class MossyTile(Solid):
     def __init__(self, position, image, colliders):
@@ -45,19 +45,3 @@ class MossyTile(Solid):
 
     def draw(self, screen):
         screen.blit(self.image, self.scene.relative_position((self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))
-
-class MossyBgTile(GameObject):
-    def __init__(self, position, image, colliders):
-        self.z_index = -10
-
-        self.position = position
-        self.width, self.height = image.get_width(), image.get_height()
-        self.image = image
-
-    def update(self):
-        pass
-
-    def draw(self, screen):
-        position = self.position - pygame.Vector2(self.width, self.height) / 2
-        screen.blit(self.image, self.scene.relative_position_parallax(position, 128 * pygame.Vector2(59, 11)))
-

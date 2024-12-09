@@ -301,6 +301,11 @@
    <property name="type" value="scifi_tile"/>
   </properties>
  </tile>
+ <tile id="102">
+  <properties>
+   <property name="type" value="scifi_tile"/>
+  </properties>
+ </tile>
  <wangsets>
   <wangset name="pipe" type="mixed" tile="-1">
    <wangcolor name="rough_pipe" color="#ff0000" tile="-1" probability="1">

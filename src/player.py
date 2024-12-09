@@ -26,7 +26,7 @@ class Player(GameObject, RigidBody, Followable):
         self.FIRE_RATE = 15
         self.JUMP_IMPULSES_MAX = 15
         self.HORIZONTAL_DRAG = 17/20
-        self.VERTICAL_NORMAL_Y = 0.6
+        self.VERTICAL_NORMAL_Y = 0.3
         self.HORIZONTAL_NORMAL_X = math.sqrt(1 - self.VERTICAL_NORMAL_Y ** 2)
 
         self.jump_time = 0
