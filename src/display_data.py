@@ -120,7 +120,8 @@ class PauseScreen(OnScreen):
         utils.current_screen = self.level
 
     def go_to_main_menu(self):
-        utils.current_screen = self.level.level_menu.back
+        from main_menu import MainMenu
+        utils.current_screen = MainMenu(self.level.screen)
 
     def restart(self):
         from level import Level
