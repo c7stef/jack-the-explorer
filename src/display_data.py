@@ -13,7 +13,7 @@ bullet = pygame.image.load("assets/bullet/bullet.png")
 
 backgrounds = {
     'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
-    'finished_level' : pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg")
+    'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg")
 }
 
 class DisplayData(GameObject):
@@ -292,7 +292,6 @@ class FinishScreen(OnScreen):
     def draw(self):
         self.screen.blit(self.background, (0, 0))
         if self.level.num_level != 3:
-            self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
             self.screen.blit(self.text_surface, self.text_rec)
         for b in self.buttons:
             b.draw(self.screen)
