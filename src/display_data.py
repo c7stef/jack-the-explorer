@@ -11,6 +11,10 @@ from animated_sprite import AnimatedSprite, HeartsBar, BulletIcons
 
 bullet = pygame.image.load("assets/bullet/bullet.png")
 
+backgrounds = {
+    'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg")
+}
+
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
@@ -215,33 +219,41 @@ class DeathScreen(OnScreen):
 
 class FinishScreen(OnScreen):
     def __init__(self, level):
-
-        self.screen = level.scene.screen
         self.scene = level.scene
-
-        self.scene.remove_object(self.scene.find_player().display)
-        self.scene.remove_object(self.scene.find_player())
-
+        self.screen = level.scene.screen
         self.set_screen_size()
         self.offset = self.screen_height / 10
         self.font_ratio = 0.08
         self.buttons = []
         self.level = level
-
         font = pygame.font.SysFont("Arial", int(self.screen_height * self.font_ratio))
         text = f"Level {self.level.num_level} completed"
         self.text_surface = font.render(text, True, (50, 200, 50))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))
+        self.scene.remove_object(self.scene.find_player().display)
+        self.scene.remove_object(self.scene.find_player())
+        if level.num_level == 3:
+            self.load_background(backgrounds['game_over'])
 
-        self.restart_button = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset,
-                                     self.button_width, self.button_height, "Restart", 40, (0, 255, 255), self.restart)
-        self.main_menu_button = Button(self.center_button_x, self.center_button_y + self.button_height + self.offset,
-                                       self.button_width, self.button_height, "Main Menu", 40, (0, 255, 255), self.go_to_main_menu)
-        self.next_level_button = Button(self.center_button_x, self.center_button_y,
+            self.restart_x = self.offset
+            self.restart_y = self.screen_height - self.button_height - self.offset
+            self.main_menu_button_y = self.restart_y
+            self.main_menu_button_x = self.screen_width - self.button_width - self.offset
+        else:
+            self.restart_y = self.center_button_y - self.button_height - self.offset
+            self.restart_x = self.center_button_x
+            self.main_menu_button_y = self.center_button_y + self.button_height + self.offset
+            self.main_menu_button_x = self.center_button_x
+            self.next_level_button = Button(self.center_button_x, self.center_button_y,
                                         self.button_width, self.button_height, "Next Level", 40, (0, 255, 255), self.next_level)
+            self.buttons.append(self.next_level_button)
+
+        self.restart_button = Button(self.restart_x, self.restart_y,
+                                    self.button_width, self.button_height, "Restart", 40, (0, 255, 255), self.restart)
+        self.main_menu_button = Button(self.main_menu_button_x, self.main_menu_button_y,
+                                    self.button_width, self.button_height, "Main Menu", 40, (0, 255, 255), self.go_to_main_menu)
         self.buttons.append(self.restart_button)
         self.buttons.append(self.main_menu_button)
-        self.buttons.append(self.next_level_button)
 
         self.sound = pygame.mixer.Sound("sounds/next_level.mp3")
         self.sound.set_volume(utils.controls['sound'])
@@ -277,9 +289,10 @@ class FinishScreen(OnScreen):
         self.handle_input()
 
     def draw(self):
-        self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
-
+        if self.level.num_level == 3:
+            self.screen.blit(self.background, (0, 0))
+        else:
+            self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
+            self.screen.blit(self.text_surface, self.text_rec)
         for b in self.buttons:
             b.draw(self.screen)
-
-        self.screen.blit(self.text_surface, self.text_rec)

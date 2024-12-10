@@ -2,7 +2,9 @@ import pygame
 import sys
 import pickle
 
-from main_menu import MainMenu
+import display_data
+import level
+from main_menu import MainMenu, LevelsMenu
 import utils
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
@@ -41,6 +43,7 @@ main_menu = MainMenu(screen)
 
 utils.current_screen = main_menu
 
+# utils.current_screen = display_data.FinishScreen(level.Level(LevelsMenu(main_menu), 1))
 # Main game loop
 running = True
 while running:
