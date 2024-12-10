@@ -2,12 +2,13 @@ import pygame
 import pymunk
 
 from collision import Layer
-
+import utils
 from gameobject import Solid, Named
 
 from image_processing import scale_surface
 
 flag = pygame.image.load("assets/checkpoint/flag.png")
+checkpoint_sound = pygame.mixer.Sound("sounds/checkpoint.mp3")
 
 class Checkpoint(Solid, Named):
     def __init__(self, position, properties=None):
@@ -39,6 +40,8 @@ class Checkpoint(Solid, Named):
             if self.order != player.last_checkpoint.order + 1:
                 return player.last_checkpoint
             else:
+                checkpoint_sound.play()
+                checkpoint_sound.set_volume(utils.controls['sound'])
                 self.color = self.reached_color
                 player.last_checkpoint = self
                 return self

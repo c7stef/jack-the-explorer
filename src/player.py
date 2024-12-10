@@ -11,6 +11,11 @@ from gun import Weapon
 import collision
 import utils
 
+coin_sound = pygame.mixer.Sound("sounds/coin.mp3")
+ammo_sound = pygame.mixer.Sound("sounds/ammo_found.mp3")
+health_sound = pygame.mixer.Sound("sounds/health.mp3")
+damage_taken_sound = pygame.mixer.Sound("sounds/hurt.mp3")
+
 # Player class
 class Player(GameObject, RigidBody, Followable):
     def __init__(self, x, y, level):
@@ -164,12 +169,16 @@ class Player(GameObject, RigidBody, Followable):
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.coin_cnt += 1
                 self.level.score += 10
+                coin_sound.play()
+                coin_sound.set_volume(utils.controls['sound'])
 
             # Player collides with an ammo box
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
                 self.weapon.pick_up_ammo(self.scene.find_rigid_body(collision_data["shape"]).ammo_amount)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.score += 10
+                ammo_sound.play()
+                ammo_sound.set_volume(utils.controls['sound'])
 
             # Player collides with a health box
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
@@ -178,6 +187,8 @@ class Player(GameObject, RigidBody, Followable):
                 if self.level.hp > self.level.max_hp:
                     self.level.hp = self.level.max_hp
                 self.level.score += 10
+                health_sound.play()
+                health_sound.set_volume(utils.controls['sound'])
 
             if collision_data["shape"].collision_type == collision.Layer.CHECKPOINT.value:
                 self.last_checkpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
@@ -198,6 +209,8 @@ class Player(GameObject, RigidBody, Followable):
             utils.current_screen = FinishScreen(self.level)
 
     def deal_damage(self, damage):
+        damage_taken_sound.play()
+        damage_taken_sound.set_volume(utils.controls['sound'])
         self.current_hp -= damage
 
         if self.current_hp <= 0:
