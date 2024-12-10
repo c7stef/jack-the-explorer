@@ -69,12 +69,12 @@ class ControlsButton(Button):
         self.controls = controls
         self.key = key
         self.selected = False
-        self.text_in = pygame.key.name(controls[key])
+        self.text = pygame.key.name(controls[key])
         self.font_color = (0, 0, 0)
 
     def update_text(self, text):
         self.controls[self.key] = text
-        self.text_in = pygame.key.name(self.controls[self.key])
+        self.text = pygame.key.name(self.controls[self.key])
 
     def handle_input(self, events):
         global mouse_pressed
@@ -91,7 +91,7 @@ class ControlsButton(Button):
                 if e.key is pygame.K_ESCAPE:
                     self.selected = False
                     break
-                self.text_in = pygame.key.name(e.key)
+                self.text = pygame.key.name(e.key)
                 self.controls[self.key] = e.key
                 self.selected = False
         if self.selected:
@@ -100,20 +100,14 @@ class ControlsButton(Button):
 
     def is_selected(self):
         if self.selected:
-            if self.text_in[0] != ">":
-                self.text_in = f"> {self.text_in} <"
+            if self.text[0] != ">":
+                self.text = f"> {self.text} <"
         else:
-            if self.text_in[0] == ">":
-                self.text_in = self.text_in[2:-2]
+            if self.text[0] == ">":
+                self.text = self.text[2:-2]
 
     def draw(self, screen):
-        if self.hover:
-            pygame.draw.rect(screen, self.hover_color, self.rect)
-        else:
-            pygame.draw.rect(screen, self.color, self.rect)
-        text_surface = self.font.render(self.text_in, True, self.font_color)
-        text_rect = text_surface.get_rect(center=self.rect.center)
-        screen.blit(text_surface, text_rect)
+        super().draw(screen)
         screen.blit(self.text_surface, self.text_rect)
 
 class Dropdown(GameObject):
