@@ -87,6 +87,7 @@ class PauseScreen(OnScreen):
         self.level = level
         text = "Paused"
         self.set_screen_size()
+        self.offset = self.screen_height / 100
         self.font = pygame.font.SysFont("Arial", self.font_size * 8)
         self.text_surface = self.font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 4.5))

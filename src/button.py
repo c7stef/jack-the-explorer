@@ -272,7 +272,7 @@ class Checkbox(GameObject):
 class Slider(ImageObject):
     def __init__(self, x, y, width, height, color, on_change, text, font_size, default_value=0.5, image_type='slider'):
         self.rect = pygame.Rect(x, y, width, height)
-        super().__init__(self.rect, width, height, button_backgrounds[image_type])
+        super().__init__(self.rect, width + 50, height, button_backgrounds[image_type])
 
 
         self.font = pygame.font.SysFont("Arial", font_size)
