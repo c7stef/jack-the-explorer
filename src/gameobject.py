@@ -3,7 +3,7 @@ import pymunk
 import pygame
 import collision
 
-from image_processing import scale_surface
+from image_processing import scale_surface, scale_surface_cover
 
 class GameObject(ABC):
     def set_scene(self, scene):
@@ -53,7 +53,7 @@ class OnScreen(ABC):
         self.font_size = int(self.screen_height * self.font_ratio)
 
     def load_background(self, bkg_img):
-        self.background = scale_surface(bkg_img, (self.screen_width, self.screen_height))
+        self.background = scale_surface_cover(bkg_img, (self.screen_width, self.screen_height))
 
     def draw_background(self):
         self.screen.blit(self.background, (0, 0))

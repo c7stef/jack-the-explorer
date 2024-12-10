@@ -2,7 +2,6 @@ import pygame
 import sys
 import pickle
 
-from image_processing import scale_surface
 from button import Button, Dropdown, Checkbox, Slider, ControlsButton
 from gameobject import OnScreen
 from level import Level
