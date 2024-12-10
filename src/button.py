@@ -1,6 +1,6 @@
 import pygame
 
-from gameobject import GameObject
+from gameobject import GameObject, ImageObject
 
 from image_processing import scale_surface
 
@@ -15,22 +15,24 @@ button_default = {
 'hover' : pygame.image.load("assets/buttons/button1_hover.png")
 }
 
-button_backgrounds = {
-    'default' : button_default
+slider_default = {
+'default' : pygame.image.load("assets/buttons/slider1.png"),
+'hover' : pygame.image.load("assets/buttons/slider1.png")
 }
 
-class Button(GameObject):
+button_backgrounds = {
+    'default' : button_default,
+    'slider' : slider_default
+}
+
+class Button(ImageObject):
     def __init__(self, x, y, width, height, text, font_size, color, on_click, button_type='default'):
         self.rect = pygame.Rect(x, y, width, height)
+        super().__init__(self.rect, width, height, button_backgrounds[button_type])
         self.text = text
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color
         self.on_click = on_click
-        self.image = button_backgrounds[button_type]
-
-        self.image['default'] = scale_surface(self.image['default'], (width, width))
-        self.image['hover'] = scale_surface(self.image['hover'], (width, width))
-        self.hover = False
 
         self.hover_color = ( min(color[0] + 20, 255), min(color[1] + 20, 255), min(color[2] + 20, 255))
 
@@ -51,10 +53,7 @@ class Button(GameObject):
         self.handle_input()
 
     def draw(self, screen):
-        if self.hover:
-            screen.blit(self.image['hover'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
-        else:
-            screen.blit(self.image['default'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
+        super().draw(screen)
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
@@ -270,9 +269,11 @@ class Checkbox(GameObject):
             screen.blit(self.tick, self.rect_square.topleft)
 
 
-class Slider(GameObject):
-    def __init__(self, x, y, width, height, color, on_change, text, font_size, default_value=0.5):
+class Slider(ImageObject):
+    def __init__(self, x, y, width, height, color, on_change, text, font_size, default_value=0.5, image_type='slider'):
         self.rect = pygame.Rect(x, y, width, height)
+        super().__init__(self.rect, width, height, button_backgrounds[image_type])
+
 
         self.font = pygame.font.SysFont("Arial", font_size)
         self.text = text
@@ -307,6 +308,8 @@ class Slider(GameObject):
         self.handle_input()
 
     def draw(self, screen):
+        super().draw(screen)
+
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(self.rect.x - text_surface.get_width() / 2 - 5, self.rect.y + self.rect.height / 2))
         screen.blit(text_surface, text_rect)
@@ -315,6 +318,6 @@ class Slider(GameObject):
         percent_text_rect = percent_text_surface.get_rect(center=(self.rect.x + self.rect.width + percent_text_surface.get_width() / 2 + 5, self.rect.y + self.rect.height / 2))
         screen.blit(percent_text_surface, percent_text_rect)
 
-        pygame.draw.rect(screen, self.color, self.rect)
-        pygame.draw.rect(screen, self.border_color, self.rect, 2)
+        # pygame.draw.rect(screen, self.color, self.rect)
+        # pygame.draw.rect(screen, self.border_color, self.rect, 2)
         pygame.draw.rect(screen, (0, 0, 0), (self.rect.x + self.value * self.rect.width - 4, self.rect.y, 8, self.rect.height))
