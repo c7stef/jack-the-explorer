@@ -12,7 +12,8 @@ from animated_sprite import AnimatedSprite, HeartsBar, BulletIcons
 bullet = pygame.image.load("assets/bullet/bullet.png")
 
 backgrounds = {
-    'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg")
+    'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
+    'finished_level' : pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg")
 }
 
 class DisplayData(GameObject):
@@ -234,12 +235,12 @@ class FinishScreen(OnScreen):
         self.scene.remove_object(self.scene.find_player())
         if level.num_level == 3:
             self.load_background(backgrounds['game_over'])
-
             self.restart_x = self.offset
             self.restart_y = self.screen_height - self.button_height - self.offset
             self.main_menu_button_y = self.restart_y
             self.main_menu_button_x = self.screen_width - self.button_width - self.offset
         else:
+            self.load_background(backgrounds['finished_level'])
             self.restart_y = self.center_button_y - self.button_height - self.offset
             self.restart_x = self.center_button_x
             self.main_menu_button_y = self.center_button_y + self.button_height + self.offset
@@ -289,9 +290,8 @@ class FinishScreen(OnScreen):
         self.handle_input()
 
     def draw(self):
-        if self.level.num_level == 3:
-            self.screen.blit(self.background, (0, 0))
-        else:
+        self.screen.blit(self.background, (0, 0))
+        if self.level.num_level != 3:
             self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
             self.screen.blit(self.text_surface, self.text_rec)
         for b in self.buttons:
