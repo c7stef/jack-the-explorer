@@ -5,6 +5,8 @@ from block import Solid
 from gameobject import GameObject, Named
 import collision
 
+tunnel_sprite = pygame.image.load('assets/tunnel/tunnel.png')
+
 class TunnelManager(GameObject, Named):
     def __init__(self):
         self.tunnels = {}
@@ -31,11 +33,13 @@ class TunnelManager(GameObject, Named):
 
 class Tunnel(Solid):
     def __init__(self, position, properties):
-        width = 50
-        height = 100
+        width = 110
+        height = 149
         super().__init__(position[0], position[1], width, height, pymunk.Body.STATIC, layer=collision.Layer.TUNNEL.value)
 
         self.upwards = properties['upwards']
+        self.image = tunnel_sprite if self.upwards else pygame.transform.flip(tunnel_sprite, False, True)
+
         self.tunnel_out_id = properties.get('tunnel_out', None)
         self.id = properties['self_id']
 
@@ -57,15 +61,12 @@ class Tunnel(Solid):
         return self.body.position.x, self.body.position.y - self.height / 2 if self.upwards else self.body.position.y + self.height / 2
 
     def draw(self, screen):
-        pygame.draw.rect(
-            screen,
-            self.color,
-            self.scene.relative_rect(
-                pygame.Rect(
+        screen.blit(
+            self.image,
+            self.scene.relative_position(
+                pygame.Vector2(
                     self.body.position.x - self.width / 2,
                     self.body.position.y - self.height / 2,
-                    self.width,
-                    self.height
                 )
             )
         )

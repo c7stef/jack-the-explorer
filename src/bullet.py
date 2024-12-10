@@ -7,13 +7,15 @@ import utils
 import math
 
 player_bullet_sprite = pygame.image.load("assets/bullet/player_bullet.png")
+enemy_bullet_sprite = pygame.image.load("assets/bullet/enemy_bullet.png")
 
 class BulletBlast(GameObject):
-    def __init__(self, x, y):
+    def __init__(self, x, y, color):
         self.LIFETIME = 10
         self.progress = 0
         self.position = pygame.Vector2(x, y)
         self.circle_surface = pygame.Surface((200, 200), pygame.SRCALPHA)
+        self.color = color
     
     def update(self):
         self.progress += 1
@@ -25,7 +27,7 @@ class BulletBlast(GameObject):
 
         pygame.draw.circle(
             self.circle_surface,
-            (200, 230, 255, 200 * (1 - self.progress / self.LIFETIME)),
+            (*self.color, 200 * (1 - self.progress / self.LIFETIME)),
             self.circle_surface.get_rect().center,
             80 * self.progress / self.LIFETIME
         )
@@ -48,9 +50,20 @@ class Bullet(Solid):
         self.body.position = self.position.x, self.position.y
         self.ttl = 80
         self.direction_vector = directions.normalize() * self.VELOCITY
-        angle = math.degrees(math.atan2(-self.direction_vector.y, self.direction_vector.x))
-        self.image = pygame.transform.rotate(player_bullet_sprite, angle)
-        self.rotated_rect = self.image.get_rect(center=pygame.Vector2(x, y))
+        self.image_base = player_bullet_sprite
+    
+    @property
+    def image(self):
+        if not hasattr(self, "_image") or self._image is None:
+            angle = math.degrees(math.atan2(-self.direction_vector.y, self.direction_vector.x))
+            self._image = pygame.transform.rotate(self.image_base, angle)
+        return self._image
+    
+    @property
+    def rotated_rect(self):
+        if not hasattr(self, "_rotated_rect") or self._rotated_rect is None:
+            self._rotated_rect = self.image.get_rect(center=self.position)
+        return self._rotated_rect
 
     def update(self):
         self.ttl -= 1
@@ -71,7 +84,7 @@ class Bullet(Solid):
             set_to_die = True
             
         if set_to_die:
-            self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y))
+            self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y, (200, 230, 255)))
             self.scene.remove_object(self)
 
     def draw(self, screen):
@@ -81,6 +94,7 @@ class EnemyBullet(Bullet):
     def __init__(self, x, y, speed):
         super().__init__(x, y, speed)
         self.shape.collision_type = collision.Layer.ENEMYBULLET.value
+        self.image_base = enemy_bullet_sprite
 
     def update(self):
         self.ttl -= 1
