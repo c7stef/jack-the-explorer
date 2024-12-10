@@ -190,7 +190,6 @@ class Settings(OnScreen):
 
 class LevelsMenu(OnScreen):
     def __init__(self, main_menu):
-        self.back = main_menu
         self.screen = main_menu.screen
         self.buttons = []
         self.set_screen_size()
@@ -221,7 +220,7 @@ class LevelsMenu(OnScreen):
         return start_level_action
 
     def back_to_main(self):
-        utils.current_screen = self.back
+        utils.current_screen = MainMenu(self.screen)
 
     def draw(self):
         self.draw_background()
