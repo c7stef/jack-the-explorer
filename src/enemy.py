@@ -12,7 +12,7 @@ class Enemy(Solid):
         super().__init__(position.x, position.y, 50, 50,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.ENEMY.value)
-        health = properties.get('health', 6)
+        health = properties.get('health', 3)
         self.p1 = position
         xoffset = properties.get('xoffset', 0)
         yoffset = properties.get('yoffset', 0)
