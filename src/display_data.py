@@ -5,11 +5,9 @@ import utils
 import pygame
 import math
 
-from image_processing import scale_surface
+from image_processing import scale_surface_cover
 
-from animated_sprite import AnimatedSprite, HeartsBar, BulletIcons
-
-bullet = pygame.image.load("assets/bullet/bullet.png")
+from animated_sprite import AnimatedSprite, HeartsBar, BulletIcons, bullet
 
 backgrounds = {
     'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
@@ -33,13 +31,13 @@ class DisplayData(GameObject):
         self.max_health = 0
         self.player = player
 
-        self.bullet_icon = scale_surface(bullet, (23, 23))
+        self.bullet_icon = scale_surface_cover(bullet, (60, 60))
 
         self.coin_animation = AnimatedSprite("assets/coin", (23, 23))
 
         self.hearts_bar = HeartsBar(3, (30, 30))
 
-        self.ammo_icons = BulletIcons(10, (23, 23))
+        self.ammo_icons = BulletIcons(10, (60, 60))
 
     def update(self):
         self.score = self.level.score
