@@ -197,8 +197,6 @@ class Dropdown(GameObject):
                 self.is_open = False
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.border_color, self.border_rect)
-        # pygame.draw.rect(screen, self.color, self.rect)
         screen.blit(self.image, pygame.Vector2(self.rect.center) - pygame.Vector2(self.image.get_size()) / 2)
         text_surface = self.font.render(self.selected_option if self.selected_option else "Select", True, button_text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
@@ -215,8 +213,6 @@ class Dropdown(GameObject):
                 option_rect_border = pygame.Rect(option_rect.x - self.border_thickness,
                                                     option_rect.y - self.border_thickness, option_rect.width + 2 * self.border_thickness,
                                                     option_rect.height + 2 * self.border_thickness)
-                pygame.draw.rect(screen, self.border_color, option_rect_border)
-                # pygame.draw.rect(screen, self.color, option_rect)
                 screen.blit(self.image, pygame.Vector2(option_rect.center) - pygame.Vector2(self.image.get_size()) / 2)
                 option_text_surface = self.font.render(option, True, button_text_color)
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
