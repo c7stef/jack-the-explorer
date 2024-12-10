@@ -52,6 +52,12 @@ class OnScreen(ABC):
         self.font_ratio = 0.04
         self.font_size = int(self.screen_height * self.font_ratio)
 
+    def load_background(self, bkg_img):
+        self.background = scale_surface(bkg_img, (self.screen_width, self.screen_height))
+
+    def draw_background(self):
+        self.screen.blit(self.background, (0, 0))
+
     def set_screen(self, screen):
         self.screen = screen
 

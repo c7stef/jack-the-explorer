@@ -1,18 +1,25 @@
 import pygame
 import sys
-
 import pickle
 
+from image_processing import scale_surface
 from button import Button, Dropdown, Checkbox, Slider, ControlsButton
 from gameobject import OnScreen
 from level import Level
 import utils
+
+backgrounds = {
+    "main_menu": pygame.image.load("assets/menu-backgrounds/background.png"),
+    "settings": pygame.image.load("assets/menu-backgrounds/background.png"),
+    "levels_menu": pygame.image.load("assets/menu-backgrounds/background.png")
+}
 
 class MainMenu(OnScreen):
     def __init__(self, screen):
         self.screen = screen
         self.buttons = []
         self.set_screen_size()
+        self.load_background(backgrounds["main_menu"])
 
         self.start = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset, self.button_width
                             , self.button_height, "Start", self.font_size, (0, 255, 0), self.start_game)
@@ -35,8 +42,7 @@ class MainMenu(OnScreen):
         utils.current_screen = Settings(self)
 
     def draw(self):
-        self.screen.fill((255, 255, 255))
-
+        self.draw_background()
         for button in self.buttons:
             button.draw(self.screen)
 
@@ -72,11 +78,12 @@ class Settings(OnScreen):
         if not utils.controls['fullscreen']:
             pygame.display.set_mode((int(utils.controls['resolution'].split("x")[0]), int(utils.controls['resolution'].split("x")[1])))
         self.set_screen_size()
+        self.load_background(backgrounds["settings"])
         self.buttons = []
         self.drop_downs = []
         self.controls = []
         self.focused_element = None
-        self.left_column_center_x = self.screen_width / 2 - self.screen_width / 4
+        self.left_column_center_x = self.screen_width / 2 - self.screen_width / 4 - self.button_width / 2
         self.top_left_y = self.screen_height / 10
         self.button_right_column_center_x = self.screen_width / 2 + self.screen_width / 4 - self.button_width / 2
         self.button_right_column_first_y = self.screen_height / 10
@@ -105,7 +112,7 @@ class Settings(OnScreen):
         self.reload = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 4 * (self.offset + self.button_height),
                                     self.button_width, self.button_height, "Reload", self.font_size, (0, 255, 0), utils.controls, "reload")
         self.sound_slider = Slider(self.left_column_center_x, self.soundSlider_y, self.button_width,
-                                  self.button_height, (0, 255, 0), self.set_volume, "Volume: ", 20, utils.controls['sound'])
+                                  self.button_height, (0, 255, 0), self.set_volume, "Volume: ", self.font_size, utils.controls['sound'])
         self.go_back = Button(self.left_column_center_x, self.soundSlider_y + self.button_height + self.offset,
                              self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.back_to_main)
         self.controls.append(self.left)
@@ -172,6 +179,7 @@ class Settings(OnScreen):
         return conflict_found
 
     def draw(self):
+        self.draw_background()
         for c in self.controls:
             c.draw(self.screen)
         for b in self.buttons:
@@ -186,6 +194,7 @@ class LevelsMenu(OnScreen):
         self.screen = main_menu.screen
         self.buttons = []
         self.set_screen_size()
+        self.load_background(backgrounds["levels_menu"])
 
         self.space_used = 4 * self.button_height + 3 * self.offset
         self.center_button1_y = self.screen_height / 2 - self.space_used / 2
@@ -215,8 +224,7 @@ class LevelsMenu(OnScreen):
         utils.current_screen = self.back
 
     def draw(self):
-        self.screen.fill((255, 255, 255))
-
+        self.draw_background()
         for button in self.buttons:
             button.draw(self.screen)
 
