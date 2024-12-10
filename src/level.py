@@ -38,7 +38,8 @@ level_data = {
             TintEffect(mossytile.BG_TINT_COLOR),
             BackgroundGradient(mossytile.BG_GRADIENT_COLOR1,
                 mossytile.BG_GRADIENT_COLOR2),
-            TintEffect(mossytile.FG_TINT_COLOR, z_index=90, alpha=30)
+            TintEffect(mossytile.FG_TINT_COLOR, z_index=90, alpha=30),
+            BackgroundParticles()
         ]
     ),
     2: LevelData(
@@ -109,8 +110,6 @@ class Level(OnScreen):
         self.player.equip_weapon(gun)
         self.scene.add_object(self.player)
         self.scene.add_object(gun)
-
-        self.scene.add_object(BackgroundParticles())
 
         self.score = 0
         self.coin_cnt = 0
