@@ -1,12 +1,17 @@
 import pygame
-import sys
 import pickle
+import sys
+import os
+
+# PyInstaller Support
+if getattr(sys, 'frozen', False):
+    os.chdir("..")
 
 import display_data
 import level
 from main_menu import MainMenu, LevelsMenu
 import utils
-import os
+
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
 
 # Initialize pygame
