@@ -13,7 +13,8 @@ bullet = pygame.image.load("assets/bullet/bullet.png")
 
 backgrounds = {
     'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
-    'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg")
+    'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg"),
+    'death': pygame.image.load("assets/menu-backgrounds/death_resized.webp")
 }
 
 class DisplayData(GameObject):
@@ -155,6 +156,7 @@ class DeathScreen(OnScreen):
         self.level = level
         self.checkpoint = checkpoint
         self.set_screen_size()
+        self.load_background(backgrounds["death"])
         self.big_font_ratio = 0.35
         self.font_ratio = 0.05
         self.button_font_size = int(self.screen_height * self.font_ratio)
@@ -206,7 +208,7 @@ class DeathScreen(OnScreen):
         self.handle_input()
 
     def draw(self):
-        self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
+        self.draw_background()
         self.restart_button.draw(self.screen)
         self.last_button.draw(self.screen)
         self.screen.blit(self.text_surface, self.text_rec)
