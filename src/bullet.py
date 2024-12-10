@@ -1,16 +1,45 @@
 import pygame
 import pymunk
 
-from gameobject import Solid
+from gameobject import Solid, GameObject
 import collision
 import utils
 import math
 
 player_bullet_sprite = pygame.image.load("assets/bullet/player_bullet.png")
 
+class BulletBlast(GameObject):
+    def __init__(self, x, y):
+        self.LIFETIME = 10
+        self.progress = 0
+        self.position = pygame.Vector2(x, y)
+        self.circle_surface = pygame.Surface((200, 200), pygame.SRCALPHA)
+    
+    def update(self):
+        self.progress += 1
+        if self.progress >= self.LIFETIME:
+            self.scene.remove_object(self)
+
+    def draw(self, screen):
+        self.circle_surface.fill((0, 0, 0, 0))
+
+        pygame.draw.circle(
+            self.circle_surface,
+            (200, 230, 255, 200 * (1 - self.progress / self.LIFETIME)),
+            self.circle_surface.get_rect().center,
+            80 * self.progress / self.LIFETIME
+        )
+        
+        screen.blit(
+            self.circle_surface,
+            self.scene.relative_position(
+                self.position - pygame.Vector2(self.circle_surface.get_rect().size) / 2
+            )
+        )
+
 class Bullet(Solid):
     def __init__(self, x, y, directions):
-        super().__init__(x, y, 10, 10,
+        super().__init__(x, y, 20, 20,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.BULLET.value)
         self.VELOCITY = 15
@@ -42,6 +71,7 @@ class Bullet(Solid):
             set_to_die = True
             
         if set_to_die:
+            self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y))
             self.scene.remove_object(self)
 
     def draw(self, screen):
