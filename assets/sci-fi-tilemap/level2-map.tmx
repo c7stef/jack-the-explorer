@@ -159,12 +159,14 @@
   </object>
   <object id="33" type="moving_platform" x="664" y="1636" width="272" height="44">
    <properties>
+    <property name="filename" value="pipe_platform.png"/>
     <property name="offsetx" type="int" value="1100"/>
     <property name="offsety" type="int" value="0"/>
    </properties>
   </object>
   <object id="35" type="moving_platform" x="3188" y="1754" width="272" height="44">
    <properties>
+    <property name="filename" value="pipe_platform.png"/>
     <property name="offsetx" type="int" value="1100"/>
     <property name="offsety" type="int" value="0"/>
    </properties>

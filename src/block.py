@@ -41,14 +41,20 @@ class DecayingBlock(Solid):
 
 
 class MovingPlatform(Solid):
-    def __init__(self, width, height, p1, p2, speed):
-        super().__init__(p1.x, p1.y, width, height,
+    def __init__(self, position, properties):
+        self.image = pygame.image.load('assets/platform/' + properties['filename'])
+        self.width = self.image.get_width()
+        self.height = self.image.get_height()
+
+        super().__init__(position.x, position.y, self.width, self.height,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.PLATFORM.value)
-        self.p1 = p1
-        self.p2 = p2
+        
+        self.p1 = position
+        self.p2 = position + pygame.Vector2(properties['offsetx'], properties['offsety'])
         self.forward = True
-        self.speed_vector = pygame.Vector2.normalize(p2 - p1) * speed
+        self.speed = 16
+        self.speed_vector = pygame.Vector2.normalize(self.p2 - self.p1) * self.speed
 
     def update(self):
         if math.fabs(self.p1.x - self.p2.x) < utils.EPSILON:
@@ -65,4 +71,4 @@ class MovingPlatform(Solid):
         self.body.velocity = (final_velocity.x, final_velocity.y)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (60, 200, 200), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+        screen.blit(self.image, self.scene.relative_position(pygame.Vector2(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))

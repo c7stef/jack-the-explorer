@@ -6,6 +6,7 @@ import pickups
 import enemy
 from checkpoint import Checkpoint
 from tunnel import Tunnel
+import block
 
 EPSILON = 0.001
 
@@ -38,6 +39,7 @@ level1_objects = {
     'tunnel': Tunnel,
     'checkpoint': Checkpoint,
     'spike': enemy.Spike,
-    'enemy_flower': enemy.EnemyFlower
+    'enemy_flower': enemy.EnemyFlower,
+    'moving_platform': block.MovingPlatform,
 }
 
