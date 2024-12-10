@@ -102,12 +102,11 @@ class PauseScreen(OnScreen):
 
         self.center_button2_y = self.center_button_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
-        self.center_button4_y = self.center_button3_y + self.button_height + self.offset
 
         self.go_back_button = Button(self.center_button_x, self.center_button_y, self.button_width,
                                    self.button_height, "Continue", self.font_size, (0, 255, 255), self.go_back)
         self.buttons.append(self.go_back_button)
-        self.main_menu_button = Button(self.center_button_x, self.center_button4_y, self.button_width,
+        self.main_menu_button = Button(self.center_button_x, self.center_button3_y, self.button_width,
                                        self.button_height, "Main Menu", self.font_size, (0, 255, 255), self.go_to_main_menu)
         self.buttons.append(self.main_menu_button)
         self.last_checkpoint_button = Button(self.center_button_x, self.center_button2_y, self.button_width,
