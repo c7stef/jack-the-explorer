@@ -13,13 +13,14 @@ bullet = pygame.image.load("assets/bullet/bullet.png")
 
 backgrounds = {
     'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
-    'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg")
+    'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg"),
+    'death': pygame.image.load("assets/menu-backgrounds/death_resized.webp")
 }
 
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
-        self.font = pygame.font.SysFont("Arial", 25)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", 25)
         self.color = (0, 0, 255)
         self.z_index = 100
 
@@ -93,7 +94,7 @@ class PauseScreen(OnScreen):
         text = "Paused"
         self.set_screen_size()
         self.offset = self.screen_height / 100
-        self.font = pygame.font.SysFont("Arial", self.font_size * 8)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 8)
         self.text_surface = self.font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 4.5))
 
@@ -101,12 +102,11 @@ class PauseScreen(OnScreen):
 
         self.center_button2_y = self.center_button_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
-        self.center_button4_y = self.center_button3_y + self.button_height + self.offset
 
         self.go_back_button = Button(self.center_button_x, self.center_button_y, self.button_width,
                                    self.button_height, "Continue", self.font_size, (0, 255, 255), self.go_back)
         self.buttons.append(self.go_back_button)
-        self.main_menu_button = Button(self.center_button_x, self.center_button4_y, self.button_width,
+        self.main_menu_button = Button(self.center_button_x, self.center_button3_y, self.button_width,
                                        self.button_height, "Main Menu", self.font_size, (0, 255, 255), self.go_to_main_menu)
         self.buttons.append(self.main_menu_button)
         self.last_checkpoint_button = Button(self.center_button_x, self.center_button2_y, self.button_width,
@@ -155,11 +155,12 @@ class DeathScreen(OnScreen):
         self.level = level
         self.checkpoint = checkpoint
         self.set_screen_size()
+        self.load_background(backgrounds["death"])
         self.big_font_ratio = 0.35
         self.font_ratio = 0.05
         self.button_font_size = int(self.screen_height * self.font_ratio)
 
-        font = pygame.font.SysFont("Arial", int(self.screen_height * self.big_font_ratio))
+        font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.big_font_ratio))
         text = "Wasted"
         self.text_surface = font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
@@ -206,7 +207,7 @@ class DeathScreen(OnScreen):
         self.handle_input()
 
     def draw(self):
-        self.screen.blit(pygame.transform.grayscale(self.screen), (0, 0))
+        self.draw_background()
         self.restart_button.draw(self.screen)
         self.last_button.draw(self.screen)
         self.screen.blit(self.text_surface, self.text_rec)
@@ -221,7 +222,7 @@ class FinishScreen(OnScreen):
         self.font_ratio = 0.08
         self.buttons = []
         self.level = level
-        font = pygame.font.SysFont("Arial", int(self.screen_height * self.font_ratio))
+        font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.font_ratio))
         text = f"Level {self.level.num_level} completed"
         self.text_surface = font.render(text, True, (50, 200, 50))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))

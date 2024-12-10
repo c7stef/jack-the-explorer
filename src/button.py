@@ -116,7 +116,7 @@ class Dropdown(GameObject):
         self.image = scale_surface(self.image, (width, height))
         self.rect = pygame.Rect(x, y, width, height)
         self.options = options
-        self.font = pygame.font.SysFont("assets/fonts/Chewy-Regular.ttf", font_size)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", font_size)
         self.color = color
         self.border_color = (255, 255, 255)
         self.on_select = on_select
@@ -277,7 +277,7 @@ class Slider(ImageObject):
         self.rect = pygame.Rect(x, y, width, height)
         super().__init__(self.rect, width + 80, height, button_backgrounds[image_type])
 
-        self.font = pygame.font.SysFont("assets/fonts/Chewy-Regular.ttf", font_size)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", font_size)
         self.text = text
 
         self.color = color
