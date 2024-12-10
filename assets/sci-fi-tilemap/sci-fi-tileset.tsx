@@ -235,21 +235,41 @@
   <properties>
    <property name="type" value="spike"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="5.12792" y="3.61064">
+    <polygon points="0,-0.318818 5.845,27.4715 43.5453,28.056 53.9866,-0.398523"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="73">
   <properties>
    <property name="type" value="spike"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="4.16215" y="61.2588">
+    <polygon points="0,0.326288 5.98195,-28.1151 44.5655,-28.7134 55.2515,0.40786"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="74">
   <properties>
    <property name="type" value="spike"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="60.3367" y="4.98816" rotation="90">
+    <polygon points="0,-0.317605 5.82277,27.367 43.3796,27.9493 53.7812,-0.397006"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="75">
   <properties>
    <property name="type" value="spike"/>
   </properties>
+  <objectgroup draworder="index" id="2">
+   <object id="1" x="3.67452" y="6" rotation="-90">
+    <polygon points="0,-0.312455 -5.72835,26.9232 -42.6762,27.4961 -52.9091,-0.390569"/>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="80">
   <properties>
