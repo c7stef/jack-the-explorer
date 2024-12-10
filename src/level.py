@@ -12,6 +12,7 @@ from effect import TintEffect, BackgroundGradient, BackgroundParticles
 import scifi_tile
 from scifi_tile import SciFiTile
 from enemy import SpikeTile
+import winter
 from winter import WinterTile
 
 import utils
@@ -57,9 +58,14 @@ level_data = {
     3: LevelData(
         player_pos=(256, 508),
         tilemap_path="assets/winter-tilemap/level3.tmx",
-        bg_path="assets/mossy-tilemap/level1-bg.tmx",
+        bg_path="assets/winter-tilemap/level3-bg.tmx",
         tile_objects_by_type={'winter_tile' : WinterTile, 'spike': SpikeTile},
         bg_tile_objects_by_type={'winter_tile' : BgTile, 'mossy': BgTile},
+        effects=[
+            TintEffect(winter.BG_TINT_COLOR, alpha=180),
+            BackgroundGradient(winter.BG_GRADIENT_COLOR1, winter.BG_GRADIENT_COLOR2),
+            TintEffect(winter.FG_TINT_COLOR, z_index=90, alpha=40)
+        ],
     )
 }
 

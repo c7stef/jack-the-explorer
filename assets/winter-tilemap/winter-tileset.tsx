@@ -98,9 +98,15 @@
   <image source="tiles/16.png" width="80" height="58"/>
  </tile>
  <tile id="16">
+  <properties>
+   <property name="type" value="winter_tile"/>
+  </properties>
   <image source="tiles/17.png" width="80" height="62"/>
  </tile>
  <tile id="17">
+  <properties>
+   <property name="type" value="winter_tile"/>
+  </properties>
   <image source="tiles/18.png" width="80" height="80"/>
  </tile>
  <wangsets>
