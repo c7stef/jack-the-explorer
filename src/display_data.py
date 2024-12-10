@@ -106,14 +106,11 @@ class PauseScreen(OnScreen):
         self.go_back_button = Button(self.center_button_x, self.center_button_y, self.button_width,
                                    self.button_height, "Continue", self.font_size, (0, 255, 255), self.go_back)
         self.buttons.append(self.go_back_button)
-        self.main_menu_button = Button(self.center_button_x, self.center_button2_y, self.button_width,
+        self.main_menu_button = Button(self.center_button_x, self.center_button4_y, self.button_width,
                                        self.button_height, "Main Menu", self.font_size, (0, 255, 255), self.go_to_main_menu)
         self.buttons.append(self.main_menu_button)
-        self.restart_button = Button(self.center_button_x, self.center_button3_y, self.button_width,
-                                     self.button_height, "Restart", self.font_size, (0, 255, 255), self.restart)
-        self.buttons.append(self.restart_button)
-        self.last_checkpoint_button = Button(self.center_button_x, self.center_button4_y, self.button_width,
-                                             self.button_height, "Last Checkpoint", self.font_size, (0, 255, 255), self.last_checkpoint)
+        self.last_checkpoint_button = Button(self.center_button_x, self.center_button2_y, self.button_width,
+                                             self.button_height, "Restart", self.font_size, (0, 255, 255), self.last_checkpoint)
         self.buttons.append(self.last_checkpoint_button)
 
     def go_back(self):
@@ -122,10 +119,6 @@ class PauseScreen(OnScreen):
     def go_to_main_menu(self):
         from main_menu import MainMenu
         utils.current_screen = MainMenu(self.level.screen)
-
-    def restart(self):
-        from level import Level
-        utils.current_screen = Level(self.level.level_menu, self.level.num_level, (0, 255, 0))
 
     def last_checkpoint(self):
         self.level.player.respawn()
