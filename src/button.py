@@ -312,11 +312,11 @@ class Slider(ImageObject):
         super().draw(screen)
 
         text_surface = self.font.render(self.text, True, pygame.colordict.THECOLORS['white'])
-        text_rect = text_surface.get_rect(center=(self.rect.x - text_surface.get_width() / 2 - self.rect.x / 13 , self.rect.y + self.rect.height / 2))
+        text_rect = text_surface.get_rect(center=(self.rect.x - text_surface.get_width() / 1.5 - self.rect.x / 13 , self.rect.y + self.rect.height / 2))
         screen.blit(text_surface, text_rect)
 
         percent_text_surface = self.font.render(str(int(self.value * 100)) + "%", True, pygame.colordict.THECOLORS['white'])
-        percent_text_rect = percent_text_surface.get_rect(center=(self.rect.x + self.rect.width + percent_text_surface.get_width() / 2 + self.rect.x / 13, self.rect.y + self.rect.height / 2))
+        percent_text_rect = percent_text_surface.get_rect(center=(self.rect.x + self.rect.width + percent_text_surface.get_width() + self.rect.x / 13, self.rect.y + self.rect.height / 2))
         screen.blit(percent_text_surface, percent_text_rect)
 
         pygame.draw.rect(screen, (0, 0, 0), (self.rect.x + self.value * self.rect.width - 4, self.rect.y, 8, self.rect.height))
