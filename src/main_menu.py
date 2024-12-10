@@ -89,13 +89,13 @@ class Settings(OnScreen):
         self.button_right_column_first_y = self.screen_height / 10
         dropdown_x = self.left_column_center_x
         dropdown_y = self.top_left_y
-        dropdown_width = self.screen_width / 8
-        dropdown_height = self.screen_height / 18
+        dropdown_width = self.screen_width / 7
+        dropdown_height = self.screen_height / 12
         self.fullscreen_checkbox_y = self.top_left_y + dropdown_height + self.offset
         self.soundSlider_y = self.fullscreen_checkbox_y + self.offset + self.button_height
         options = self.resolution_options
 
-        self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height, options, int(self.font_size / 1.5),
+        self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height, options, int(self.font_size),
                                    (255, 255, 255), self.change_resolution, utils.controls['resolution'])
         self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
                              dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
