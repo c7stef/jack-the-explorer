@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="24" tilewidth="80" tileheight="80" infinite="0" nextlayerid="5" nextobjectid="67">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="24" tilewidth="80" tileheight="80" infinite="0" nextlayerid="5" nextobjectid="69">
  <tileset firstgid="1" source="winter-tileset.tsx"/>
  <layer id="1" name="Platform" width="80" height="24">
   <data encoding="csv">
@@ -129,13 +129,7 @@
   </object>
   <object id="32" type="spike" x="1850" y="1018" width="68" height="50"/>
   <object id="34" type="spike" x="2324" y="773" width="68" height="50"/>
-  <object id="35" type="spike" x="3114.48" y="1553.79" width="68" height="50"/>
-  <object id="36" type="spike" x="3114.67" y="1503.67" width="68" height="50"/>
-  <object id="37" type="spike" x="3114" y="1455" width="68" height="50"/>
-  <object id="38" type="spike" x="3114.67" y="1403" width="68" height="50"/>
-  <object id="39" type="spike" x="3114.67" y="1353.67" width="68" height="50"/>
-  <object id="40" type="spike" x="3114.67" y="1303.67" width="68" height="50"/>
-  <object id="41" type="spike" x="3114" y="1280.33" width="68" height="50"/>
+  <object id="40" type="spike" x="3117.7" y="1482.45" width="68" height="125.758" rotation="-90"/>
   <object id="42" type="enemy" x="3124" y="1042" width="80" height="80">
    <properties>
     <property name="xoffset" type="int" value="300"/>
@@ -170,9 +164,6 @@
   <object id="48" type="coin" x="3365" y="1416" width="48" height="48">
    <ellipse/>
   </object>
-  <object id="49" type="spike" x="3690.24" y="1205.3" width="68" height="50"/>
-  <object id="50" type="spike" x="3691.33" y="1259" width="68" height="50"/>
-  <object id="51" type="spike" x="3692.67" y="1309.67" width="68" height="50"/>
   <object id="53" type="enemy_flower" x="4238.79" y="1126.67" width="80" height="80">
    <properties>
     <property name="health" type="int" value="3"/>
@@ -239,5 +230,7 @@
    </properties>
    <point/>
   </object>
+  <object id="67" type="spike" x="3123.58" y="1279.55" width="68" height="125.758" rotation="-90"/>
+  <object id="68" type="spike" x="3747.82" y="1234.09" width="68" height="125.758" rotation="90"/>
  </objectgroup>
 </map>
