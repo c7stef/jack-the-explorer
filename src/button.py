@@ -261,8 +261,6 @@ class Checkbox(ImageObject):
 
     def draw(self, screen):
         super().draw(screen)
-        # pygame.draw.rect(screen, self.color, self.rect)
-        # pygame.draw.rect(screen, (240, 240, 240), self.rect_square)
         pygame.draw.rect(screen, self.border_color, self.rect_square, 2)
         text_surface = self.font.render(self.text, True, wooden_button_text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)

@@ -76,8 +76,6 @@ class Player(GameObject, RigidBody, Followable):
 
         if keys[pygame.K_ESCAPE] and not utils.escape_pressed:
             utils.current_screen = PauseScreen(self.level)
-            # Debug purposes
-            # utils.current_screen = FinishScreen(self.level)
             utils.escape_pressed = True
         if not keys[pygame.K_ESCAPE]:
             utils.escape_pressed = False
@@ -101,7 +99,7 @@ class Player(GameObject, RigidBody, Followable):
         if not up_pressed:
             self.jump_impulses_left = 0
             self.jump_held = False
-        
+
         if keys[utils.controls['reload']]:
             self.weapon.reload()
 
