@@ -10,7 +10,7 @@ mouse_pressed = False
 button_text_color = (1, 60, 100)
 wooden_button_text_color = (90, 70, 15)
 
-tick = pygame.image.load("assets/tick/tick.png")
+tick = pygame.image.load("assets/tick/white_tick.png")
 
 button_default = {
     'default' : pygame.image.load("assets/buttons/button1.png"),
@@ -240,7 +240,7 @@ class Checkbox(ImageObject):
         self.text = text
         self.font = utils.ui_font
         self.color = color
-        self.border_color = (0, 0, 0)
+        self.border_color = (255, 255, 255)
         self.on_click = on_click
         self.is_checked = initial_state
         self.tick = scale_surface(tick, (height / 2, height / 2))
