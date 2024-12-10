@@ -8,6 +8,7 @@ from main_menu import MainMenu, LevelsMenu
 import utils
 import os
 os.environ['SDL_VIDEO_WINDOW_POS'] = "0,0"
+
 # Initialize pygame
 pygame.init()
 

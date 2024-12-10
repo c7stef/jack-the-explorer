@@ -14,6 +14,9 @@ escape_pressed = False
 
 current_screen = None
 
+pygame.font.init()
+ui_font = pygame.font.Font('assets/fonts/Chewy-Regular.ttf', 52)
+
 controls = {
     'left': pygame.K_a,
     'right': pygame.K_d,

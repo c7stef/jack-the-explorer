@@ -7,6 +7,7 @@ from image_processing import scale_surface
 import utils
 
 mouse_pressed = False
+button_text_color = (1, 60, 100)
 
 tick = pygame.image.load("assets/tick/tick.png")
 
@@ -30,7 +31,7 @@ class Button(ImageObject):
         self.rect = pygame.Rect(x, y, width, height)
         super().__init__(self.rect, width, height, button_backgrounds[button_type])
         self.text = text
-        self.font = pygame.font.SysFont("Arial", font_size)
+        self.font = utils.ui_font
         self.color = color
         self.on_click = on_click
 
@@ -54,7 +55,7 @@ class Button(ImageObject):
 
     def draw(self, screen):
         super().draw(screen)
-        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_surface = self.font.render(self.text, True, button_text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -63,13 +64,12 @@ class ControlsButton(Button):
     def __init__(self, x, y, width, height, text, font_size, color, controls, key):
         super().__init__(x, y, width, height, text, font_size, color, None)
         text_rect = pygame.Rect(x - width, y, width, height)
-        self.text_surface = self.font.render(text, True, (0, 0, 0))
+        self.text_surface = self.font.render(text, True, pygame.colordict.THECOLORS['white'])
         self.text_rect = self.text_surface.get_rect(center=text_rect.center)
         self.controls = controls
         self.key = key
         self.selected = False
         self.text = pygame.key.name(controls[key])
-        self.font_color = (0, 0, 0)
 
     def update_text(self, text):
         self.controls[self.key] = text
@@ -213,7 +213,7 @@ class Dropdown(GameObject):
                                                     option_rect.height + 2 * self.border_thickness)
                 pygame.draw.rect(screen, self.border_color, option_rect_border)
                 pygame.draw.rect(screen, self.color, option_rect)
-                option_text_surface = self.font.render(option, True, (0, 0, 0))
+                option_text_surface = self.font.render(option, True, pygame.colordict.THECOLORS['white'])
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
                 screen.blit(option_text_surface, option_text_rect)
 
@@ -263,7 +263,7 @@ class Checkbox(ImageObject):
         # pygame.draw.rect(screen, self.color, self.rect)
         # pygame.draw.rect(screen, (240, 240, 240), self.rect_square)
         pygame.draw.rect(screen, self.border_color, self.rect_square, 2)
-        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_surface = self.font.render(self.text, True, pygame.colordict.THECOLORS['white'])
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -311,11 +311,11 @@ class Slider(ImageObject):
     def draw(self, screen):
         super().draw(screen)
 
-        text_surface = self.font.render(self.text, True, (0, 0, 0))
+        text_surface = self.font.render(self.text, True, pygame.colordict.THECOLORS['white'])
         text_rect = text_surface.get_rect(center=(self.rect.x - text_surface.get_width() / 2 - self.rect.x / 13 , self.rect.y + self.rect.height / 2))
         screen.blit(text_surface, text_rect)
 
-        percent_text_surface = self.font.render(str(int(self.value * 100)) + "%", True, (0, 0, 0))
+        percent_text_surface = self.font.render(str(int(self.value * 100)) + "%", True, pygame.colordict.THECOLORS['white'])
         percent_text_rect = percent_text_surface.get_rect(center=(self.rect.x + self.rect.width + percent_text_surface.get_width() / 2 + self.rect.x / 13, self.rect.y + self.rect.height / 2))
         screen.blit(percent_text_surface, percent_text_rect)
 
