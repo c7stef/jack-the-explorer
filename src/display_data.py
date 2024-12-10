@@ -14,7 +14,7 @@ bullet = pygame.image.load("assets/bullet/bullet.png")
 backgrounds = {
     'game_over': pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
     'finished_level' : pygame.image.load("assets/menu-backgrounds/finished_level_resized.jpg"),
-    'death': pygame.image.load("assets/menu-backgrounds/death_resized.webp")
+    'death': pygame.image.load("assets/menu-backgrounds/death.jpg")
 }
 
 class DisplayData(GameObject):
