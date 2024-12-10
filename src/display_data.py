@@ -20,7 +20,7 @@ backgrounds = {
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
-        self.font = pygame.font.SysFont("Arial", 25)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", 25)
         self.color = (0, 0, 255)
         self.z_index = 100
 
@@ -94,7 +94,7 @@ class PauseScreen(OnScreen):
         text = "Paused"
         self.set_screen_size()
         self.offset = self.screen_height / 100
-        self.font = pygame.font.SysFont("Arial", self.font_size * 8)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 8)
         self.text_surface = self.font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 4.5))
 
@@ -160,7 +160,7 @@ class DeathScreen(OnScreen):
         self.font_ratio = 0.05
         self.button_font_size = int(self.screen_height * self.font_ratio)
 
-        font = pygame.font.SysFont("Arial", int(self.screen_height * self.big_font_ratio))
+        font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.big_font_ratio))
         text = "Wasted"
         self.text_surface = font.render(text, True, (255, 0, 0))
         self.text_rec = self.text_surface.get_rect(center = (level.scene.screen.get_width() / 2, level.scene.screen.get_height() / 2))
@@ -222,7 +222,7 @@ class FinishScreen(OnScreen):
         self.font_ratio = 0.08
         self.buttons = []
         self.level = level
-        font = pygame.font.SysFont("Arial", int(self.screen_height * self.font_ratio))
+        font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.font_ratio))
         text = f"Level {self.level.num_level} completed"
         self.text_surface = font.render(text, True, (50, 200, 50))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))
