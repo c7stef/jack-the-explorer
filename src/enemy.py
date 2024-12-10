@@ -79,7 +79,7 @@ class EnemyFlower(Enemy):
         start = self.body.position
         stop = player.body.position
         direction = pygame.Vector2(stop) - pygame.Vector2(start)
-        self.scene.add_object(EnemyBullet(start.x, start.y, direction))
+        self.scene.add_object(EnemyBullet(start.x, start.y, direction, speed=1.5))
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))

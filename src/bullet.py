@@ -40,7 +40,7 @@ class BulletBlast(GameObject):
         )
 
 class Bullet(Solid):
-    def __init__(self, x, y, directions):
+    def __init__(self, x, y, directions, speed=1):
         super().__init__(x, y, 20, 20,
                          body_type=pymunk.Body.KINEMATIC,
                          layer=collision.Layer.BULLET.value)
@@ -50,6 +50,7 @@ class Bullet(Solid):
         self.body.position = self.position.x, self.position.y
         self.ttl = 80
         self.direction_vector = directions.normalize() * self.VELOCITY
+        self.speed = speed
         self.image_base = player_bullet_sprite
     
     @property
@@ -71,7 +72,7 @@ class Bullet(Solid):
             self.scene.remove_object(self)
             return
 
-        self.position += self.direction_vector
+        self.position += self.direction_vector * self.speed
         self.body.position = self.position.x, self.position.y
 
         collisions = self.get_collisions()
@@ -91,8 +92,8 @@ class Bullet(Solid):
         screen.blit(self.image, self.scene.relative_position(pygame.Vector2(self.body.position) - pygame.Vector2(self.rotated_rect.size) / 2))
 
 class EnemyBullet(Bullet):
-    def __init__(self, x, y, speed):
-        super().__init__(x, y, speed)
+    def __init__(self, x, y, direction, speed=1):
+        super().__init__(x, y, direction, speed)
         self.shape.collision_type = collision.Layer.ENEMYBULLET.value
         self.image_base = enemy_bullet_sprite
 
@@ -102,7 +103,7 @@ class EnemyBullet(Bullet):
             self.scene.remove_object(self)
             return
 
-        self.position += self.direction_vector
+        self.position += self.direction_vector * self.speed
         self.body.position = self.position.x, self.position.y
 
         collisions = self.get_collisions()
@@ -115,4 +116,5 @@ class EnemyBullet(Bullet):
             set_to_die = True
 
         if set_to_die:
+            self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y, (255, 230, 200)))
             self.scene.remove_object(self)
