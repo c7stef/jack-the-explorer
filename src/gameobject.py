@@ -44,7 +44,7 @@ class OnScreen(ABC):
         self.screen_height = self.screen.get_height()
         self.button_width = self.screen_width / 5
         self.button_height = self.screen_height / 13
-        self.offset = self.screen_height / 20 + 50
+        self.offset = self.screen_height / 18
         self.center_button_x = self.screen_width / 2 - self.button_width / 2
         self.center_button_y = self.screen_height / 2 - self.button_height / 2
         self.font_ratio = 0.04

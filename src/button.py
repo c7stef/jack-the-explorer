@@ -28,9 +28,8 @@ class Button(GameObject):
         self.on_click = on_click
         self.image = button_backgrounds[button_type]
 
-        # self.image['default'] = scale_surface(self.image['default'], (width, height))
-        # self.image['hover'] = scale_surface(self.image['hover'], (width, height))
-
+        self.image['default'] = scale_surface(self.image['default'], (width, width))
+        self.image['hover'] = scale_surface(self.image['hover'], (width, width))
         self.hover = False
 
         self.hover_color = ( min(color[0] + 20, 255), min(color[1] + 20, 255), min(color[2] + 20, 255))
