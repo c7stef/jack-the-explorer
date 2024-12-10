@@ -4,6 +4,9 @@ import pymunk
 from gameobject import Solid
 import collision
 import utils
+import math
+
+player_bullet_sprite = pygame.image.load("assets/bullet/player_bullet.png")
 
 class Bullet(Solid):
     def __init__(self, x, y, directions):
@@ -16,6 +19,9 @@ class Bullet(Solid):
         self.body.position = self.position.x, self.position.y
         self.ttl = 80
         self.direction_vector = directions.normalize() * self.VELOCITY
+        angle = math.degrees(math.atan2(-self.direction_vector.y, self.direction_vector.x))
+        self.image = pygame.transform.rotate(player_bullet_sprite, angle)
+        self.rotated_rect = self.image.get_rect(center=pygame.Vector2(x, y))
 
     def update(self):
         self.ttl -= 1
@@ -39,8 +45,7 @@ class Bullet(Solid):
             self.scene.remove_object(self)
 
     def draw(self, screen):
-        pygame.draw.circle(screen, (250, 100, 30), self.scene.relative_position(self.body.position), 5)
-
+        screen.blit(self.image, self.scene.relative_position(pygame.Vector2(self.body.position) - pygame.Vector2(self.rotated_rect.size) / 2))
 
 class EnemyBullet(Bullet):
     def __init__(self, x, y, speed):

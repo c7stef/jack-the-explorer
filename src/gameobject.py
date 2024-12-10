@@ -3,6 +3,8 @@ import pymunk
 import pygame
 import collision
 
+from image_processing import scale_surface
+
 class GameObject(ABC):
     def set_scene(self, scene):
         self.scene = scene
@@ -43,7 +45,7 @@ class OnScreen(ABC):
         self.screen_width = self.screen.get_width()
         self.screen_height = self.screen.get_height()
         self.button_width = self.screen_width / 5
-        self.button_height = self.screen_height / 13
+        self.button_height = self.screen_height / 9
         self.offset = self.screen_height / 18
         self.center_button_x = self.screen_width / 2 - self.button_width / 2
         self.center_button_y = self.screen_height / 2 - self.button_height / 2
@@ -124,3 +126,19 @@ class Solid(GameObject, RigidBody):
     def draw(self, screen):
         pass
 
+class ImageObject(GameObject):
+    def __init__(self, rect, width, height, image):
+        self.image = image
+        self.image['default'] = scale_surface(self.image['default'], (width, height))
+        self.image['hover'] = scale_surface(self.image['hover'], (width, height))
+        self.rect = rect
+        self.hover = False
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        if self.hover:
+            screen.blit(self.image['hover'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['hover'].get_size()) / 2)
+        else:
+            screen.blit(self.image['default'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
