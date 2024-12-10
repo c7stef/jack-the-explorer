@@ -55,7 +55,6 @@ class MainMenu(OnScreen):
 
 class Settings(OnScreen):
     def __init__(self, main_menu):
-        self.font = pygame.font.SysFont("Arial", 20)
         options = []
         for opt in pygame.display.list_modes():
             if opt[0] < 600:
@@ -66,7 +65,6 @@ class Settings(OnScreen):
         self.screen = main_menu.screen
         self.old_conflicts = []
         self.pick_resolution = "Resolution: "
-        self.text_surface_res = self.font.render(self.pick_resolution, True, (255, 255, 255))
         self.init_ui()
 
     def change_resolution(self, option):
@@ -83,6 +81,8 @@ class Settings(OnScreen):
         self.drop_downs = []
         self.controls = []
         self.focused_element = None
+        self.font = pygame.font.Font('assets/fonts/Chewy-Regular.ttf', self.font_size)
+        self.text_surface_res = self.font.render(self.pick_resolution, True, (255, 255, 255))
         self.left_column_center_x = self.screen_width / 2 - self.screen_width / 4 - self.button_width / 2
         self.top_left_y = self.screen_height / 10
         self.button_right_column_center_x = self.screen_width / 2 + self.screen_width / 4 - self.button_width / 2
