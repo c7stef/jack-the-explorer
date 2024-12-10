@@ -19,6 +19,7 @@ class MainMenu(OnScreen):
         self.screen = screen
         self.buttons = []
         self.set_screen_size()
+        self.button_height = self.screen_height / 6
         self.load_background(backgrounds["main_menu"])
 
         self.start = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset, self.button_width
