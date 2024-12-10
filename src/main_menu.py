@@ -66,7 +66,7 @@ class Settings(OnScreen):
         self.screen = main_menu.screen
         self.old_conflicts = []
         self.pick_resolution = "Resolution: "
-        self.text_surface_res = self.font.render(self.pick_resolution, True, (0, 0, 0))
+        self.text_surface_res = self.font.render(self.pick_resolution, True, (255, 255, 255))
         self.init_ui()
 
     def change_resolution(self, option):

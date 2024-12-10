@@ -112,11 +112,13 @@ class ControlsButton(Button):
 
 class Dropdown(GameObject):
     def __init__(self, x, y, width, height, options, font_size, color, on_select, selected_option=None):
+        self.image = button_backgrounds['default']['default']
+        self.image = scale_surface(self.image, (width, height))
         self.rect = pygame.Rect(x, y, width, height)
         self.options = options
         self.font = pygame.font.SysFont("Arial", font_size)
         self.color = color
-        self.border_color = (0, 0, 0)
+        self.border_color = (255, 255, 255)
         self.on_select = on_select
         self.selected_option = selected_option
         self.is_open = False
@@ -196,8 +198,9 @@ class Dropdown(GameObject):
 
     def draw(self, screen):
         pygame.draw.rect(screen, self.border_color, self.border_rect)
-        pygame.draw.rect(screen, self.color, self.rect)
-        text_surface = self.font.render(self.selected_option if self.selected_option else "Select", True, (0, 0, 0))
+        # pygame.draw.rect(screen, self.color, self.rect)
+        screen.blit(self.image, pygame.Vector2(self.rect.center) - pygame.Vector2(self.image.get_size()) / 2)
+        text_surface = self.font.render(self.selected_option if self.selected_option else "Select", True, button_text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -213,8 +216,9 @@ class Dropdown(GameObject):
                                                     option_rect.y - self.border_thickness, option_rect.width + 2 * self.border_thickness,
                                                     option_rect.height + 2 * self.border_thickness)
                 pygame.draw.rect(screen, self.border_color, option_rect_border)
-                pygame.draw.rect(screen, self.color, option_rect)
-                option_text_surface = self.font.render(option, True, (0, 0, 0))
+                # pygame.draw.rect(screen, self.color, option_rect)
+                screen.blit(self.image, pygame.Vector2(option_rect.center) - pygame.Vector2(self.image.get_size()) / 2)
+                option_text_surface = self.font.render(option, True, button_text_color)
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
                 screen.blit(option_text_surface, option_text_rect)
 
