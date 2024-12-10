@@ -3,6 +3,8 @@ import pymunk
 import pygame
 import collision
 
+from image_processing import scale_surface
+
 class GameObject(ABC):
     def set_scene(self, scene):
         self.scene = scene
@@ -124,3 +126,19 @@ class Solid(GameObject, RigidBody):
     def draw(self, screen):
         pass
 
+class ImageObject(GameObject):
+    def __init__(self, rect, width, height, image):
+        self.image = image
+        self.image['default'] = scale_surface(self.image['default'], (width, height))
+        self.image['hover'] = scale_surface(self.image['hover'], (width, height))
+        self.rect = rect
+        self.hover = False
+
+    def update(self):
+        pass
+
+    def draw(self, screen):
+        if self.hover:
+            screen.blit(self.image['hover'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['hover'].get_size()) / 2)
+        else:
+            screen.blit(self.image['default'], pygame.Vector2(self.rect.center) - pygame.Vector2(self.image['default'].get_size()) / 2)
