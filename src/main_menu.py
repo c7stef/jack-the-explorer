@@ -9,9 +9,9 @@ from level import Level
 import utils
 
 backgrounds = {
-    "main_menu": pygame.image.load("assets/menu-backgrounds/background.png"),
-    "settings": pygame.image.load("assets/menu-backgrounds/background.png"),
-    "levels_menu": pygame.image.load("assets/menu-backgrounds/background.png")
+    "main_menu": pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
+    "settings": pygame.image.load("assets/menu-backgrounds/game_over_resized.jpg"),
+    "levels_menu": pygame.image.load("assets/menu-backgrounds/background_level_select_menu.jpg")
 }
 
 class MainMenu(OnScreen):
