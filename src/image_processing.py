@@ -41,3 +41,18 @@ def scale_surface_cover(surface, new_size):
         scale_x = scale_y * original_ratio
 
     return scale_surface(surface, (scale_x, scale_y))
+
+def scale_surface_contain(surface, new_size):
+    size_x, size_y = surface.get_size()
+
+    original_ratio = size_x / size_y
+    new_ratio = new_size[0] / new_size[1]
+
+    if new_ratio > original_ratio:
+        scale_y = new_size[1]
+        scale_x = scale_y * original_ratio
+    else:
+        scale_x = new_size[0]
+        scale_y = scale_x / original_ratio
+
+    return scale_surface(surface, (scale_x, scale_y))

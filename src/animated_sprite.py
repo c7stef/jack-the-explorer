@@ -1,6 +1,7 @@
 import pygame
+import os
 
-from image_processing import scale_surface
+from image_processing import scale_surface_cover, scale_surface_contain
 
 coin_sprite = []
 
@@ -19,28 +20,36 @@ full_heart = pygame.image.load("assets/heart/full.png")
 half_heart = pygame.image.load("assets/heart/half.png")
 empty_heart = pygame.image.load("assets/heart/empty.png")
 
-bullet = pygame.image.load("assets/bullet/bullet.png")
+bullet = pygame.transform.rotate(pygame.image.load("assets/bullet/bullet.png"), 45)
 
 class AnimatedSprite():
-    def __init__(self, path, scale=None):
+    def __init__(self, path, scale=None, frame_duration=8):
         super().__init__()
 
+        self.path = path
         self.frames = []
         self.frame_cnt = 0
         self.current_frame = 0
+        self.frame_duration = frame_duration
 
-        if path == "assets/coin":
-            self.frames = coin_sprite
-        else:
-            print("Error: No such defined path")
+        self.frames = [
+            pygame.image.load(os.path.join(path, f))
+            for f in os.listdir(path)
+            if os.path.isfile(os.path.join(path, f))
+        ]
 
         if scale is not None:
             for i in range(len(self.frames)):
-                self.frames[i] = scale_surface(self.frames[i], scale)
+                self.frames[i] = scale_surface_contain(self.frames[i], scale)
+
+    def flipped(self):
+        new_sprite = AnimatedSprite(self.path, frame_duration=self.frame_duration)
+        new_sprite.frames = [pygame.transform.flip(f, True, False) for f in self.frames]
+        return new_sprite
 
     def update(self):
         self.frame_cnt += 1
-        if self.frame_cnt >= 8:
+        if self.frame_cnt >= self.frame_duration:
             self.frame_cnt = 0
             self.current_frame = (self.current_frame + 1) % len(self.frames)
 
@@ -48,12 +57,11 @@ class AnimatedSprite():
         frame = self.frames[self.current_frame]
         screen.blit(frame, position - pygame.Vector2(frame.get_size()) / 2)
 
-
 class HeartsBar():
     def __init__(self, nr_hearts, scale=None):
         super().__init__()
 
-        self.spacing = 30
+        self.spacing = 40
 
         self.nr_hearts = nr_hearts
         self.hp_per_heart = 3
@@ -89,14 +97,13 @@ class HeartsBar():
 
 class BulletIcons():
     def __init__(self, nr_bullets, scale=None):
-        self.spacing = 10
         self.max_nr_bullets = nr_bullets
         self.nr_bullets = 0
         self.bullet = bullet
 
         if scale:
-            self.bullet = scale_surface(self.bullet, scale)
-            self.spacing = scale[0] + 5
+            self.bullet = scale_surface_cover(self.bullet, scale)
+            self.spacing = scale[0] / 3
 
     def update(self, level):
         self.mag_ammo = level.equipped_weapon.mag_ammo
@@ -109,4 +116,4 @@ class BulletIcons():
 
     def draw(self, screen, position):
         for i in range(self.nr_bullets):
-            screen.blit(self.bullet, (position[0] + 10 * i, position[1]))
+            screen.blit(self.bullet, (position[0] + self.spacing * i, position[1]))

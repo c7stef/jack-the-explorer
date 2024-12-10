@@ -5,6 +5,8 @@ import utils
 from bullet import Bullet
 from gameobject import GameObject
 
+weapon_sprite = pygame.image.load("assets/weapon/weapon.png")
+
 class Weapon(GameObject):
     def __init__(self, level):
         self.level = level

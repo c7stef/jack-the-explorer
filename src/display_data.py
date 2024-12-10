@@ -1,11 +1,13 @@
 from gameobject import OnScreen, GameObject
 from button import Button
+import gun
 import utils
+import pickups
 
 import pygame
 import math
 
-from image_processing import scale_surface_cover
+from image_processing import scale_surface_cover, scale_surface_contain
 
 from animated_sprite import AnimatedSprite, HeartsBar, BulletIcons, bullet
 
@@ -18,7 +20,7 @@ backgrounds = {
 class DisplayData(GameObject):
     def __init__(self, player):
         self.level = player.level
-        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", 25)
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", 40)
         self.color = (0, 0, 255)
         self.z_index = 100
 
@@ -32,11 +34,10 @@ class DisplayData(GameObject):
         self.player = player
 
         self.bullet_icon = scale_surface_cover(bullet, (60, 60))
-
-        self.coin_animation = AnimatedSprite("assets/coin", (23, 23))
-
+        self.coin_sprite = scale_surface_contain(pickups.coin_sprite, (54, 54))
+        self.weapon_sprite = scale_surface_contain(pygame.transform.rotate(gun.weapon_sprite, 45), (54, 54))
+        
         self.hearts_bar = HeartsBar(3, (30, 30))
-
         self.ammo_icons = BulletIcons(10, (60, 60))
 
     def update(self):
@@ -48,25 +49,28 @@ class DisplayData(GameObject):
         self.max_health = self.level.max_hp
         self.mag_ammo = self.level.equipped_weapon.mag_ammo
 
-        self.coin_animation.update()
         self.hearts_bar.update(self.player.lives, self.player.current_hp)
         self.ammo_icons.update(self.level)
 
     def draw(self, screen):
-        text = self.font.render(f"Score: {self.score} {self.coin_cnt} Ammo: {self.mag_ammo} / {self.ammo} (max: {self.max_ammo}) HP: {self.player.current_hp} / {self.player.hp_per_life}", True, self.color)
-        screen.blit(text, (0, 0))
-        coin_cnt = self.font.render(f"x{self.coin_cnt}", True, self.color)
-        screen.blit(coin_cnt, (50, 25))
-        self.coin_animation.draw(screen, (34, 36))
-        self.hearts_bar.draw(screen, (25, 50))
-        self.ammo_icons.draw(screen, (25, 100))
+        coin_cnt = self.font.render(f"x{self.coin_cnt}", True, pygame.colordict.THECOLORS['white'])
+        screen.blit(coin_cnt, (80, 16))
+        screen.blit(self.coin_sprite, (26, 16))
+
+        self.hearts_bar.draw(screen, (40, 78))
+
+        total_ammo = self.font.render(f"x{self.ammo}", True, pygame.colordict.THECOLORS['white'])
+        screen.blit(total_ammo, (80, 118))
+        screen.blit(self.weapon_sprite, (26, 118))
+
+        self.ammo_icons.draw(screen, (20, 166))
 
         def draw_arc(radius, color, circle_center, percent_done):
             circle_rect = pygame.Rect(circle_center[0] - radius, circle_center[1] - radius, radius * 2, radius * 2)
             pygame.draw.arc(screen, color, circle_rect, 0, 2 * math.pi * percent_done, 2)
 
         def reloading_animation():
-            bullet_icon_pos = (100, 100)
+            bullet_icon_pos = (150, 170)
             screen.blit(self.bullet_icon, bullet_icon_pos)
 
             percent_done = self.level.equipped_weapon.reload_history / self.level.equipped_weapon.RELOAD_TIME
@@ -217,12 +221,12 @@ class FinishScreen(OnScreen):
         self.screen = level.scene.screen
         self.set_screen_size()
         self.offset = self.screen_height / 10
-        self.font_ratio = 0.08
+        self.font_ratio = 0.12
         self.buttons = []
         self.level = level
         font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.font_ratio))
         text = f"Level {self.level.num_level} completed"
-        self.text_surface = font.render(text, True, (50, 200, 50))
+        self.text_surface = font.render(text, True, (255, 255, 255))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))
         self.scene.remove_object(self.scene.find_player().display)
         self.scene.remove_object(self.scene.find_player())

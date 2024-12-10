@@ -4,14 +4,14 @@ import math
 
 from display_data import DeathScreen, DisplayData, PauseScreen, FinishScreen
 from gameobject import GameObject, RigidBody, Followable
-from bullet import Bullet
 
-from gun import Weapon
+from animated_sprite import AnimatedSprite
+from image_processing import scale_surface_contain
 
 import collision
 import utils
 
-coin_sound = pygame.mixer.Sound("sounds/coin.mp3")
+coin_sound = pygame.mixer.Sound("sounds/coin.wav")
 ammo_sound = pygame.mixer.Sound("sounds/ammo_found.mp3")
 health_sound = pygame.mixer.Sound("sounds/health.mp3")
 damage_taken_sound = pygame.mixer.Sound("sounds/hurt.mp3")
@@ -42,7 +42,7 @@ class Player(GameObject, RigidBody, Followable):
         self.display = DisplayData(self)
         self.scene.add_object(self.display)
 
-        self.moment = pymunk.moment_for_box(mass=1, size=(50, 50))
+        self.moment = pymunk.moment_for_box(mass=1, size=(62, 62))
         self.body = pymunk.Body(mass=1, moment=float("inf"))
         self.body.position = (x, y)
 
@@ -50,8 +50,8 @@ class Player(GameObject, RigidBody, Followable):
         self.shape.friction = 0
         self.shape.collision_type = collision.Layer.PLAYER.value
 
-        self.width = 50
-        self.height = 50
+        self.width = 62
+        self.height = 62
 
         self.is_on_ground = False
         self.on_platform = None
@@ -59,7 +59,27 @@ class Player(GameObject, RigidBody, Followable):
         self.transportable = False
         self.color = (0, 0, 255)
 
+        self.orientation = 1
+        self.running = False
+
         self.last_checkpoint = None
+
+        self.idle_sprite = AnimatedSprite("assets/player/idle", (62, 62), 16)
+        self.idle_sprite_flipped = self.idle_sprite.flipped()
+
+        self.running_sprite = AnimatedSprite("assets/player/running", (62, 62), 3)
+        self.running_sprite_flipped = self.running_sprite.flipped()
+
+        self.jump_sprite = scale_surface_contain(pygame.image.load("assets/player/jump/jump_up.png"), (62, 62))
+        self.jump_sprite_flipped = pygame.transform.flip(self.jump_sprite, True, False)
+
+        self.fall_sprite = scale_surface_contain(pygame.image.load("assets/player/jump/jump_fall.png"), (62, 62))
+        self.fall_sprite_flipped = pygame.transform.flip(self.fall_sprite, True, False)
+
+        self.hit_sprite = scale_surface_contain(pygame.image.load("assets/player/hit/frame-got-hit.png"), (62, 62))
+        self.hit_sprite_flipped = pygame.transform.flip(self.hit_sprite, True, False)
+
+        self.current_sprite = self.idle_sprite
 
     @property
     def position(self):
@@ -87,8 +107,14 @@ class Player(GameObject, RigidBody, Followable):
 
         if left_pressed:
             self.body.apply_impulse_at_local_point((-self.MOVE_STRENGTH, 0))
+            self.orientation = -1
+            self.running = True
         elif right_pressed:
             self.body.apply_impulse_at_local_point((self.MOVE_STRENGTH, 0))
+            self.orientation = 1
+            self.running = True
+        else:
+            self.running = False
 
         if up_pressed and self.jump_impulses_left > 0:
             if self.jump_impulses_left == self.JUMP_IMPULSES_MAX:
@@ -207,6 +233,20 @@ class Player(GameObject, RigidBody, Followable):
 
         if self.reached_end():
             utils.current_screen = FinishScreen(self.level)
+        
+        if isinstance(self.current_sprite, AnimatedSprite):
+            self.current_sprite.update()
+        
+        if self.is_on_ground:
+            if self.running:
+                self.current_sprite = self.running_sprite if self.orientation == 1 else self.running_sprite_flipped
+            else:
+                self.current_sprite = self.idle_sprite if self.orientation == 1 else self.idle_sprite_flipped
+        else:
+            if self.body.velocity.y < 0:
+                self.current_sprite = self.jump_sprite if self.orientation == 1 else self.jump_sprite_flipped
+            else:
+                self.current_sprite = self.fall_sprite if self.orientation == 1 else self.fall_sprite_flipped
 
     def deal_damage(self, damage):
         damage_taken_sound.play()
@@ -249,5 +289,7 @@ class Player(GameObject, RigidBody, Followable):
         utils.current_screen = DeathScreen(self.level, last_checkpoint)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
-
+        if isinstance(self.current_sprite, AnimatedSprite):
+            self.current_sprite.draw(screen, self.scene.relative_position(self.body.position))
+        else:
+            screen.blit(self.current_sprite, self.scene.relative_position(self.body.position - pygame.Vector2(self.current_sprite.get_size()) / 2))

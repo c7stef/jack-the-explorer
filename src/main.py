@@ -7,6 +7,7 @@ import os
 if getattr(sys, 'frozen', False):
     os.chdir("..")
 
+pygame.mixer.pre_init(44100, -16, 2, 8)
 pygame.mixer.init()
 
 import display_data
@@ -51,7 +52,6 @@ main_menu = MainMenu(screen)
 
 utils.current_screen = main_menu
 
-# utils.current_screen = display_data.FinishScreen(level.Level(LevelsMenu(main_menu), 1))
 # Main game loop
 running = True
 while running:
