@@ -43,14 +43,14 @@
    </properties>
    <point/>
   </object>
-  <object id="17" type="tunnel" x="3744" y="1500" width="200" height="200">
+  <object id="17" type="tunnel" x="3764" y="1548" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="1"/>
     <property name="tunnel_out" type="int" value="0"/>
     <property name="upwards" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="20" type="tunnel" x="2845" y="90" width="200" height="200">
+  <object id="20" type="tunnel" x="2853" y="84" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="0"/>
     <property name="upwards" type="bool" value="false"/>
@@ -65,14 +65,14 @@
   <object id="26" type="coin" x="2347" y="286" width="48" height="48">
    <ellipse/>
   </object>
-  <object id="28" type="tunnel" x="128" y="1366.79" width="200" height="200">
+  <object id="28" type="tunnel" x="150" y="1418.79" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="2"/>
     <property name="tunnel_out" type="int" value="3"/>
     <property name="upwards" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="29" type="tunnel" x="1885.7" y="464.606" width="200" height="200">
+  <object id="29" type="tunnel" x="1895.7" y="524.606" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="3"/>
     <property name="upwards" type="bool" value="true"/>
@@ -87,7 +87,7 @@
   <object id="33" type="coin" x="940" y="172" width="48" height="48">
    <ellipse/>
   </object>
-  <object id="45" type="tunnel" x="6944" y="1488" width="200" height="200">
+  <object id="45" type="tunnel" x="6982" y="1548" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="4"/>
     <property name="tunnel_out" type="int" value="5"/>
@@ -106,7 +106,7 @@
   <object id="51" type="coin" x="7567.88" y="688.97" width="48" height="48">
    <ellipse/>
   </object>
-  <object id="53" type="tunnel" x="6656" y="228" width="200" height="200">
+  <object id="53" type="tunnel" x="6700" y="266" width="110" height="149">
    <properties>
     <property name="self_id" type="int" value="5"/>
     <property name="upwards" type="bool" value="true"/>

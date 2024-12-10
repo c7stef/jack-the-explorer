@@ -220,8 +220,6 @@ class Player(GameObject, RigidBody, Followable):
     def out_of_bounds(self):
         if self.body.position.y + self.height / 2 > self.scene.map_bounds.bottom:
             return True
-        if self.body.position.y - self.height / 2 < self.scene.map_bounds.top:
-            return True
         return False
 
     def reached_end(self):
