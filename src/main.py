@@ -7,6 +7,8 @@ import os
 if getattr(sys, 'frozen', False):
     os.chdir("..")
 
+pygame.mixer.init()
+
 import display_data
 import level
 from main_menu import MainMenu, LevelsMenu
