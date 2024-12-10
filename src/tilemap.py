@@ -78,10 +78,25 @@ class SolidTile(Solid):
     def __init__(self, position, image, colliders, layer):
         self.CORNER_RADIUS = 5
         self.z_index = 1
+        self.image = image
         
+        width, height = self.image.get_width(), self.image.get_height()
+        shapes = self.colliders_to_shapes(colliders)
+        
+        super().__init__(
+            position.x, position.y,
+            width, height,
+            layer=layer,
+            shapes=shapes
+        )
+
+        for shape in self.shapes:
+            shape.body = self.body
+    
+    def colliders_to_shapes(self, colliders):
         shapes = []
 
-        width, height = image.get_width(), image.get_height()
+        width, height = self.image.get_width(), self.image.get_height()
 
         if colliders == []:
             shapes.append(pymunk.Poly.create_box(None, (56, 56), radius=self.CORNER_RADIUS))
@@ -91,23 +106,39 @@ class SolidTile(Solid):
                 points = [(x * 0.85, y * 0.85) for x, y in points]
                 
                 shapes.append(pymunk.Poly(None, points, radius=self.CORNER_RADIUS))
+        
+        return shapes
 
-        super().__init__(
-            position.x, position.y,
-            width, height,
-            layer=layer,
-            shapes=shapes
-        )
-
-        self.image = image
-        for shape in self.shapes:
-            shape.body = self.body
 
     def update(self):
         pass
 
     def draw(self, screen):
         screen.blit(self.image, self.scene.relative_position((self.body.position.x - self.width / 2, self.body.position.y - self.height / 2)))
+
+class RectangularTile(SolidTile):
+    def __init__(self, position, image, colliders, layer):
+        super().__init__(position, image, colliders, layer)
+    
+    def colliders_to_shapes(self, colliders):
+        self.CORNER_RADIUS = 10
+        shapes = []
+
+        width, height = self.image.get_width(), self.image.get_height()
+
+        for box in colliders:
+            points = [(p.x - width/2, p.y - height/2) for p in box.as_points]
+
+            # Manually offset rectangle points
+            points[0] = points[0][0] + self.CORNER_RADIUS, points[0][1] + self.CORNER_RADIUS            
+            points[1] = points[1][0] + self.CORNER_RADIUS, points[1][1] - self.CORNER_RADIUS
+            points[2] = points[2][0] - self.CORNER_RADIUS, points[2][1] - self.CORNER_RADIUS
+            points[3] = points[3][0] - self.CORNER_RADIUS, points[3][1] + self.CORNER_RADIUS
+            
+            shapes.append(pymunk.Poly(None, points, radius=self.CORNER_RADIUS))
+
+        return shapes
+
 
 class BgTile(GameObject):
     def __init__(self, position, image, colliders):
