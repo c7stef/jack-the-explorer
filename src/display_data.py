@@ -258,7 +258,9 @@ class FinishScreen(OnScreen):
     def go_to_main_menu(self):
         self.sound.stop()
 
-        utils.current_screen = self.level.level_menu.back
+        from main_menu import MainMenu
+
+        utils.current_screen = MainMenu(self.screen)
 
     def next_level(self):
         self.sound.stop()
