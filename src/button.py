@@ -8,17 +8,18 @@ import utils
 
 mouse_pressed = False
 button_text_color = (1, 60, 100)
+wooden_button_text_color = (90, 70, 15)
 
 tick = pygame.image.load("assets/tick/tick.png")
 
 button_default = {
-'default' : pygame.image.load("assets/buttons/button1.png"),
-'hover' : pygame.image.load("assets/buttons/button1_hover.png")
+    'default' : pygame.image.load("assets/buttons/button1.png"),
+    'hover' : pygame.image.load("assets/buttons/button1_hover.png")
 }
 
 slider_default = {
-'default' : pygame.image.load("assets/buttons/slider1.png"),
-'hover' : pygame.image.load("assets/buttons/slider1.png")
+    'default' : pygame.image.load("assets/buttons/slider1.png"),
+    'hover' : pygame.image.load("assets/buttons/slider1.png")
 }
 
 button_backgrounds = {
@@ -213,7 +214,7 @@ class Dropdown(GameObject):
                                                     option_rect.height + 2 * self.border_thickness)
                 pygame.draw.rect(screen, self.border_color, option_rect_border)
                 pygame.draw.rect(screen, self.color, option_rect)
-                option_text_surface = self.font.render(option, True, pygame.colordict.THECOLORS['white'])
+                option_text_surface = self.font.render(option, True, (0, 0, 0))
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
                 screen.blit(option_text_surface, option_text_rect)
 
@@ -237,7 +238,7 @@ class Checkbox(ImageObject):
         super().__init__(self.rect, width, height, button_backgrounds[defaultImg])
         self.rect_square = pygame.Rect(x - height, y + height / 4, height / 2, height / 2)
         self.text = text
-        self.font = pygame.font.SysFont("Arial", font_size)
+        self.font = utils.ui_font
         self.color = color
         self.border_color = (0, 0, 0)
         self.on_click = on_click
@@ -263,7 +264,7 @@ class Checkbox(ImageObject):
         # pygame.draw.rect(screen, self.color, self.rect)
         # pygame.draw.rect(screen, (240, 240, 240), self.rect_square)
         pygame.draw.rect(screen, self.border_color, self.rect_square, 2)
-        text_surface = self.font.render(self.text, True, pygame.colordict.THECOLORS['white'])
+        text_surface = self.font.render(self.text, True, wooden_button_text_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
