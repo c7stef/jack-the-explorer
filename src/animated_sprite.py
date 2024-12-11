@@ -3,19 +3,6 @@ import os
 
 from image_processing import scale_surface_cover, scale_surface_contain
 
-coin_sprite = []
-
-coin_blink_yes = pygame.image.load("assets/coin/blink/white.png")
-coin_sprite.append(coin_blink_yes)
-
-coin_blink_no = pygame.image.load("assets/coin/blink/normal.png")
-coin_sprite.append(coin_blink_no)
-
-coin_states = ["/rotate", "/shine"]
-for c in coin_states:
-    for i in range(1, 7):
-        coin_sprite.append(pygame.image.load("assets/coin" + c + "/" + str(i) + ".png"))
-
 full_heart = pygame.image.load("assets/heart/full.png")
 half_heart = pygame.image.load("assets/heart/half.png")
 empty_heart = pygame.image.load("assets/heart/empty.png")
