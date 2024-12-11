@@ -174,7 +174,8 @@ class Player(GameObject, RigidBody, Followable):
                     self.scene.find_rigid_body(collision_data["shape"]).color = (50, 50, 50)
                     self.body.apply_impulse_at_local_point((0, self.JUMP_STRENGTH * self.FIRST_IMPULSE_FACTOR))
                     self.level.score += 100 * self.scene.find_rigid_body(collision_data["shape"]).max_health
-                    self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
+                    enemy = self.scene.find_rigid_body(collision_data["shape"])
+                    enemy.deal_damage(enemy.hp)
 
                 # Player is on tunnel
                 if collision_data["shape"].collision_type == collision.Layer.TUNNEL.value:

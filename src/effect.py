@@ -88,8 +88,7 @@ class BackgroundGradient(ImageOverlay):
 class BackgroundParticles(GameObject):
     def __init__(self):
         self.z_index = -1
-        particle_system = particlepy.particle.ParticleSystem()
-        self.particle_system = particle_system
+        self.particle_system = particlepy.particle.ParticleSystem()
         self.relative_position = pygame.Vector2(0, 0)
     
     def update(self):

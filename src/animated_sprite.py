@@ -52,6 +52,10 @@ class AnimatedSprite():
         if self.frame_cnt >= self.frame_duration:
             self.frame_cnt = 0
             self.current_frame = (self.current_frame + 1) % len(self.frames)
+    
+    def set_alpha(self, alpha):
+        for i in range(len(self.frames)):
+            self.frames[i].set_alpha(alpha)
 
     def draw(self, screen, position):
         frame = self.frames[self.current_frame]
