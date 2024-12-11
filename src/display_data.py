@@ -158,6 +158,7 @@ class DeathScreen(OnScreen):
         self.checkpoint = checkpoint
         self.set_screen_size()
         self.load_background(backgrounds["death"])
+        utils.play_music(None)
         self.big_font_ratio = 0.35
         self.font_ratio = 0.05
         self.button_font_size = int(self.screen_height * self.font_ratio)
@@ -220,6 +221,7 @@ class FinishScreen(OnScreen):
         self.scene = level.scene
         self.screen = level.scene.screen
         self.set_screen_size()
+        utils.play_music(None)
         self.offset = self.screen_height / 10
         self.font_ratio = 0.12
         self.buttons = []

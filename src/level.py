@@ -20,13 +20,14 @@ import utils
 class LevelData:
     def __init__(self, player_pos, tilemap_path, bg_path,
                  tile_objects_by_type=None, bg_tile_objects_by_type=None,
-                 effects=[]):
+                 effects=[], background_music=None):
         self.player_pos = player_pos
         self.tilemap_path = tilemap_path
         self.bg_path = bg_path
         self.tile_objects_by_type = tile_objects_by_type
         self.bg_tile_objects_by_type = bg_tile_objects_by_type
         self.effects = effects
+        self.background_music = background_music
 
 level_data = {
     1: LevelData(
@@ -41,7 +42,9 @@ level_data = {
                 mossytile.BG_GRADIENT_COLOR2),
             TintEffect(mossytile.FG_TINT_COLOR, z_index=90, alpha=30),
             BackgroundParticles()
-        ]
+        ],
+        background_music="sounds/music/lv1.mp3"
+
     ),
     2: LevelData(
         player_pos=(256, 508),
@@ -54,6 +57,7 @@ level_data = {
             BackgroundGradient(scifi_tile.BG_GRADIENT_COLOR1, scifi_tile.BG_GRADIENT_COLOR2),
             TintEffect(scifi_tile.FG_TINT_COLOR, z_index=90, alpha=40)
         ],
+        background_music="sounds/music/lv2.mp3"
     ),
     3: LevelData(
         player_pos=(256, 508),
@@ -66,6 +70,7 @@ level_data = {
             BackgroundGradient(winter.BG_GRADIENT_COLOR1, winter.BG_GRADIENT_COLOR2),
             TintEffect(winter.FG_TINT_COLOR, z_index=90, alpha=40)
         ],
+        background_music="sounds/music/lv3.mp3"
     )
 }
 
@@ -103,11 +108,12 @@ class Level(OnScreen):
 
         for effect in level_data[self.num_level].effects:
             scene.add_object(effect)
-
+        
     def update(self):
         self.scene.update()
 
     def init_player_with_pistol(self):
+        utils.play_music(level_data[self.num_level].background_music)
         self.weapons = []
         self.player = Player(*level_data[self.num_level].player_pos, self)
         self.scene.following = self.player
