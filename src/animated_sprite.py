@@ -50,6 +50,7 @@ class HeartsBar():
 
         self.spacing = 40
 
+        self.nr_hearts_max = nr_hearts
         self.nr_hearts = nr_hearts
         self.hp_per_heart = 3
         self.current_hp = nr_hearts * self.hp_per_heart
@@ -63,22 +64,24 @@ class HeartsBar():
             self.half_heart = pygame.transform.scale(self.half_heart, scale)
             self.empty_heart = pygame.transform.scale(self.empty_heart, scale)
 
-            self.spacing = scale[0] + 5
+        self.spacing = scale[0] + 5
 
     def update(self, lives, current_hp):
         self.nr_hearts = lives
         self.current_hp = current_hp
 
-
     def draw(self, screen, position):
-        for i in range(self.nr_hearts):
-            current_heart_hp = self.current_hp - i * self.hp_per_heart
-            if current_heart_hp >= self.hp_per_heart:
-                screen.blit(self.full_heart, (position[0] + self.spacing * i, position[1]))
-            elif current_heart_hp > 0:
-                screen.blit(self.half_heart, (position[0] + self.spacing * i, position[1]))
+        for i in range(1, self.nr_hearts_max + 1):
+            if self.nr_hearts == i:
+                if self.current_hp % 3 == 0:
+                    screen.blit(self.full_heart, (position[0] + self.spacing * i, position[1]))
+                else:
+                    screen.blit(self.half_heart, (position[0] + self.spacing * i, position[1]))
             else:
-                screen.blit(self.full_heart, (position[0] + self.spacing * i, position[1]))
+                if i < self.nr_hearts:
+                    screen.blit(self.full_heart, (position[0] + self.spacing * i, position[1]))
+                else:
+                    screen.blit(self.empty_heart, (position[0] + self.spacing * i, position[1]))
 
 
 
