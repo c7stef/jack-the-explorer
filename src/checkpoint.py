@@ -8,8 +8,6 @@ from gameobject import Solid, Named
 from image_processing import scale_surface
 from animated_sprite import AnimatedSprite
 
-flag_white = AnimatedSprite("assets/checkpoint/white", (54, 80), 8)
-flag_green = AnimatedSprite("assets/checkpoint/green", (54, 80), 8)
 checkpoint_sound = pygame.mixer.Sound("sounds/checkpoint.mp3")
 
 class Checkpoint(Solid, Named):
@@ -21,11 +19,13 @@ class Checkpoint(Solid, Named):
         self.order = properties.get('order', 0)
         self.player = None
 
-        self.current_sprite = flag_white
+        self.flag_white = AnimatedSprite("assets/checkpoint/white", (54, 80), 8)
+        self.flag_green = AnimatedSprite("assets/checkpoint/green", (54, 80), 8)
+        self.current_sprite = self.flag_white
 
     def update(self):
         if self.player and self.player.last_checkpoint is not self:
-            self.current_sprite = flag_white
+            self.current_sprite = self.flag_white
         self.current_sprite.update()
 
     def draw(self, screen):
@@ -36,13 +36,13 @@ class Checkpoint(Solid, Named):
         if self.player.last_checkpoint is not self:
             checkpoint_sound.play()
             checkpoint_sound.set_volume(utils.controls['sound'])
-            self.current_sprite = flag_green
+            self.current_sprite = self.flag_green
             player.last_checkpoint = self
             return self
         return self
 
     def reset(self):
-        self.current_sprite = flag_white
+        self.current_sprite = self.flag_white
 
     @property
     def name(self):
