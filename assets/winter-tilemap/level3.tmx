@@ -251,9 +251,13 @@
   <object id="31" type="coin" x="3354.79" y="842.667" width="48" height="48">
    <ellipse/>
   </object>
-  <object id="32" type="spike" x="1850" y="1018" width="68" height="50"/>
-  <object id="34" type="spike" x="2324" y="773" width="68" height="50"/>
-  <object id="40" type="spike" x="3256.42" y="1606.7" width="68" height="125.758" rotation="-180"/>
+  <object id="32" type="spike" x="1850" y="1031" width="68" height="50"/>
+  <object id="34" type="spike" x="2324" y="786" width="68" height="50"/>
+  <object id="40" type="spike" x="3256.42" y="1620" width="68" height="125.758" rotation="90">
+  <properties>
+    <property name="rotationn" type="int" value="90"/>
+   </properties>
+  </object>
   <object id="42" type="enemy" x="3124" y="1042" width="80" height="80">
    <properties>
     <property name="xoffset" type="int" value="300"/>
@@ -354,7 +358,15 @@
    </properties>
    <point/>
   </object>
-  <object id="67" type="spike" x="3186.55" y="1315.67" width="68" height="125.758"/>
-  <object id="68" type="spike" x="3774.88" y="1349.24" width="68" height="125.758" rotation="180"/>
+  <object id="67" type="spike" x="3186.55" y="1330" width="68" height="125.758">
+  <properties>
+    <property name="rotationn" type="int" value="-90"/>
+   </properties>
+    </object>
+  <object id="68" type="spike" x="3774.88" y="1315" width="68" height="125.758" rotation="180">
+  <properties>
+    <property name="rotationn" type="int" value="180"/>
+   </properties>
+    </object>
  </objectgroup>
 </map>
