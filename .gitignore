@@ -1,3 +1,7 @@
 .venv/
 __pycache__
 controls.bin
+main.spec
+settings.cfg
+build/*
+dist/*
