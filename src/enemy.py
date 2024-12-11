@@ -19,6 +19,7 @@ def load_sprite(path):
 
 flower_sprite = load_sprite("assets/enemy/skull/idle.png")
 flower_hit_sprite = load_sprite("assets/enemy/skull/hit.png")
+spike_wood_sprite = load_sprite("assets/spike/spike_wood.png")
 
 class Enemy(Solid):
     def __init__(self, position, properties, custom_sprite=None, hit_sprite=None):
@@ -40,10 +41,10 @@ class Enemy(Solid):
             self.dt = 0
 
         self.shape.filter = pymunk.ShapeFilter(categories=collision.Layer.ENEMY.value, mask=collision.Layer.BLOCK.value | collision.Layer.PLATFORM.value)
-        
+
         self.hp = health
         self.max_health = health
-        
+
         if custom_sprite is not None:
             self.sprite = custom_sprite
             self.current_sprite = custom_sprite
@@ -51,7 +52,7 @@ class Enemy(Solid):
         else:
             self.sprite = AnimatedSprite("assets/enemy/bug", (60, 60), 5)
             self.sprite_flipped = self.sprite.flipped()
-            
+
             self.current_sprite = self.sprite
 
     def update(self):
@@ -108,12 +109,12 @@ class FlowerFire(GameObject):
         self.alive = True
         self.death_timer = 0
         self.DEATH_REMOVE_TIME = 300
-    
+
     def position_range(self):
         def value_range(value):
             return random.uniform(value - 20, value + 20)
         return value_range(self.relative_position.x), value_range(self.relative_position.y)
-    
+
     def stop(self):
         self.alive = False
         self.death_timer = self.DEATH_REMOVE_TIME
@@ -151,7 +152,7 @@ class FlowerFire(GameObject):
 
         for particle in self.particle_system.particles:
             particle.position += self.scene.relative_position(self.position) - self.relative_position
-        
+
         self.relative_position = self.scene.relative_position(self.position)
 
     def draw(self, screen):
@@ -175,7 +176,7 @@ class EnemyFlower(Enemy):
             self._fire_effect = FlowerFire(self.body.position)
             self.scene.add_object(self._fire_effect)
         return self._fire_effect
-    
+
     def deal_damage(self, damage):
         super().deal_damage(damage)
         if self.hp <= 0:
@@ -211,11 +212,20 @@ class EnemyFlower(Enemy):
 
 class Spike(Solid):
     def __init__(self, position, properties=None):
-        super().__init__(position.x, position.y, 50, 50,
+        print(properties)
+        self.width = properties.get('width', 50)
+        self.height = properties.get('height', 50)
+        self.rotation = properties.get('rotationn', 0)
+        super().__init__(position.x, position.y, self.width, self.height,
                          body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
+        self.image = scale_surface_contain(spike_wood_sprite, (self.width, self.height))
+        print(self.rotation)
+        if self.rotation != 0:
+            print(self.rotation)
+            self.image = pygame.transform.rotate(self.image, self.rotation)
 
     def draw(self, screen):
-        pygame.draw.rect(screen, (255, 0, 0), self.scene.relative_rect(pygame.Rect(self.body.position.x - self.width / 2, self.body.position.y - self.height / 2, self.width, self.height)))
+        screen.blit(self.image, self.scene.relative_position(pygame.Vector2(self.body.position) - pygame.Vector2(self.image.get_size()) / 2))
 
 class SpikeTile(SolidTile):
     def __init__(self, position, image, colliders):
