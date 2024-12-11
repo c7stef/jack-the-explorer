@@ -209,10 +209,8 @@ class Player(GameObject, RigidBody, Followable):
 
             # Player collides with a health box
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
-                self.level.hp += self.scene.find_rigid_body(collision_data["shape"]).health_amount
+                self.current_hp = min(3, self.current_hp + 1)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
-                if self.level.hp > self.level.max_hp:
-                    self.level.hp = self.level.max_hp
                 self.level.score += 10
                 health_sound.play()
                 health_sound.set_volume(utils.controls['sound'])

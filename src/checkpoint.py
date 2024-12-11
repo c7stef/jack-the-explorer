@@ -6,8 +6,10 @@ import utils
 from gameobject import Solid, Named
 
 from image_processing import scale_surface
+from animated_sprite import AnimatedSprite
 
-flag = pygame.image.load("assets/checkpoint/flag.png")
+flag_white = AnimatedSprite("assets/checkpoint/white", (54, 80), 8)
+flag_green = AnimatedSprite("assets/checkpoint/green", (54, 80), 8)
 checkpoint_sound = pygame.mixer.Sound("sounds/checkpoint.mp3")
 
 class Checkpoint(Solid, Named):
@@ -17,42 +19,30 @@ class Checkpoint(Solid, Named):
         self.shape.sensor = True
 
         self.order = properties.get('order', 0)
+        self.player = None
 
-        self.flag = scale_surface(flag, (50, 50))
-        self.color = (200, 50, 0)
-        self.reached_color = (10, 125, 15)
-        self.not_reached_color = (200, 50, 0)
-        self.radius = 0
+        self.current_sprite = flag_white
 
     def update(self):
-        self.radius += 0.5
-        if self.radius >= 20:
-            self.radius = 0
+        if self.player and self.player.last_checkpoint is not self:
+            self.current_sprite = flag_white
+        self.current_sprite.update()
 
     def draw(self, screen):
-        screen.blit(self.flag, self.scene.relative_position(self.body.position) - pygame.Vector2(25, 25))
-        circle_center = self.scene.relative_position(self.body.position)
-        circle_center = (circle_center.x + 18, circle_center.y - 9)
-        pygame.draw.circle(screen, self.color, circle_center, self.radius, 2)
+        self.current_sprite.draw(screen, self.scene.relative_position(self.body.position))
 
     def reached(self, player):
-        if player.last_checkpoint:
-            if self.order != player.last_checkpoint.order + 1:
-                return player.last_checkpoint
-            else:
-                checkpoint_sound.play()
-                checkpoint_sound.set_volume(utils.controls['sound'])
-                self.color = self.reached_color
-                player.last_checkpoint = self
-                return self
-        elif self.order == 0:
-            self.color = self.reached_color
+        self.player = player
+        if self.player.last_checkpoint is not self:
+            checkpoint_sound.play()
+            checkpoint_sound.set_volume(utils.controls['sound'])
+            self.current_sprite = flag_green
             player.last_checkpoint = self
             return self
-        return None
+        return self
 
     def reset(self):
-        self.color = self.not_reached_color
+        self.current_sprite = flag_white
 
     @property
     def name(self):
