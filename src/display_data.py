@@ -36,7 +36,7 @@ class DisplayData(GameObject):
         self.bullet_icon = scale_surface_cover(bullet, (60, 60))
         self.coin_sprite = scale_surface_contain(pickups.coin_sprite, (54, 54))
         self.weapon_sprite = scale_surface_contain(pygame.transform.rotate(gun.weapon_sprite, 45), (54, 54))
-        
+
         self.hearts_bar = HeartsBar(3, (30, 30))
         self.ammo_icons = BulletIcons(10, (60, 60))
 
@@ -279,7 +279,7 @@ class FinishScreen(OnScreen):
 
         from level import Level
 
-        utils.current_screen = Level(self.level.level_menu, self.level.num_level, (0, 255, 0))
+        utils.current_screen = Level(self.level.level_menu, self.level.num_level)
 
     def handle_input(self):
         for b in self.buttons:
