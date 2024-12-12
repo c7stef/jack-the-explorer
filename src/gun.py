@@ -6,6 +6,7 @@ from bullet import Bullet
 from gameobject import GameObject
 
 weapon_sprite = pygame.image.load("assets/weapon/weapon.png")
+shoot_sound = pygame.mixer.Sound("sounds/pewpew.wav")
 
 class Weapon(GameObject):
     def __init__(self, level):
@@ -32,6 +33,7 @@ class Weapon(GameObject):
         if self.is_reloading:
             return
         self.is_reloading = True
+        self.reload_sound.set_volume(utils.controls['sound'])
         self.reload_sound.play()
         self.reload_history = 0
 
@@ -61,6 +63,8 @@ class Weapon(GameObject):
 
             self.scene.add_object(Bullet(self.player.body.position.x, self.player.body.position.y, relative_bullet_direction))
             self.bullet_history = 0
+            shoot_sound.set_volume(utils.controls['sound'])
+            shoot_sound.play()
 
     def update(self):
         self.bullet_history += 1

@@ -15,6 +15,7 @@ coin_sound = pygame.mixer.Sound("sounds/coin.wav")
 ammo_sound = pygame.mixer.Sound("sounds/ammo_found.mp3")
 health_sound = pygame.mixer.Sound("sounds/health.mp3")
 damage_taken_sound = pygame.mixer.Sound("sounds/hurt.mp3")
+tunnel_sound = pygame.mixer.Sound("sounds/tunnel.wav")
 
 # Player class
 class Player(GameObject, RigidBody, Followable):
@@ -141,6 +142,8 @@ class Player(GameObject, RigidBody, Followable):
         if tunnel_in.linked_tunnel:
             self.body.position = tunnel_in.linked_tunnel.hole_position
             self.body.velocity = (0, 0)
+            tunnel_sound.set_volume(utils.controls['sound'])
+            tunnel_sound.play()
 
     def update(self):
         self.body.velocity = self.body.velocity.x*self.HORIZONTAL_DRAG, self.body.velocity.y
@@ -150,7 +153,7 @@ class Player(GameObject, RigidBody, Followable):
         self.on_platform = None
         for collision_data in collisions:
             if collision_data["shape"].collision_type == collision.Layer.SPIKE.value:
-                self.die()
+                self.deal_damage(3)
 
             # Normal is mostly upwards
             if collision_data["normal"].y < -self.VERTICAL_NORMAL_Y:
@@ -189,31 +192,31 @@ class Player(GameObject, RigidBody, Followable):
             # Collision is to the side
             if abs(collision_data["normal"].x) > self.HORIZONTAL_NORMAL_X:
                 if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
-                    self.die()
+                    self.deal_damage(3)
 
             # Player collides with a coin
             if collision_data["shape"].collision_type == collision.Layer.COIN.value:
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.coin_cnt += 1
                 self.level.score += 10
-                coin_sound.play()
                 coin_sound.set_volume(utils.controls['sound'])
+                coin_sound.play()
 
             # Player collides with an ammo box
             if collision_data["shape"].collision_type == collision.Layer.AMMOBOX.value:
                 self.weapon.pick_up_ammo(self.scene.find_rigid_body(collision_data["shape"]).ammo_amount)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.score += 10
-                ammo_sound.play()
                 ammo_sound.set_volume(utils.controls['sound'])
+                ammo_sound.play()
 
             # Player collides with a health box
             if collision_data["shape"].collision_type == collision.Layer.HEALTHBOX.value:
                 self.current_hp = min(3, self.current_hp + 1)
                 self.scene.remove_object(self.scene.find_rigid_body(collision_data["shape"]))
                 self.level.score += 10
-                health_sound.play()
                 health_sound.set_volume(utils.controls['sound'])
+                health_sound.play()
 
             if collision_data["shape"].collision_type == collision.Layer.CHECKPOINT.value:
                 self.last_checkpoint = self.scene.find_rigid_body(collision_data["shape"]).reached(self)
@@ -229,7 +232,7 @@ class Player(GameObject, RigidBody, Followable):
                 self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
         if self.out_of_bounds():
-            self.die()
+            self.deal_damage(3)
 
         if self.reached_end():
             utils.current_screen = FinishScreen(self.level)
@@ -249,8 +252,8 @@ class Player(GameObject, RigidBody, Followable):
                 self.current_sprite = self.fall_sprite if self.orientation == 1 else self.fall_sprite_flipped
 
     def deal_damage(self, damage):
-        damage_taken_sound.play()
         damage_taken_sound.set_volume(utils.controls['sound'])
+        damage_taken_sound.play()
         self.current_hp -= damage
 
         if self.current_hp <= 0:

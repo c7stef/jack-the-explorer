@@ -21,7 +21,10 @@ flower_sprite = load_sprite("assets/enemy/skull/idle.png")
 flower_hit_sprite = load_sprite("assets/enemy/skull/hit.png")
 spike_wood_sprite = load_sprite("assets/spike/spike_wood.png")
 
-enemy_shooting_sound = pygame.mixer.Sound("sounds/enemy_shooting.mp3")
+enemy_shooting_sound = pygame.mixer.Sound("sounds/skull_fire.wav")
+
+enemy_hit_sound = pygame.mixer.Sound("sounds/slime_die.wav")
+enemy_flower_hit_sound = pygame.mixer.Sound("sounds/hit_sound.mp3")
 
 class Enemy(Solid):
     def __init__(self, position, properties, custom_sprite=None, hit_sprite=None):
@@ -89,6 +92,12 @@ class Enemy(Solid):
         if self.hp <= 0:
             self.scene.remove_object(self)
         self.hit_timer = self.HIT_EFFECT_TIME
+        enemy_flower_hit_sound.set_volume(utils.controls['sound'])
+        enemy_hit_sound.set_volume(utils.controls['sound'])
+        if isinstance(self, EnemyFlower):
+            enemy_flower_hit_sound.play()
+        else:
+            enemy_hit_sound.play()
 
     def draw(self, screen):
         if isinstance(self.current_sprite, AnimatedSprite):
@@ -210,8 +219,8 @@ class EnemyFlower(Enemy):
         stop = player.body.position
         direction = pygame.Vector2(stop) - pygame.Vector2(start)
         self.scene.add_object(EnemyBullet(start.x, start.y, direction, speed=1.2))
-        enemy_shooting_sound.play()
         enemy_shooting_sound.set_volume(utils.controls['sound'])
+        enemy_shooting_sound.play()
 
 
 class Spike(Solid):
