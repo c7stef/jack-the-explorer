@@ -219,9 +219,7 @@ class Spike(Solid):
         super().__init__(position.x, position.y, self.width, self.height,
                          body_type=pymunk.Body.STATIC, layer=collision.Layer.SPIKE.value)
         self.image = scale_surface_contain(spike_wood_sprite, (self.width, self.height))
-        print(self.rotation)
         if self.rotation != 0:
-            print(self.rotation)
             self.image = pygame.transform.rotate(self.image, self.rotation)
 
     def draw(self, screen):
