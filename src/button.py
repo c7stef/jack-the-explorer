@@ -28,15 +28,12 @@ button_backgrounds = {
 }
 
 class Button(ImageObject):
-    def __init__(self, x, y, width, height, text, font_size, color, on_click, button_type='default'):
+    def __init__(self, x, y, width, height, text, font_size, on_click, button_type='default'):
         self.rect = pygame.Rect(x, y, width, height)
         super().__init__(self.rect, width, height, button_backgrounds[button_type])
         self.text = text
         self.font = utils.ui_font
-        self.color = color
         self.on_click = on_click
-
-        self.hover_color = ( min(color[0] + 20, 255), min(color[1] + 20, 255), min(color[2] + 20, 255))
 
     def handle_input(self):
         global mouse_pressed
@@ -62,8 +59,8 @@ class Button(ImageObject):
 
 
 class ControlsButton(Button):
-    def __init__(self, x, y, width, height, text, font_size, color, controls, key):
-        super().__init__(x, y, width, height, text, font_size, color, None)
+    def __init__(self, x, y, width, height, text, font_size, controls, key):
+        super().__init__(x, y, width, height, text, font_size, None)
         text_rect = pygame.Rect(x - width, y, width, height)
         self.text_surface = self.font.render(text, True, pygame.colordict.THECOLORS['white'])
         self.text_rect = self.text_surface.get_rect(center=text_rect.center)
@@ -111,14 +108,13 @@ class ControlsButton(Button):
         screen.blit(self.text_surface, self.text_rect)
 
 class Dropdown(GameObject):
-    def __init__(self, x, y, width, height, options, font_size, color, on_select, selected_option=None):
+    def __init__(self, x, y, width, height, options, font_size, on_select, selected_option=None):
         self.image = button_backgrounds['default']['default']
         self.image = scale_surface(self.image, (width, height))
         self.rect = pygame.Rect(x, y, width, height)
         self.options = options
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", font_size)
-        self.color = color
-        self.border_color = (255, 255, 255)
+
         self.on_select = on_select
         self.selected_option = selected_option
         self.is_open = False
@@ -210,9 +206,6 @@ class Dropdown(GameObject):
                 option = self.options[option_index]
                 option_rect = pygame.Rect(self.rect.x, self.rect.y + (i + 1) * self.option_height,
                                             self.rect.width, self.option_height)
-                option_rect_border = pygame.Rect(option_rect.x - self.border_thickness,
-                                                    option_rect.y - self.border_thickness, option_rect.width + 2 * self.border_thickness,
-                                                    option_rect.height + 2 * self.border_thickness)
                 screen.blit(self.image, pygame.Vector2(option_rect.center) - pygame.Vector2(self.image.get_size()) / 2)
                 option_text_surface = self.font.render(option, True, button_text_color)
                 option_text_rect = option_text_surface.get_rect(center=option_rect.center)
@@ -233,13 +226,12 @@ class Dropdown(GameObject):
 
 
 class Checkbox(ImageObject):
-    def __init__(self, x, y, width, height, text, font_size, color, on_click, initial_state=False, defaultImg='slider'):
+    def __init__(self, x, y, width, height, text, font_size, on_click, initial_state=False, defaultImg='slider'):
         self.rect = pygame.Rect(x, y, width, height)
         super().__init__(self.rect, width, height, button_backgrounds[defaultImg])
         self.rect_square = pygame.Rect(x - height, y + height / 4, height / 2, height / 2)
         self.text = text
         self.font = utils.ui_font
-        self.color = color
         self.border_color = (255, 255, 255)
         self.on_click = on_click
         self.is_checked = initial_state
@@ -271,15 +263,13 @@ class Checkbox(ImageObject):
 
 
 class Slider(ImageObject):
-    def __init__(self, x, y, width, height, color, on_change, text, font_size, default_value=0.5, image_type='slider'):
+    def __init__(self, x, y, width, height, on_change, text, font_size, default_value=0.5, image_type='slider'):
         self.rect = pygame.Rect(x, y, width, height)
         super().__init__(self.rect, width + 80, height, button_backgrounds[image_type])
 
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", font_size)
         self.text = text
 
-        self.color = color
-        self.border_color = (0, 0, 0)
         self.on_change = on_change
         self.value = default_value
         self.is_dragging = False
