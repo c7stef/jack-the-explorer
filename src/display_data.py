@@ -245,13 +245,13 @@ class FinishScreen(OnScreen):
             self.main_menu_button_y = (self.center_button_y + self.button_height + self.offset) * 1.1
             self.main_menu_button_x = self.center_button_x
             self.next_level_button = Button(self.center_button_x, self.center_button_y * 1.1,
-                                        self.button_width, self.button_height, "Next Level", 40, self.next_level)
+                                        self.button_width * 1.1, self.button_height, "Next Level", 40, self.next_level)
             self.buttons.append(self.next_level_button)
 
         self.restart_button = Button(self.restart_x, self.restart_y,
-                                    self.button_width, self.button_height, "Restart", 40, self.restart)
+                                    self.button_width * 1.1, self.button_height, "Restart", 40, self.restart)
         self.main_menu_button = Button(self.main_menu_button_x, self.main_menu_button_y,
-                                    self.button_width, self.button_height, "Main Menu", 40, self.go_to_main_menu)
+                                    self.button_width * 1.1, self.button_height, "Main Menu", 40, self.go_to_main_menu)
         self.buttons.append(self.restart_button)
         self.buttons.append(self.main_menu_button)
 
