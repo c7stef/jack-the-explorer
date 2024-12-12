@@ -20,7 +20,11 @@ class MainMenu(OnScreen):
         self.set_screen_size()
         self.button_height = self.screen_height / 6
         self.load_background(backgrounds["main_menu"])
-
+        self.title = "Jack the Explorer"
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
+        self.text_surface = self.font.render(self.title, True, (150, 150, 155))
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
+        self.center_button_y += self.button_height / 2
         self.start = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset, self.button_width
                             , self.button_height, "Start", self.font_size, (0, 255, 0), self.start_game)
         self.quit = Button(self.center_button_x, self.center_button_y + self.button_height + self.offset,
@@ -43,6 +47,7 @@ class MainMenu(OnScreen):
 
     def draw(self):
         self.draw_background()
+        self.screen.blit(self.text_surface, self.text_rec)
         for button in self.buttons:
             button.draw(self.screen)
 
