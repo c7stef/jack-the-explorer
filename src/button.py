@@ -114,7 +114,7 @@ class Dropdown(GameObject):
         self.rect = pygame.Rect(x, y, width, height)
         self.options = options
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", font_size)
-
+        self.border_color = (255, 255, 255)
         self.on_select = on_select
         self.selected_option = selected_option
         self.is_open = False
