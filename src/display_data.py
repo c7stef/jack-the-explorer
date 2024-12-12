@@ -175,9 +175,9 @@ class DeathScreen(OnScreen):
         self.button_y_buttom_right = self.screen_height - self.button_height - self.screen_height / 10
         self.button_x_buttom_right = self.screen_width - self.button_width - self.screen_width / 20
 
-        self.restart_button = Button(self.button_x_bottom_left, self.button_y_bottom_left, self.button_width,
+        self.restart_button = Button(self.button_x_bottom_left * 1.3, self.button_y_bottom_left, self.button_width,
                                      self.button_height, "Restart", self.button_font_size, self.restart)
-        self.last_button = Button(self.button_x_buttom_right, self.button_y_buttom_right, self.button_width,
+        self.last_button = Button(self.button_x_buttom_right / 1.1, self.button_y_buttom_right, self.button_width * 1.5,
                                   self.button_height, "Last Checkpoint", self.button_font_size, self.last_checkpoint)
         self.sound = pygame.mixer.Sound("sounds/u_are_dead.mp3")
         self.sound.set_volume(utils.controls['sound'])

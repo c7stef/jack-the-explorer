@@ -8,7 +8,7 @@ import utils
 
 mouse_pressed = False
 button_text_color = (1, 60, 100)
-wooden_button_text_color = (90, 70, 15)
+wooden_button_text_color = (67, 74, 78)
 
 tick = pygame.image.load("assets/tick/white_tick.png")
 
