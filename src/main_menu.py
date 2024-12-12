@@ -184,7 +184,7 @@ class Settings(OnScreen):
         if self.old_conflicts != conflicts:
             for c in self.old_conflicts:
                 if c not in conflicts:
-                    c.font_color = (0, 0, 0)
+                    c.font_color = c.font_color_default
         self.old_conflicts = conflicts
         return conflict_found
 
