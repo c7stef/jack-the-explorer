@@ -40,6 +40,25 @@ class TintEffect(ImageOverlay):
         s.set_alpha(self.alpha)
         return s
 
+
+class BgImage(ImageOverlay):
+    def __init__(self, image_path, tile_size):
+        self.z_index = -10
+        self.image_path = image_path
+        self.tile_size = tile_size
+    
+    def create_surface(self, width, height):
+        return pygame.image.load(self.image_path)
+
+    @property
+    def size(self):
+        return self.surface(0, 0).get_size()
+
+    def draw(self, screen):
+        position = pygame.Vector2(0, 0)
+        bg_size = pygame.Vector2(self.size) - self.tile_size
+        screen.blit(self.surface(0, 0), self.scene.relative_position_parallax(position, bg_size))
+
 def _create_radial_gradient(width, height, color_start, color_end):
     # Create an empty surface for the gradient
     gradient_surface = pygame.Surface((width, height))

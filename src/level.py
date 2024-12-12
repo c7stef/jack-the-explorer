@@ -8,7 +8,7 @@ from mossytile import MossyTile
 from scene import Scene
 from tunnel import TunnelManager
 from gun import Pistol
-from effect import TintEffect, BackgroundGradient, BackgroundParticles
+from effect import TintEffect, BackgroundGradient, BackgroundParticles, BgImage
 import scifi_tile
 from scifi_tile import SciFiTile
 from enemy import SpikeTile
@@ -20,6 +20,7 @@ import utils
 class LevelData:
     def __init__(self, player_pos, tilemap_path, bg_path,
                  tile_objects_by_type=None, bg_tile_objects_by_type=None,
+                 bg_image=None,
                  effects=[], background_music=None):
         self.player_pos = player_pos
         self.tilemap_path = tilemap_path
@@ -28,6 +29,7 @@ class LevelData:
         self.bg_tile_objects_by_type = bg_tile_objects_by_type
         self.effects = effects
         self.background_music = background_music
+        self.bg_image = bg_image
 
 level_data = {
     1: LevelData(
@@ -51,7 +53,7 @@ level_data = {
         tilemap_path="assets/sci-fi-tilemap/level2-map.tmx",
         bg_path="assets/sci-fi-tilemap/level2-bg.tmx",
         tile_objects_by_type={'scifi_tile': SciFiTile, 'spike': SpikeTile},
-        bg_tile_objects_by_type={'scifi_tile': BgTile},
+        bg_image="assets/sci-fi-tilemap/level2-bg.png",
         effects=[
             TintEffect(scifi_tile.BG_TINT_COLOR, alpha=180),
             BackgroundGradient(scifi_tile.BG_GRADIENT_COLOR1, scifi_tile.BG_GRADIENT_COLOR2),
@@ -104,7 +106,11 @@ class Level(OnScreen):
         bg_tilemap = TileMap(level_data[self.num_level].bg_path)
         scene.add_object(bg_tilemap)
 
-        bg_tilemap.create_tiles(self.map_position, level_data[self.num_level].bg_tile_objects_by_type)
+        if level_data[self.num_level].bg_tile_objects_by_type:
+            bg_tilemap.create_tiles(self.map_position, level_data[self.num_level].bg_tile_objects_by_type)
+
+        if level_data[self.num_level].bg_image:
+            scene.add_object(BgImage(level_data[self.num_level].bg_image, main_tilemap.tile_size()))
 
         for effect in level_data[self.num_level].effects:
             scene.add_object(effect)
