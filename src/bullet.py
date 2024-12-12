@@ -9,6 +9,8 @@ import math
 player_bullet_sprite = pygame.image.load("assets/bullet/player_bullet.png")
 enemy_bullet_sprite = pygame.image.load("assets/bullet/enemy_bullet.png")
 
+enemy_hit_sound = pygame.mixer.Sound("sounds/hit_sound.mp3")
+
 class BulletBlast(GameObject):
     def __init__(self, x, y, color):
         self.LIFETIME = 10
@@ -16,7 +18,7 @@ class BulletBlast(GameObject):
         self.position = pygame.Vector2(x, y)
         self.circle_surface = pygame.Surface((200, 200), pygame.SRCALPHA)
         self.color = color
-    
+
     def update(self):
         self.progress += 1
         if self.progress >= self.LIFETIME:
@@ -31,7 +33,7 @@ class BulletBlast(GameObject):
             self.circle_surface.get_rect().center,
             80 * self.progress / self.LIFETIME
         )
-        
+
         screen.blit(
             self.circle_surface,
             self.scene.relative_position(
@@ -52,14 +54,14 @@ class Bullet(Solid):
         self.direction_vector = directions.normalize() * self.VELOCITY
         self.speed = speed
         self.image_base = player_bullet_sprite
-    
+
     @property
     def image(self):
         if not hasattr(self, "_image") or self._image is None:
             angle = math.degrees(math.atan2(-self.direction_vector.y, self.direction_vector.x))
             self._image = pygame.transform.rotate(self.image_base, angle)
         return self._image
-    
+
     @property
     def rotated_rect(self):
         if not hasattr(self, "_rotated_rect") or self._rotated_rect is None:
@@ -81,9 +83,10 @@ class Bullet(Solid):
         for collision_data in collisions:
             if collision_data["shape"].collision_type == collision.Layer.ENEMY.value:
                 self.scene.find_rigid_body(collision_data["shape"]).deal_damage(1)
-            
+                enemy_hit_sound.play()
+
             set_to_die = True
-            
+
         if set_to_die:
             self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y, (200, 230, 255)))
             self.scene.remove_object(self)
@@ -112,7 +115,6 @@ class EnemyBullet(Bullet):
         for collision_data in collisions:
             if collision_data["shape"].collision_type == collision.Layer.PLAYER.value:
                 self.scene.find_rigid_body(collision_data["shape"]).deal_damage(1)
-            
             set_to_die = True
 
         if set_to_die:

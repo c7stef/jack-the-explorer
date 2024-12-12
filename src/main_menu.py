@@ -13,6 +13,8 @@ backgrounds = {
     "levels_menu": pygame.image.load("assets/menu-backgrounds/background_level_select_menu.jpg")
 }
 
+title_color = (142, 222, 255)
+
 class MainMenu(OnScreen):
     def __init__(self, screen):
         self.screen = screen
@@ -22,13 +24,17 @@ class MainMenu(OnScreen):
         self.load_background(backgrounds["main_menu"])
 
         utils.play_music("sounds/music/menu.mp3")
-
+        self.title = "Jack the Explorer"
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
+        self.text_surface = self.font.render(self.title, True, title_color)
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
+        self.center_button_y += self.button_height / 2
         self.start = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset, self.button_width
-                            , self.button_height, "Start", self.font_size, (0, 255, 0), self.start_game)
+                            , self.button_height, "Start", self.font_size, self.start_game)
         self.quit = Button(self.center_button_x, self.center_button_y + self.button_height + self.offset,
-                           self.button_width, self.button_height, "Quit", self.font_size, (255, 0, 0), self.quit_game)
+                           self.button_width, self.button_height, "Quit", self.font_size, self.quit_game)
         self.settings = Button(self.center_button_x, self.center_button_y,
-                               self.button_width, self.button_height, "Settings", self.font_size, (0, 0, 255), self.settings)
+                               self.button_width, self.button_height, "Settings", self.font_size, self.settings)
         self.buttons.append(self.start)
         self.buttons.append(self.quit)
         self.buttons.append(self.settings)
@@ -45,6 +51,7 @@ class MainMenu(OnScreen):
 
     def draw(self):
         self.draw_background()
+        self.screen.blit(self.text_surface, self.text_rec)
         for button in self.buttons:
             button.draw(self.screen)
 
@@ -98,25 +105,25 @@ class Settings(OnScreen):
         options = self.resolution_options
 
         self.resolution = Dropdown(dropdown_x, dropdown_y, dropdown_width, dropdown_height, options, int(self.font_size),
-                                   (255, 255, 255), self.change_resolution, utils.controls['resolution'])
+                                   self.change_resolution, utils.controls['resolution'])
         self.text_pos_res = (dropdown_x - self.text_surface_res.get_width() - 10,
                              dropdown_y + dropdown_height / 2 - self.text_surface_res.get_height() / 2)
         self.buttons.append(Checkbox(self.left_column_center_x, self.fullscreen_checkbox_y, self.button_width, self.button_height,
-                                     "Fullscreen", self.font_size, (0, 255, 0), self.toggle_fullscreen, utils.controls['fullscreen']))
+                                     "Fullscreen", self.font_size, self.toggle_fullscreen, utils.controls['fullscreen']))
         self.left = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y, self.button_width,
-                                   self.button_height, "Left", self.font_size, (0, 255, 0), utils.controls, "left")
+                                   self.button_height, "Left", self.font_size, utils.controls, "left")
         self.right = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + self.offset + self.button_height,
-                                    self.button_width, self.button_height, "Right", self.font_size, (0, 255, 0), utils.controls, "right")
+                                    self.button_width, self.button_height, "Right", self.font_size, utils.controls, "right")
         self.up = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 2 * (self.offset + self.button_height),
-                                 self.button_width, self.button_height, "Up", self.font_size, (0, 255, 0), utils.controls, "up")
+                                 self.button_width, self.button_height, "Up", self.font_size, utils.controls, "up")
         self.down = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 3 * (self.offset + self.button_height),
-                                   self.button_width, self.button_height, "Down", self.font_size, (0, 255, 0), utils.controls, "down")
+                                   self.button_width, self.button_height, "Down", self.font_size, utils.controls, "down")
         self.reload = ControlsButton(self.button_right_column_center_x, self.button_right_column_first_y + 4 * (self.offset + self.button_height),
-                                    self.button_width, self.button_height, "Reload", self.font_size, (0, 255, 0), utils.controls, "reload")
+                                    self.button_width, self.button_height, "Reload", self.font_size, utils.controls, "reload")
         self.sound_slider = Slider(self.left_column_center_x, self.soundSlider_y, self.button_width,
-                                  self.button_height, (0, 255, 0), self.set_volume, "Volume: ", self.font_size, utils.controls['sound'])
+                                  self.button_height, self.set_volume, "Volume: ", self.font_size, utils.controls['sound'])
         self.go_back = Button(self.left_column_center_x, self.soundSlider_y + self.button_height + self.offset,
-                             self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.back_to_main)
+                             self.button_width, self.button_height, "Back", self.font_size, self.back_to_main)
         self.controls.append(self.left)
         self.controls.append(self.right)
         self.controls.append(self.up)
@@ -197,21 +204,24 @@ class LevelsMenu(OnScreen):
         self.buttons = []
         self.set_screen_size()
         self.load_background(backgrounds["levels_menu"])
+        self.title = "Levels"
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
+        self.text_surface = self.font.render(self.title, True, title_color)
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
 
-        self.space_used = 4 * self.button_height + 3 * self.offset
-        self.center_button1_y = self.screen_height / 2 - self.space_used / 2
+        self.center_button1_y = self.button_height * 2.5
         self.center_button2_y = self.center_button1_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
         self.center_button4_y = self.center_button3_y + self.button_height + self.offset
 
         self.level1 = Button(self.center_button_x, self.center_button1_y,
-                             self.button_width, self.button_height, "Level 1", self.font_size, (0, 255, 0), self.start_level(1))
+                             self.button_width, self.button_height, "Level 1", self.font_size, self.start_level(1))
         self.level2 = Button(self.center_button_x, self.center_button2_y,
-                             self.button_width, self.button_height, "Level 2", self.font_size, (255, 0, 0), self.start_level(2))
+                             self.button_width, self.button_height, "Level 2", self.font_size, self.start_level(2))
         self.level3 = Button(self.center_button_x, self.center_button3_y, self.button_width,
-                             self.button_height, "Level 3", self.font_size, (0, 0, 255), self.start_level(3))
+                             self.button_height, "Level 3", self.font_size, self.start_level(3))
         self.go_back = Button(self.center_button_x, self.center_button4_y,
-                             self.button_width, self.button_height, "Back", self.font_size, (0, 120, 0), self.back_to_main)
+                             self.button_width, self.button_height, "Back", self.font_size, self.back_to_main)
         self.buttons.append(self.level1)
         self.buttons.append(self.level2)
         self.buttons.append(self.level3)
@@ -227,6 +237,7 @@ class LevelsMenu(OnScreen):
 
     def draw(self):
         self.draw_background()
+        self.screen.blit(self.text_surface, self.text_rec)
         for button in self.buttons:
             button.draw(self.screen)
 
