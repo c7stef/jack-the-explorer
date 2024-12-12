@@ -57,7 +57,7 @@ class DisplayData(GameObject):
         screen.blit(coin_cnt, (80, 16))
         screen.blit(self.coin_sprite, (26, 16))
 
-        self.hearts_bar.draw(screen, (40, 78))
+        self.hearts_bar.draw(screen, (0, 78))
 
         total_ammo = self.font.render(f"x{self.ammo}", True, pygame.colordict.THECOLORS['white'])
         screen.blit(total_ammo, (80, 118))
