@@ -34,6 +34,7 @@ class Button(ImageObject):
         self.text = text
         self.font = utils.ui_font
         self.on_click = on_click
+        self.font_color = button_text_color
 
     def handle_input(self):
         global mouse_pressed
@@ -53,7 +54,7 @@ class Button(ImageObject):
 
     def draw(self, screen):
         super().draw(screen)
-        text_surface = self.font.render(self.text, True, button_text_color)
+        text_surface = self.font.render(self.text, True, self.font_color)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
@@ -62,7 +63,9 @@ class ControlsButton(Button):
     def __init__(self, x, y, width, height, text, font_size, controls, key):
         super().__init__(x, y, width, height, text, font_size, None)
         text_rect = pygame.Rect(x - width, y, width, height)
-        self.text_surface = self.font.render(text, True, pygame.colordict.THECOLORS['white'])
+        self.font_color = button_text_color
+        self.font_color_default = button_text_color
+        self.text_surface = self.font.render(text, True, self.font_color)
         self.text_rect = self.text_surface.get_rect(center=text_rect.center)
         self.controls = controls
         self.key = key
