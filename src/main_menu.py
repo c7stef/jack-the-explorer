@@ -13,6 +13,8 @@ backgrounds = {
     "levels_menu": pygame.image.load("assets/menu-backgrounds/background_level_select_menu.jpg")
 }
 
+title_color = (150, 150, 155)
+
 class MainMenu(OnScreen):
     def __init__(self, screen):
         self.screen = screen
@@ -24,7 +26,7 @@ class MainMenu(OnScreen):
         utils.play_music("sounds/music/menu.mp3")
         self.title = "Jack the Explorer"
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
-        self.text_surface = self.font.render(self.title, True, (150, 150, 155))
+        self.text_surface = self.font.render(self.title, True, title_color)
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
         self.center_button_y += self.button_height / 2
         self.start = Button(self.center_button_x, self.center_button_y - self.button_height - self.offset, self.button_width
@@ -202,7 +204,11 @@ class LevelsMenu(OnScreen):
         self.buttons = []
         self.set_screen_size()
         self.load_background(backgrounds["levels_menu"])
-
+        self.title = "Levels"
+        self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
+        self.text_surface = self.font.render(self.title, True, title_color)
+        self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
+        self.center_button_y += self.button_height * 1.5
         self.space_used = 4 * self.button_height + 3 * self.offset
         self.center_button1_y = self.screen_height / 2 - self.space_used / 2
         self.center_button2_y = self.center_button1_y + self.button_height + self.offset
@@ -232,6 +238,7 @@ class LevelsMenu(OnScreen):
 
     def draw(self):
         self.draw_background()
+        self.screen.blit(self.text_surface, self.text_rec)
         for button in self.buttons:
             button.draw(self.screen)
 
