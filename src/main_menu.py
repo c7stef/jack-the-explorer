@@ -208,9 +208,8 @@ class LevelsMenu(OnScreen):
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
         self.text_surface = self.font.render(self.title, True, title_color)
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 7))
-        self.center_button_y += self.button_height * 1.5
-        self.space_used = 4 * self.button_height + 3 * self.offset
-        self.center_button1_y = self.screen_height / 2 - self.space_used / 2
+        
+        self.center_button1_y = self.button_height * 2.5
         self.center_button2_y = self.center_button1_y + self.button_height + self.offset
         self.center_button3_y = self.center_button2_y + self.button_height + self.offset
         self.center_button4_y = self.center_button3_y + self.button_height + self.offset
