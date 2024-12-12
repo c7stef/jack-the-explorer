@@ -212,7 +212,6 @@ class EnemyFlower(Enemy):
 
 class Spike(Solid):
     def __init__(self, position, properties=None):
-        print(properties)
         self.width = properties.get('width', 50)
         self.height = properties.get('height', 50)
         self.rotation = properties.get('rotationn', 0)
