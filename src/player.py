@@ -225,7 +225,8 @@ class Player(GameObject, RigidBody, Followable):
 
         if self.on_platform:
             platform_velocity = self.on_platform.body.velocity
-            self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
+            if platform_velocity.y > -self.VERTICAL_NORMAL_Y:
+                self.body.apply_impulse_at_local_point(platform_velocity * 0.15)
 
         if self.out_of_bounds():
             self.die()

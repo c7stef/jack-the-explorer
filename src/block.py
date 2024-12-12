@@ -53,7 +53,7 @@ class MovingPlatform(Solid):
         self.p1 = position
         self.p2 = position + pygame.Vector2(properties['offsetx'], properties['offsety'])
         self.forward = True
-        self.speed = 16
+        self.speed = properties.get('speed', 14)
         self.speed_vector = pygame.Vector2.normalize(self.p2 - self.p1) * self.speed
 
     def update(self):

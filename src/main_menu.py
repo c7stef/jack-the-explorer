@@ -20,6 +20,8 @@ class MainMenu(OnScreen):
         self.set_screen_size()
         self.button_height = self.screen_height / 6
         self.load_background(backgrounds["main_menu"])
+
+        utils.play_music("sounds/music/menu.mp3")
         self.title = "Jack the Explorer"
         self.font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", self.font_size * 3)
         self.text_surface = self.font.render(self.title, True, (150, 150, 155))
@@ -135,6 +137,7 @@ class Settings(OnScreen):
         self.init_ui()
 
     def set_volume(self, volume):
+        pygame.mixer.music.set_volume(utils.controls["sound"] / 2)
         utils.controls['sound'] = volume
 
     def back_to_main(self):

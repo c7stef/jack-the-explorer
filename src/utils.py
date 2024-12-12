@@ -28,6 +28,24 @@ controls = {
     'fullscreen': False
 }
 
+music_being_played = None
+
+def play_music(music):
+    global music_being_played
+    if music is None:
+        if music_being_played is not None:
+            pygame.mixer.music.stop()
+            music_being_played = None
+        return
+    if music_being_played == music:
+        return
+    if music_being_played is not None:
+        pygame.mixer.music.stop()
+    pygame.mixer.music.load(music)
+    pygame.mixer.music.play(loops=-1)
+    pygame.mixer.music.set_volume(controls['sound'] / 2)
+    music_being_played = music
+
 class Direction(Enum):
     LEFT = 1
     RIGHT = 2
