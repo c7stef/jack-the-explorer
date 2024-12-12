@@ -228,7 +228,7 @@ class FinishScreen(OnScreen):
         self.level = level
         font = pygame.font.Font("assets/fonts/Chewy-Regular.ttf", int(self.screen_height * self.font_ratio))
         text = f"Level {self.level.num_level} completed"
-        self.text_surface = font.render(text, True, (255, 255, 255))
+        self.text_surface = font.render(text, True, (142, 222, 255))
         self.text_rec = self.text_surface.get_rect(center = (self.screen_width / 2, self.screen_height / 8))
         self.scene.remove_object(self.scene.find_player().display)
         self.scene.remove_object(self.scene.find_player())
@@ -240,11 +240,11 @@ class FinishScreen(OnScreen):
             self.main_menu_button_x = self.screen_width - self.button_width - self.offset
         else:
             self.load_background(backgrounds['finished_level'])
-            self.restart_y = self.center_button_y - self.button_height - self.offset
+            self.restart_y = (self.center_button_y - self.button_height - self.offset) * 1.1
             self.restart_x = self.center_button_x
-            self.main_menu_button_y = self.center_button_y + self.button_height + self.offset
+            self.main_menu_button_y = (self.center_button_y + self.button_height + self.offset) * 1.1
             self.main_menu_button_x = self.center_button_x
-            self.next_level_button = Button(self.center_button_x, self.center_button_y,
+            self.next_level_button = Button(self.center_button_x, self.center_button_y * 1.1,
                                         self.button_width, self.button_height, "Next Level", 40, self.next_level)
             self.buttons.append(self.next_level_button)
 
