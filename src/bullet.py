@@ -9,6 +9,7 @@ import math
 player_bullet_sprite = pygame.image.load("assets/bullet/player_bullet.png")
 enemy_bullet_sprite = pygame.image.load("assets/bullet/enemy_bullet.png")
 
+bullet_hit_wall_sound = pygame.mixer.Sound("sounds/bullet_hit_wall.wav")
 enemy_hit_sound = pygame.mixer.Sound("sounds/hit_sound.mp3")
 
 class BulletBlast(GameObject):
@@ -90,6 +91,8 @@ class Bullet(Solid):
         if set_to_die:
             self.scene.add_object(BulletBlast(self.body.position.x, self.body.position.y, (200, 230, 255)))
             self.scene.remove_object(self)
+            bullet_hit_wall_sound.play()
+            bullet_hit_wall_sound.set_volume(utils.controls['sound'])
 
     def draw(self, screen):
         screen.blit(self.image, self.scene.relative_position(pygame.Vector2(self.body.position) - pygame.Vector2(self.rotated_rect.size) / 2))

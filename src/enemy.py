@@ -211,6 +211,7 @@ class EnemyFlower(Enemy):
         direction = pygame.Vector2(stop) - pygame.Vector2(start)
         self.scene.add_object(EnemyBullet(start.x, start.y, direction, speed=1.2))
         enemy_shooting_sound.play()
+        enemy_shooting_sound.set_volume(utils.controls['sound'])
 
 
 class Spike(Solid):
