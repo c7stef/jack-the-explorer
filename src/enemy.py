@@ -21,6 +21,8 @@ flower_sprite = load_sprite("assets/enemy/skull/idle.png")
 flower_hit_sprite = load_sprite("assets/enemy/skull/hit.png")
 spike_wood_sprite = load_sprite("assets/spike/spike_wood.png")
 
+enemy_shooting_sound = pygame.mixer.Sound("sounds/enemy_shooting.mp3")
+
 class Enemy(Solid):
     def __init__(self, position, properties, custom_sprite=None, hit_sprite=None):
         super().__init__(position.x, position.y, 54, 54,
@@ -208,6 +210,7 @@ class EnemyFlower(Enemy):
         stop = player.body.position
         direction = pygame.Vector2(stop) - pygame.Vector2(start)
         self.scene.add_object(EnemyBullet(start.x, start.y, direction, speed=1.2))
+        enemy_shooting_sound.play()
 
 
 class Spike(Solid):
