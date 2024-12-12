@@ -13,7 +13,7 @@ backgrounds = {
     "levels_menu": pygame.image.load("assets/menu-backgrounds/background_level_select_menu.jpg")
 }
 
-title_color = (150, 150, 155)
+title_color = (142, 222, 255)
 
 class MainMenu(OnScreen):
     def __init__(self, screen):
